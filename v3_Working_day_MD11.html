@@ -436,8 +436,10 @@
   </tbody>
         <span class="save-span" style="display: none;">SAVE<br><button class="save-btn" id="save-btn"></button></span>
  </table>
-
+	<audio id="alarm-sound" src="alarm.mp3" preload="auto"></audio>
  <script>
+	 var alarmInterval = null;
+	 
         //*****************************************************OTTIENI DATA E ORA ATTUALE*****************************************************
         function updateTime() {
         const now = new Date();
@@ -586,6 +588,14 @@
                         saveSpan.style.display = "block";
                         saveBtn.style.display = "block";
 
+				// Imposta allarme
+                var alarmSound = document.getElementById('alarm-sound');
+                if (alarmInterval === null) { // Evita di creare più intervalli sovrapposti
+                    alarmInterval = setInterval(function() {
+                    alarmSound.play();
+                    }, 2500);
+                }
+
                 return;
                 }
 
@@ -647,6 +657,15 @@
         const saveSpan = document.querySelector('.save-span');
         saveBtn.style.display = "none";
         saveSpan.style.display = "none";
+
+	    // Ferma l'allarme
+        var alarmSound = document.getElementById('alarm-sound');
+        alarmSound.pause();
+        alarmSound.currentTime = 0; // Riporta l'audio all'inizio
+        if (alarmInterval !== null) {
+            clearInterval(alarmInterval);
+            alarmInterval = null; // Reset della variabile per evitare problemi futuri
+        }
 
         // Riavvia l'intervallo per calcolare il nuovo output e il nuovo time left
         clearInterval(intervalId);
