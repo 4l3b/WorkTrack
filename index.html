@@ -4,17 +4,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Work Time Calculator Launcher</title>
-</head>
-<body>
+    <style>
+        body {
+          font-family: 'Courier New', Courier, monospace;
+          background: #1C1C1C; /* #77858C */
+          margin: 0;
+          padding: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          overflow: hidden;
+      }
+        .fmc-screen {
+          width: 383px;
+          height: 263px;
+          display: block;
+          text-align: center;
+          border: 0px solid #111;
+          border-collapse: collapse;
+          box-shadow: 0px 0px 15px rgba(0, 255, 0, 0.8);
+          border-radius: 20px;
+          border-spacing: 0px;
+          background: #010101;
+          overflow: hidden;
+          user-select: none;	/* Impedisce la selezione del testo sullo schermo */
+          -webkit-user-select: none; /* Impedisce la selezione del testo sullo schermo su Safari*/
+          cursor: default;
+    }
+      table.fmc-screen td {
+          text-align: center;
+          width: 383px;
+          font-size: 14.3px;
+          font-weight: 100;
+          line-height: 12px;
+          padding-top: 0px;
+          padding-bottom: 0px;
+          letter-spacing: 1.5px;
+          background: #010101;
+          color: #00FF00;
+          border: 0px solid #00FF00;
+      }
+      /* Personalizza bottoni */
+      .launch-btn {
+          background-color: #010101;
+          color: #00FF00;
+          width: 35px;
+          height: 17px; /* Assicurati che sia uguale al checkbox */
+          line-height: 16px;
+          border: 0px solid #00FF00;
+          padding: 0px;
+          cursor: pointer;
+          font-size: 19.3px; /* Usa una dimensione di font identica a quella del checkbox */
+          font-family: 'Courier New', monospace; /* Usando Courier New o monospace */
+          font-weight: 100; /* Mantieni il font-weight basso per ottenere un aspetto sottile */
+          border-radius: 3px;
+          text-align: center;
+          position: relative;
+          top: 4px;
+      }
+      /* Cambia la dimensione del contenuto per farlo corrispondere meglio */
+      .launch-btn::before {
+          content: "[ ]";
+          font-size: 19.3px;
+          position: relative;
+          letter-spacing: 0px;
+          top: 0px; /* Allinea esattamente */
+          left: 1px; /* Regola il margine orizzontale */
+          font-weight: 100; /* Mantieni il font-weight basso anche qui */
+      }
+      .launch-btn.active::before {
+          content: "[x]"; /* Quando il bottone è attivo, mostra la X tra parentesi */
+      }
 
-    <button onclick="apriFinestra()">Launch Calculator</button>
+
+
+
+   </style>
+  </head>
+  
+  <body>
+   <table class="fmc-screen">
+    <tbody>
+     <tr>
+      <td colspan="2" style="text-align: center; vertical-align: middle; font-size: 20px;">
+       <p style='margin-bottom: 60px; position: relative;'>WORK TIME CALCULATOR</p>
+      </td>
+     </tr>
+     <tr>
+        <td>
+            <span style="display: block; letter-spacing: 0.65px; text-align: center;">LAUNCH CALCULATOR</span>
+            <button class="launch-btn" id="launch-btn"></button>
+        </td>
+    </tr>
+
+    </tbody>
+   </table>
+    
 
     <script >
     	function apriFinestra() {
     		window.open('v3_Working_day_MD11.html', 
                 'calcolatore', 
-                'width=465,height=335.5,menubar=no,toolbar=no,scrollbars=no,resizable=no');
+                'width=433,height=333,menubar=no,toolbar=no,scrollbars=no,resizable=no');
 		}
+
+        document.getElementById('launch-btn').addEventListener('click', function() {
+        setTimeout(apriFinestra, 800); // Chiamata alla funzione di reset (con 800ms di ritardo)
+        this.classList.add('active'); // Aggiungi la classe "active" per mostrare la X
+        // Imposta un timeout per rimuovere la "X" dopo 2 secondi
+        setTimeout(() => {
+        this.classList.remove('active');
+        }, 800); // 800 millisecondi = 0.8 secondi
+        });
 	</script>
 
 </body>
