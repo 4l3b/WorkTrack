@@ -102,20 +102,32 @@
    </table>
     
 
-    <script >
-    	function apriFinestra() {
-    		window.open('v3_Working_day_MD11.html', 
-                'calcolatore', 
-                'width=433,height=333,menubar=no,toolbar=no,scrollbars=no,resizable=no');
-		}
+	<script >
+	function apriFinestra() {
+	    let screenWidth = window.screen.width;
+	    let screenHeight = window.screen.height;
+	
+	    let popupWidth = 433;
+	    let popupHeight = 333;
+	
+	    // Popup in basso a destra
+	    let left = screenWidth - popupWidth;
+	    let top = screenHeight - popupHeight;
+	
+	    window.open(
+	        'v3_Working_day_MD11.html', 
+	        'calcolatore', 
+	        `width=${popupWidth},height=${popupHeight},left=${left},top=${top},menubar=no,toolbar=no,scrollbars=no,resizable=no`
+	    );
+	}
 
         document.getElementById('launch-btn').addEventListener('click', function() {
-        setTimeout(apriFinestra, 800); // Chiamata alla funzione di reset (con 800ms di ritardo)
+        setTimeout(apriFinestra, 820); 
         this.classList.add('active'); // Aggiungi la classe "active" per mostrare la X
         // Imposta un timeout per rimuovere la "X" dopo 2 secondi
         setTimeout(() => {
         this.classList.remove('active');
-        }, 800); // 800 millisecondi = 0.8 secondi
+        }, 800);
         });
 	</script>
 
