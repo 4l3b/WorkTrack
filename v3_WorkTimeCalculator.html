@@ -813,6 +813,10 @@
 			} else {
 				alert("Action cancelled. Data has not been saved.");
 				resetInputs();
+				// Ridimensiona la finestra dopo l'avviso
+				const desiredWidth = 459;
+    			const desiredHeight = 354;
+    			window.resizeTo(desiredWidth, desiredHeight);
 			}
 		}
 		
@@ -1189,6 +1193,10 @@
 				} else {
 					alert("Action cancelled. Data has not been cleared.");
 				}
+				// Ridimensiona la finestra dopo l'avviso
+				const desiredWidth = 459;
+    			const desiredHeight = 354;
+    			window.resizeTo(desiredWidth, desiredHeight);
 			}, 480);
 		}
 		
