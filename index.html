@@ -1,135 +1,142 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Work Time Calculator Launcher</title>
-    <style>
-        body {
-          font-family: 'Courier New', Courier, monospace;
-          background: #1C1C1C; /* #77858C */
-          margin: 0;
-          padding: 0;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          overflow: hidden;
-      }
-        .fmc-screen {
-          width: 383px;
-          height: 263px;
-          display: block;
-          text-align: center;
-          border: 0px solid #111;
-          border-collapse: collapse;
-          box-shadow: 0px 0px 15px rgba(0, 255, 0, 0.8);
-          border-radius: 20px;
-          border-spacing: 0px;
-          background: #010101;
-          overflow: hidden;
-          user-select: none;	/* Impedisce la selezione del testo sullo schermo */
-          -webkit-user-select: none; /* Impedisce la selezione del testo sullo schermo su Safari*/
-          cursor: default;
-    }
-      table.fmc-screen td {
-          text-align: center;
-          width: 383px;
-          font-size: 14.3px;
-          font-weight: 100;
-          line-height: 12px;
-          padding-top: 0px;
-          padding-bottom: 0px;
-          letter-spacing: 1.5px;
-          background: #010101;
-          color: #00FF00;
-          border: 0px solid #00FF00;
-      }
-      /* Personalizza bottoni */
-      .launch-btn {
-          background-color: #010101;
-          color: #00FF00;
-          width: 35px;
-          height: 17px; /* Assicurati che sia uguale al checkbox */
-          line-height: 16px;
-          border: 0px solid #00FF00;
-          padding: 0px;
-          cursor: pointer;
-          font-size: 19.3px; /* Usa una dimensione di font identica a quella del checkbox */
-          font-family: 'Courier New', monospace; /* Usando Courier New o monospace */
-          font-weight: 100; /* Mantieni il font-weight basso per ottenere un aspetto sottile */
-          border-radius: 3px;
-          text-align: center;
-          position: relative;
-          top: 4px;
-      }
-      /* Cambia la dimensione del contenuto per farlo corrispondere meglio */
-      .launch-btn::before {
-          content: "[ ]";
-          font-size: 19.3px;
-          position: relative;
-          letter-spacing: 0px;
-          top: 0px; /* Allinea esattamente */
-          left: 1px; /* Regola il margine orizzontale */
-          font-weight: 100; /* Mantieni il font-weight basso anche qui */
-      }
-      .launch-btn.active::before {
-          content: "[x]"; /* Quando il bottone è attivo, mostra la X tra parentesi */
-      }
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Work Time Calculator Launcher</title>
+	<style>
+		body {
+			font-family: 'Courier New', Courier, monospace;
+			background: #4E525A;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			overflow: hidden;
+		}
+		.intro-fmc-screen {
+			width: 397.5px;
+			height: 283px;
+			position: absolute;
+			padding-left: 5px;
+			padding-right: 5px;
+			margin: 0;
+			display: block;
+			text-align: center;
+			border: 3.5px solid #77858C;
+			border-collapse: collapse;
+			box-shadow: 0px 0px 1px #77858C;
+			border-radius: 20px;
+			border-spacing: 0px;
+			background: #010101;
+			overflow: hidden;
+			user-select: none;
+			-webkit-user-select: none;
+			cursor: default;
+		}
+		table.intro-fmc-screen td {
+			font-size: 14.3px;
+			width: 397.5px;
+			font-weight: 100;
+			line-height: 12px;
+			letter-spacing: 1.5px;
+			padding-bottom: 3rem;
+			background: #010101;
+			color: #00FF00;
+			border: 0px solid #00FF00;
+		}
+		.launch-btn {
+			background-color: #010101;
+			color: #00FF00;
+			width: 35px;
+			height: 17px;
+			line-height: 16px;
+			border: 0px solid #00FF00;
+			padding: 0px;
+			cursor: pointer;
+			font-size: 19.3px;
+			font-family: 'Courier New', monospace;
+			font-weight: 100;
+			border-radius: 3px;
+			text-align: center;
+			position: relative;
+			top: 4px;
+		}
+		.launch-btn::before {
+			content: "[ ]";
+			font-size: 19.3px;
+			position: relative;
+			letter-spacing: 0px;
+			top: 3px;
+			left: 0;
+			font-weight: 100;
+		}
+		.launch-btn.active::before {
+			content: "[x]";
+		}
+		button:focus {		/* Rimuovi bordi e illuminazione di input e bottoni su Chrome */
+			outline: none;
+			box-shadow: none;
+		}
+	</style>
+</head>
 
 
+<body>
+    <table class="intro-fmc-screen">
+        <tbody>
+            <tr>
+                <td>
+                    <p style="margin-top: 21px; margin-bottom: 8px; font-size: 20px;">WORK TIME CALCULATOR</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span style="display: block; font-size: 16.1px;">LAUNCH CALCULATOR</span>
+                    <button class="launch-btn" id="launch-btn"></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-
-   </style>
-  </head>
-  
-  <body>
-   <table class="fmc-screen">
-    <tbody>
-     <tr>
-      <td colspan="2" style="text-align: center; vertical-align: middle; font-size: 20px;">
-       <p style='margin-bottom: 60px; position: relative;'>WORK TIME CALCULATOR</p>
-      </td>
-     </tr>
-     <tr>
-        <td>
-            <span style="display: block; letter-spacing: 0.65px; text-align: center;">LAUNCH CALCULATOR</span>
-            <button class="launch-btn" id="launch-btn"></button>
-        </td>
-    </tr>
-
-    </tbody>
-   </table>
-    
-
-	<script >
-	function apriFinestra() {
-	    let screenWidth = window.screen.width;
-	    let screenHeight = window.screen.height;
 	
-	    let popupWidth = 486;
-	    let popupHeight = 320;
-	
-	    // Popup in basso a destra
-	    let left = screenWidth - popupWidth;
-	    let top = screenHeight - popupHeight;
-	
-	    window.open(
-	        'v3_Working_day_MD11.html', 
-	        'calcolatore', 
-	        `width=${popupWidth},height=${popupHeight},left=${left},top=${top},menubar=no,toolbar=no,scrollbars=no,resizable=no`
-	    );
-	}
+    <script>
+        function apriFinestra() {
+            let screenWidth = window.screen.width;
+            let screenHeight = window.screen.height;
+
+            let popupWidth = 459;
+            let popupHeight = 354;
+
+            // Se il browser è Chrome, adatta le dimensioni per compensare la mancanza della barra degli indirizzi
+            let isChrome = /Chrome/.test(navigator.userAgent);
+            if (isChrome) {
+                popupWidth -= 11;
+                popupHeight -= 40.5;
+            }
+
+            // Popup in basso a destra
+            let left = screenWidth - popupWidth;
+            let top = screenHeight - popupHeight;
+
+            // Apri la finestra del pop-up con le dimensioni calcolate
+            window.open(
+                'v3_WorkTimeCalculator.html',
+                'calcolatore',
+                `width=${popupWidth},height=${popupHeight},left=${left},top=${top},menubar=no,toolbar=no,scrollbars=no,resizable=no`
+            );
+        }
 
         document.getElementById('launch-btn').addEventListener('click', function() {
-        setTimeout(apriFinestra, 820); 
-        this.classList.add('active'); // Aggiungi la classe "active" per mostrare la X
-        // Imposta un timeout per rimuovere la "X" dopo 2 secondi
-        setTimeout(() => {
-        this.classList.remove('active');
-        }, 800);
+            setTimeout(apriFinestra, 480);
+            this.classList.add('active'); // Aggiungi la classe "active" per mostrare la X
+            // Imposta un timeout per rimuovere la "X"
+            setTimeout(() => {
+                this.classList.remove('active');
+            }, 460);
         });
-	</script>
-
+    </script>
 </body>
 </html>
