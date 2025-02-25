@@ -672,6 +672,7 @@
 				// Imposta allarme
 				var alarmSound = document.getElementById('alarm-sound');
 				if (alarmInterval === null) { // Evita di creare più intervalli sovrapposti
+					alarmSound.play();
 					alarmInterval = setInterval(function() {
 						alarmSound.play();
 					}, 2500);
