@@ -1,1018 +1,981 @@
 <!DOCTYPE html>
 <html>
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Work Time Calculator</title>
- <style>
-  	body {
-    	font-family: 'Courier New', Courier, monospace;
-        background: #1C1C1C; /* #77858C */
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        overflow: hidden;
-    }
-    /* Contenitore principale con immagine di sfondo */
-	.container {
-		position: relative;
-		width: 500px;  /* Dimensione fissa per il contenitore */
-		height: 360px;  /* Dimensione fissa per il contenitore */
-		margin-bottom: -100px;
-		margin-top: -105px;
-		margin-left: -15px;
-        overflow: hidden;
-        border: 0px solid #00FF00;
-	}
-  	.fmc-screen {
-        width: 416px;
-    	height: 263px;
-    	position: absolute;
-        padding-left: 26px;
-        padding-right: 16px;
-        margin: 50px;
-        display: block;
-		text-align: center;
-        border: 0.1px solid #00FF00;
-        border-collapse: collapse;
-        box-shadow: 0px 0px 15px rgba(0, 255, 0, 0.8);
-        border-radius: 20px;
-        border-spacing: 0px;
-        background: #010101;
-        overflow: hidden;
-        user-select: none;	/* Impedisce la selezione del testo sullo schermo */
-        -webkit-user-select: none; /* Impedisce la selezione del testo sullo schermo su Safari*/
-        cursor: default;
-  }
-  table.fmc-screen tr:last-child td:first-child {
-        border-bottom-left-radius: 15px;
-        padding-bottom: 25px;
-  }
-	table.fmc-screen tr:last-child td:last-child {
-		border-bottom-right-radius: 15px;
-		padding-bottom: 25px;
-	}
-	table.fmc-screen td {
-		text-align: left;
-		font-size: 14.3px;
-		font-weight: 100;
-		line-height: 12px;
-		padding-top: 0px;
-		padding-bottom: 0px;
-		letter-spacing: 1.5px;
-		background: #010101;
-		color: #00FF00;
-		border: 0px solid #00FF00;
-	}
-	table.fmc-screen td:nth-child(2) {
-		text-align: right;
-		width: 141px;
-		padding-left: 0px;
-		padding-top: 0.8px;
-		padding-bottom: 0.8px;
-		padding-right: 12px;
-    }
-    table.fmc-screen td:nth-child(1) {
-		text-align: left;
-		width: 200px;
-		padding-left: 12px;
-		padding-top: 0.8px;
-		padding-bottom: 0.8px;
-		padding-right: 0px;
-    }
-    /* Personalizza il colore della selezione negli input box */
-	input[type=time]::-webkit-datetime-edit-hour-field:focus,
-	input[type=time]::-webkit-datetime-edit-minute-field:focus,
-	input[type=time]::-webkit-datetime-edit-second-field:focus,
-	input[type=time]::-webkit-datetime-edit-ampm-field:focus {
-		background-color: #009900;
-	}
-	/* Personalizza il colore della selezione negli input box */
-	input[type=number]::-webkit-datetime-edit-hour-field:focus,
-	input[type=number]::-webkit-datetime-edit-minute-field:focus,
-	input[type=number]::-webkit-datetime-edit-second-field:focus,
-	input[type=number]::-webkit-datetime-edit-ampm-field:focus {
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Work Time Calculator</title>
+	<style>
+		body {
+			font-family: 'Courier New', Courier, monospace;
+			background: #4E525A;
+			/* #77858C */
+			margin: 0;
+			padding: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			overflow: hidden;
+		}
+
+		.fmc-screen {
+			width: auto;
+			height: 283px;
+			position: absolute;
+			padding-left: 5px;
+			padding-right: 5px;
+			margin: 0;
+			display: block;
+			text-align: center;
+			border: 3.5px solid #77858C;
+			border-collapse: collapse;
+			box-shadow: 0px 0px 1px #77858C;
+			border-radius: 8.5px;
+			border-spacing: 0px;
+			background: #010101;
+			overflow: hidden;
+			user-select: none;	/* Impedisce la selezione del testo sullo schermo */
+			-webkit-user-select: none;	/* Impedisce la selezione del testo sullo schermo su Safari*/
+			cursor: default;
+		}
+
+		table.fmc-screen td {
+			font-size: 14.3px;
+			font-weight: 100;
+			line-height: 12px;
+			letter-spacing: 1.5px;
+			background: #010101;
+			color: #00FF00;
+			border: 0px solid #00FF00;
+		}
+
+		table.fmc-screen tr:last-child td:first-child,
+		table.fmc-screen tr:last-child td:last-child {
+			border-bottom-left-radius: 15px;
+			padding-bottom: 7px;
+		}
+
+		table.fmc-screen td:nth-child(1) {
+			text-align: right;
+			width: 10%;
+			padding-left: 0;
+			padding-top: 0;
+			padding-bottom: 0;
+			padding-right: 0.8rem;
+		}
+
+		table.fmc-screen td:nth-child(2) {
+			text-align: left;
+			width: 40%;
+			padding-left: 0;
+			padding-top: 1.8px;
+			padding-bottom: 1.8px;
+			padding-right: 0px;
+		}
+
+		table.fmc-screen td:nth-child(3) {
+			text-align: right;
+			width: 40%;
+			padding-left: 0.8rem;
+			padding-top: 1.8px;
+			padding-bottom: 1.8px;
+			padding-right: 0;
+		}
+
+		table.fmc-screen td:nth-child(4) {
+			text-align: left;
+			width: 10%;
+			padding-left: 0.8rem;
+			padding-top: 0;
+			padding-bottom: 0;
+			padding-right: 0;
+		}
+
+		/* Personalizza il colore della selezione negli input box */
+		input[type=time]::-webkit-datetime-edit-hour-field:focus,
+		input[type=time]::-webkit-datetime-edit-minute-field:focus,
+		input[type=time]::-webkit-datetime-edit-second-field:focus,
+		input[type=time]::-webkit-datetime-edit-ampm-field:focus {
 			background-color: #009900;
-	}
+		}
+
 		/* Personalizza il checkbox */
-	input[type="checkbox"] {
-	display: none; /* Nascondi il checkbox di default */
-	width: 24px;
-	height: 24px;
-	}
-  	input[type="checkbox"] + label {
-        position: relative;
-        display: inline-block;
-        width: 35px;
-        height: 17px;
-        color: #00FF00;
-        text-align: center;
-        line-height: 16px;
-        border: 0px solid #00FF00; /* Bordo verde neon */
-        background-color: #010101;
-        border-radius: 3px;
-        margin-right: -2px; /* Regola il margine destro */
-        cursor: pointer;
-        pointer-events: none; /* DIsabilita l'interazione diretta con il checkbox (per usare il bottone al lato) */
-  }
-  	/* Parentesi quadre senza monospace nel checkbox*/
-  	input[type="checkbox"] + label::before {
-        content: "[ ]"; /* Parentesi quadre senza la X */
-        position: relative;
-        top: 0px; /* Regola la posizione verticale */
-        left: 1px; /* Allinea orizzontalmente */
-        font-size: 19.3px;
-        letter-spacing: 0px;
-        color: #00FF00; /* Colore verde neon */
-  	}
-  	/* Aggiungi la "X" quando viene selezionato il checkbox */
-  	input[type="checkbox"]:checked + label::after {
-        content: "x"; /* Aggiungi la X */
-        position: absolute;
-        top: 0px; /* Regola la posizione verticale della X */
-        left: 12.7px; /* Centra la X orizzontalmente */
-        font-size: 19.3px;
-        color: #00FF00; /* Colore della X verde neon */
-  	}
-  	/* Personalizza gli input */
-  	input[type="time"] {
-        background: #010101;
-        color: #00FF00;
-        border: 0px solid #00FF00;
-        border-radius: 0px;
-        width: 116px;
-        height: 20px;
-        padding-left: 0px;
-        padding-right: 0px;
-        padding-top: 0px;
-        padding-bottom: 0px;
-        font-size: 22.1px;
-        font-family: 'Courier New', Courier, monospace;
-        font-weight: 100;
-        margin-top: 0px;
-        margin-bottom: 0px;
-        margin-left: -2.7px;
-        margin-right: -1px;
-  	}
-  	/* Personalizza DateTime */
-  	input[type="text"] {
-        background: #010101;
-        color: #00FF00;
-        border: 0px solid #00FF00;
-        border-radius: 0px;
-        width: 138px;
-        height: 18px;
-        padding-left: 0px;
-        padding-right: 0px;
-        padding-top: 0px;
-        padding-bottom: 0px;
-        font-size: 22.1px;
-        font-family: 'Courier New', Courier, monospace;
-        font-weight: 100;
-        margin-top: -5px;
-        margin-bottom: -2px;
-        margin-left: 0px;
-        margin-right: 0px;
-        letter-spacing: 0.7px;
-  	}
-	/* Personalizza bottoni */
-	.clr-btn {
-		background-color: #010101;
-		color: #00FF00;
-		width: 35px;
-		height: 17px; /* Assicurati che sia uguale al checkbox */
-		line-height: 16px;
-		border: 0px solid #00FF00;
-		padding: 0px;
-        cursor: pointer;
-        pointer-events: none; /* DIsabilita l'interazione diretta con il checkbox (per usare il bottone al lato) */
-		font-size: 19.3px; /* Usa una dimensione di font identica a quella del checkbox */
-		font-family: 'Courier New', monospace; /* Usando Courier New o monospace */
-		font-weight: 100; /* Mantieni il font-weight basso per ottenere un aspetto sottile */
-		border-radius: 3px;
-		text-align: center;
-		position: relative;
-		top: 0px;
-		left: -5px;
-	}
-	.stp-btn {
-		background-color: #010101;
-		color: #00FF00;
-		width: 35px;
-		height: 17px; /* Assicurati che sia uguale al checkbox */
-		line-height: 16px;
-		border: 0px solid #00FF00;
-		padding: 0px;
-		cursor: pointer;
-		pointer-events: none; /* DIsabilita l'interazione diretta con il checkbox (per usare il bottone al lato) */
-		font-size: 19.3px; /* Usa una dimensione di font identica a quella del checkbox */
-		font-family: 'Courier New', monospace; /* Usando Courier New o monospace */
-		font-weight: 100; /* Mantieni il font-weight basso per ottenere un aspetto sottile */
-		border-radius: 3px;
-		text-align: center;
-		position: relative;
-		top: 0px;
-		left: -5px;
-	}
-	.getlogs-btn {
-		background-color: #010101;
-		color: #00FF00;
-		width: 35px;
-		height: 17px; /* Assicurati che sia uguale al checkbox */
-		line-height: 16px;
-		border: 0px solid #00FF00;
-		padding: 0px;
-        cursor: pointer;
-        pointer-events: none; /* DIsabilita l'interazione diretta con il checkbox (per usare il bottone al lato) */
-		font-size: 19.3px; /* Usa una dimensione di font identica a quella del checkbox */
-		font-family: 'Courier New', monospace; /* Usando Courier New o monospace */
-		font-weight: 100; /* Mantieni il font-weight basso per ottenere un aspetto sottile */
-		border-radius: 3px;
-		text-align: center;
-		position: relative;
-		top: 0px;
-		left: 0px;
-		margin-right: -2px;
-	}
-	.clearlogs-btn {
-		background-color: #010101;
-		color: #00FF00;
-		width: 35px;
-		height: 17px; /* Assicurati che sia uguale al checkbox */
-		line-height: 16px;
-		border: 0px solid #00FF00;
-		padding: 0px;
-        cursor: pointer;
-		font-size: 19.3px; /* Usa una dimensione di font identica a quella del checkbox */
-		font-family: 'Courier New', monospace; /* Usando Courier New o monospace */
-		font-weight: 100; /* Mantieni il font-weight basso per ottenere un aspetto sottile */
-		border-radius: 3px;
-		text-align: center;
-		position: relative;
-		top: 0px;
-		right: -2px;
-	}
-	.save-btn {
-		background-color: #010101;
-		color: #00FF00;
-		width: 35px;
-		height: 17px; /* Assicurati che sia uguale al checkbox */
-		line-height: 16px;
-		border: 0px solid #00FF00;
-		padding: 0px;
-        cursor: pointer;
-		font-size: 19.3px; /* Usa una dimensione di font identica a quella del checkbox */
-		font-family: 'Courier New', monospace; /* Usando Courier New o monospace */
-		font-weight: 100; /* Mantieni il font-weight basso per ottenere un aspetto sottile */
-		border-radius: 3px;
-		text-align: center;
-		position: relative;
-		top: 0px;
-		left: 0px;
-	}
-	/* Cambia la dimensione del contenuto per farlo corrispondere meglio */
-	.clr-btn::before,
-	.stp-btn::before,
-	.getlogs-btn::before,
-	.clearlogs-btn::before,
-	.save-btn::before {
-		content: "[ ]";
-		font-size: 19.3px;
-		position: relative;
-		letter-spacing: 0px;
-		top: 0px; /* Allinea esattamente */
-		left: 1px; /* Regola il margine orizzontale */
-		font-weight: 100; /* Mantieni il font-weight basso anche qui */
-	}
-	.clr-btn.active::before,
-	.stp-btn.active::before,
-	.getlogs-btn.active::before,
-	.clearlogs-btn.active::before,
-	.save-btn.active::before {
-		content: "[x]"; /* Quando il bottone è attivo, mostra la X tra parentesi */
-	}
-  	/* Rimuove l'icona dell'orologio nei campi di input di tipo time */
-  	input[type="time"]::-webkit-calendar-picker-indicator,
-  	input[type="date"]::-webkit-calendar-picker-indicator {
-        display: none;
-        -webkit-appearance: none;
-  	}
-  	input:focus {
-        outline: none;
-        box-shadow: none;
-        }
-    .pausa-pranzo-input {
-        display: none;
-  	}
-    .start-reg-input {
-        display: none;
-  	}
-  	input[type="time"]::-webkit-datetime-edit-fields-wrapper, input[type="date"]::-webkit-datetime-edit-fields-wrapper {
-        display: flex;
-    }
-	/* The space between the fields - between hour and minute, the minute and second*/
-	input[type="time"]::-webkit-datetime-edit-text {
-		border: 0px solid #00FF00;
-		margin-right: 2px;
-		margin-left: 1.55px;
-		letter-spacing: -1.75px;
-	}
-	input[type="date"]::-webkit-datetime-edit-text {
-		border: 0px solid #00FF00;
-		margin-right: 0px;
-		margin-left: 0px;
-		letter-spacing: 0px;
-	}
-	/* Personalizza animazione Time Left */
-	.blink {
-		animation: blink-animation 1.5s linear infinite;
-	}
-	@keyframes blink-animation {
-		0% { opacity: 1; }   /* Visibile all'inizio */
-		70% { opacity: 1; }  /* Ancora visibile fino al 70% */
-		71% { opacity: 0; }  /* Invisibile al 71% */
-		99% { opacity: 0; }  /* Ancora invisibile fino al 99% */
-		100% { opacity: 1; }  /* Ritorna visibile alla fine */
-	}
-	/* Personalizza Output Clock Out */
-  .clockout-output {
-		margin-top: -2px;
-		margin-bottom: -20px; /* Rimuove eventuali margini indesiderati */
-		margin-right: -1.5px;
-		padding: 0; /* Rimuove il padding */
-		font-size: 22.1px; /* Imposta una dimensione del font adeguata */
-		font-weight: 100; /* Mantieni un peso del font leggero */
-		line-height: 16.9px; /* Impedisce che gli spazi verticali siano troppo ampi */
-		display: block; /* Per avere maggiore controllo sul layout */
-        }
-        /* Personalizza Output Time Left */
-  .timeleft-output {
-		margin-top: -2px;
-		margin-bottom: -20px; /* Rimuove eventuali margini indesiderati */
-		margin-right: -3px;
-		padding: 0; /* Rimuove il padding */
-		font-size: 22.1px; /* Imposta una dimensione del font adeguata */
-		font-weight: 100; /* Mantieni un peso del font leggero */
-		line-height: 16.9px; /* Impedisce che gli spazi verticali siano troppo ampi */
-		display: block; /* Per avere maggiore controllo sul layout */
-    }
-	/* Nascondi la possibilità di cliccare sul campo data e disabilita il calendario */
-	#date {
-		pointer-events: none; /* Impedisce interazioni */
-		background-color: #010101; /* Colore di sfondo grigio per far capire che è disabilitato */
-		color: #00FF00; /* Colore del testo (verde neon per coerenza con il tuo tema) */
-	}
-	/* Personalizza Testo Save Button */
-	.save-span {
-		margin-top: 265px;
-		margin-bottom: 0px; /* Rimuove eventuali margini indesiderati */
-		margin-right: 0px;
-		margin-left: 242px;
-		font-size: 14.3px;
-		font-weight: 100;
-		color: #00FF00;
-		line-height: 13.7px;
-		letter-spacing: 1px;
-		padding: 0; /* Rimuove il padding */
-		display: block; /* Per avere maggiore controllo sul layout */
-		position: absolute;
-		z-index: 3!important;
-	}
-	.external-btns {
-    	width: 10px;
-    	height: 10px;
-    	background-color: #009900; /* Colore di base per il bottone */
-		border-left: 0.2px solid transparent; /* Bordo sinistro trasparente */
-    	border-right: 0.2px solid transparent; /* Bordo destro trasparente */
-    	border-bottom: 0.2px solid #40d940; /* Bordo inferiore colorato per formare il triangolo */
-    	border-top: 0.8px solid #4de64d; /* Bordo inferiore colorato per formare il triangolo */
-    	border-radius: 20%;
-    	outline: none;
-    	cursor: pointer;
-    	transition: transform 0.15s ease, background-color 0.15s ease; /* Anima il colore di sfondo */	
-    	position: absolute;
-    	z-index: 3!important;
-	}
-	.external-btns.active {
-    	transform: scale(1.1); /* Ingrandimento al passaggio del mouse */
-    	background-color: #40d940; /* Colore più chiaro al passaggio del mouse */
-	}
-	.worktime-btn {
-		top: 110.5px;
-		left: 63px;
-	}
-	.breakmin-btn {
-		top: 145px;
-		left: 63px;
-	}
-	.breakstart-btn {
-		top: 179.5px;
-		left: 63px;
-	}
-	.clr-btn-external {
-		top: 214px;
-		left: 63px;
-	}
-	.stp-btn-external {
-		top: 248.5px;
-		left: 63px;
-	}
-	.clockout-btn {
-		top: 283px;
-		left: 63px;
-	}
-	.enterclockin-btn {
-		top: 110.5px;
-		left: 440px;
-	}
-	.breakdone-btn {
-		top: 145px;
-		left: 440px;
-	}
-	.breakend-btn {
-		top: 179.5px;
-		left: 440px;
-	}
-	.datetime-btn {
-		top: 214px;
-		left: 440px;
-	}
-	.getlogs-btn-external {
-		top: 248.5px;
-		left: 440px;
-	}
-	.timeleft-btn {
-		top: 283px;
-		left: 440px;
-	}
- </style>
+		input[type="checkbox"] {
+			display: none;	/* Nascondi il checkbox di default */
+			width: 24px;
+			height: 24px;
+		}
+
+		input[type="checkbox"]+label {
+			position: relative;
+			display: inline-block;
+			width: 35px;
+			height: 17px;
+			color: #00FF00;
+			text-align: center;
+			line-height: 16px;
+			border: 0px solid #00FF00;
+			background-color: #010101;
+			border-radius: 3px;
+			margin-right: -2px;
+			cursor: pointer;
+			pointer-events: none;	/* DIsabilita l'interazione diretta con il checkbox (per usare il bottone al lato) */
+		}
+
+		/* Parentesi quadre senza monospace nel checkbox*/
+		input[type="checkbox"]+label::before {
+			content: "[ ]";
+			position: relative;
+			top: 0px;
+			left: 1px;
+			font-size: 19.3px;
+			letter-spacing: 0px;
+			color: #00FF00;
+		}
+
+		/* Aggiungi la "X" quando viene selezionato il checkbox */
+		input[type="checkbox"]:checked+label::after {
+			content: "x";
+			position: absolute;
+			top: 0px;
+			left: 12.7px;
+			font-size: 19.3px;
+			color: #00FF00;
+		}
+
+		/* Personalizza gli input Time e DateTime*/
+		input[type="time"],
+		input[type="text"] {
+			background: #010101;
+			color: #00FF00;
+			border: 0px solid #00FF00;
+			border-radius: 0px;
+			font-size: 22.1px;
+			font-family: 'Courier New', Courier, monospace;
+			font-weight: 100;
+		}
+
+		input[type="time"] {
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			margin-top: 0px;
+			margin-bottom: 0px;
+			margin-left: -2.7px;
+			margin-right: -1px;
+			width: 116px;
+			height: 20px;
+		}
+
+		input[type="text"] {	/* DateTime */
+			margin-top: 1px;
+			margin-bottom: -2px;
+			margin-left: 0px;
+			margin-right: 0px;
+			letter-spacing: 0.7px;
+			width: 138px;
+			height: 18px;
+		}
+
+		/* Nascondi la possibilità di cliccare sul campo data */
+		#date {
+			pointer-events: none;
+			background-color: #010101;
+			color: #00FF00;
+		}
+
+		/* Personalizza bottoni schermo*/
+		.clr-btn,
+		.stp-btn,
+		.getlogs-btn,
+		.clearlogs-btn,
+		.save-btn {
+			background-color: #010101;
+			color: #00FF00;
+			width: 35px;
+			height: 17px;	/* Assicurati che sia uguale al checkbox */
+			line-height: 16px;
+			border: 0px solid #00FF00;
+			padding: 0px;
+			cursor: pointer;
+			font-size: 19.3px;	/* Assicurati che sia uguale al checkbox */
+			font-family: 'Courier New', monospace;
+			font-weight: 100;
+			border-radius: 3px;
+			text-align: center;
+			position: relative;
+			top: 0px;
+		}
+
+		.clr-btn,
+		.stp-btn {
+			left: -5px;
+			pointer-events: none;	/* Disabilita l'interazione diretta con il bottone (per usare il bottone al lato) */
+		}
+
+		.getlogs-btn {
+			margin-right: -2px;
+			pointer-events: none;
+		}
+
+		.clearlogs-btn {
+			right: -2px;
+		}
+
+		/* Cambia la dimensione del contenuto per farlo corrispondere meglio */
+		.clr-btn::before,
+		.stp-btn::before,
+		.getlogs-btn::before,
+		.clearlogs-btn::before,
+		.save-btn::before {
+			content: "[ ]";
+			font-size: 19.3px;
+			position: relative;
+			letter-spacing: 0px;
+			top: 0px;
+			left: 1px;
+			font-weight: 100;
+		}
+
+		.clr-btn.active::before,
+		.stp-btn.active::before,
+		.getlogs-btn.active::before,
+		.clearlogs-btn.active::before,
+		.save-btn.active::before {
+			content: "[x]";	/* Quando il bottone è attivo, mostra la X tra parentesi */
+		}
+
+		/* Personalizza span Save Button */
+		.save-span {
+			margin-top: 12.95rem;
+			margin-bottom: 0;
+			margin-right: 0;
+			margin-left: 0.15rem;
+			font-size: 14.3px;
+			font-weight: 100;
+			color: #00FF00;
+			line-height: 13.7px;
+			letter-spacing: 1px;
+			padding: 0;
+			display: block;
+			position: absolute;
+			z-index: 3 !important;
+		}
+
+		/* Rimuovi l'icona dell'orologio nei campi di input di tipo time */
+		input[type="time"]::-webkit-calendar-picker-indicator,
+		input[type="date"]::-webkit-calendar-picker-indicator {
+			display: none;
+			-webkit-appearance: none;
+		}
+
+		input:focus, button:focus {		/* Rimuovi bordi e illuminazione di input e bottoni su Chrome */
+			outline: none;
+			box-shadow: none;
+		}
+
+		.pausa-pranzo-input {
+			display: none;
+		}
+
+		.start-reg-input {
+			display: none;
+		}
+
+		input[type="time"]::-webkit-datetime-edit-fields-wrapper,
+		input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+			display: flex;
+		}
+
+		/* Spazio tra i campi time - tra ore e minuti, minuti e secondi */
+		input[type="time"]::-webkit-datetime-edit-text {
+			border: 0px solid #00FF00;
+			margin-right: 2px;
+			margin-left: 1.55px;
+			letter-spacing: -1.75px;
+		}
+
+		input[type="date"]::-webkit-datetime-edit-text {
+			border: 0px solid #00FF00;
+			margin-right: 0px;
+			margin-left: 0px;
+			letter-spacing: 0px;
+		}
+
+		/* Personalizza animazione Time Left */
+		.blink {
+			animation: blink-animation 1.5s linear infinite;
+		}
+
+		@keyframes blink-animation {
+			0% {opacity: 1;}		/* Visibile all'inizio */
+			70% {opacity: 1;}		/* Ancora visibile fino al 70% */
+			71% {opacity: 0;}		/* Invisibile al 71% */
+			99% {opacity: 0;}		/* Ancora invisibile fino al 99% */
+			100% {opacity: 1;}	/* Ritorna visibile alla fine */
+		}
+
+		/* Personalizza Clock Out e Time Left */
+		.clockout-output,
+		.timeleft-output {
+			margin-top: -0.1rem;
+			margin-bottom: 0;
+			padding: 0;
+			font-size: 22.1px;
+			font-weight: 100;
+			line-height: 16.9px;
+			display: block;
+		}
+
+		.clockout-output {
+			margin-right: 19px;
+		}
+
+		.timeleft-output {
+			margin-right: -3px;
+		}
+
+		.external-btns {
+			width: 10px;
+			height: 10px;
+			background-color: #009900;
+			border-left: 0.2px solid transparent;
+			border-right: 0.2px solid transparent;
+			border-bottom: 0.2px solid #40d940;
+			border-top: 0.8px solid #4de64d;
+			border-radius: 20%;
+			cursor: pointer;
+			transition: transform 0.15s ease, background-color 0.15s ease;	/* Anima il colore di sfondo */
+			z-index: 3 !important;
+		}
+
+		.external-btns.active {
+			transform: scale(1.1);	/* Ingrandimento quando viene attivato il bottone */
+			background-color: #40d940;	/* Colore più chiaro quando viene attivato il bottone */
+		}
+
+		.worktime-btn,
+		.breakmin-btn,
+		.breakstart-btn,
+		.enterclockin-btn,
+		.breakdone-btn,
+		.breakend-btn {
+			margin-top: 0.75rem;
+		}
+
+		.clr-btn-external,
+		.stp-btn-external,
+		.getlogs-btn-external {
+			margin-top: 0.9rem;
+		}
+
+		.clockout-btn,
+		.timeleft-btn {
+			margin-top: 1.4rem;
+		}
+
+		.datetime-btn {
+			margin-top: 0.8rem;
+		}
+	</style>
 </head>
 
+
+
 <body>
-<div class="container">
- <table class="fmc-screen">
-  <tbody>
-   <tr>
-    <td colspan="2" style="text-align: center; vertical-align: middle; font-size: 20px;">
-     <p style='margin-bottom: 10px; position: relative; left: -5.8px;'>WORK TIME CALCULATOR</p>
-    </td>
-   </tr>
-   <tr>
-    <td>
-     <span style="margin-bottom: 0px; display: block;">WORK TIME</span><input type="time" id="work-time" value="" step="1">
-    </td>
-    <td>
-     <span style="margin-bottom: 0px; display: block;">CLOCK IN</span><input type="time" id="clock-in" value="" step="1">
-    </td>
-   </tr>
-   <tr>
-    <td>
-     <span style="margin-bottom: 0px; margin-top: 1px; display: block;">BREAK MIN</span>
-     <input type="time" id="duratamin-pausa" value="" step="0">
-    </td>
-    <td class="pausa-pranzo">
-     <span style="margin-bottom: 0px; margin-top: -2px; display: block;">BREAK DONE</span>
-     <input type="checkbox" id="pausa-pranzo">
-     <label for="pausa-pranzo"></label>
-    </td>
-   </tr>
-   <tr>
-    <td>
-     <span style="margin-bottom: 1px; margin-top: 0px; display: block;">BREAK START</span><input type="time" id="inizio-pausa" value="" step="1">
-    </td>
-    <td>
-     <span style="margin-bottom: 1px; margin-top: 0px; display: block;">BREAK END</span><input type="time" id="fine-pausa" value="" step="1">
-    </td>
-   </tr>
-   <tr>
-    <td>
-     <span style="margin-bottom: 0px; margin-top: 2px; display: block; letter-spacing: 0.65px;">CLR</span>
-     <button class="clr-btn" id="clr-btn"></button>
-    </td>
-    <td>
-     <span style="margin-bottom: 5px; margin-top: 3
-     px; display: block;">DATETIME</span>
-     <input type="text" id="date" name="date">
-    </td>
-   </tr>
-   <tr>
-    <td>
-     <span style="margin-bottom: 0px; margin-top: 2px; display: block; letter-spacing: 0.65px;">END</span>
-     <button class="stp-btn" id="stp-btn"></button>
-    </td>
-    <td>
-     <span style="margin-bottom: 0px; margin-top: 2px; display: block; letter-spacing: 0.65px;">LOGDEL/GETLOG</span>
-     <button class="clearlogs-btn" id="clearlogs-btn"></button>
-     <span style="font-size: 22.1px; position: relative; margin-right: -17px; margin-left: -8px; top: 1.8px;"> / </span>
-     <button class="getlogs-btn" id="getlogs-btn"></button>
-    </td>
-   </tr>
-   <tr>
-    <td style="font-size: 22.1px; font-weight: 100; margin-top: -2px;">
-     <output class="clockout-output" id="clock-out">Loading…</output>
-    </td>
-    <td style="font-size: 22.1px; font-weight: 100; margin-top: -2px;">
-     <output class="timeleft-output" id="countdown">Loading…</output>
-    </td>
-   </tr>
-  </tbody>
-        <span class="save-span" style="display: none;">SAVE<br><button class="save-btn" id="save-btn"></button></span>
- </table>
- 	    <button class="external-btns worktime-btn" id="worktime-btn"></button>
-        <button class="external-btns breakmin-btn" id="breakmin-btn"></button>
-        <button class="external-btns breakstart-btn" id="breakstart-btn"></button>
-        <button class="external-btns clr-btn-external" id="clr-btn-external"></button>
-        <button class="external-btns stp-btn-external" id="stp-btn-external"></button>
-        <button class="external-btns clockout-btn" id="clockout-btn"></button>
-        <button class="external-btns enterclockin-btn" id="enterclockin-btn"></button>
-        <button class="external-btns breakdone-btn" id="breakdone-btn"></button>
-        <button class="external-btns breakend-btn" id="breakend-btn"></button>
-        <button class="external-btns datetime-btn" id="datetime-btn"></button>
-        <button class="external-btns getlogs-btn-external" id="getlogs-btn-external"></button>
-        <button class="external-btns timeleft-btn" id="timeleft-btn"></button>
+	<table class="fmc-screen">
+		<tbody>
+			<tr>
+				<td></td>
+				<td colspan="2" style="text-align: center; vertical-align: middle; font-size: 20px;">
+					<p style='margin-bottom: 8px;'>WORK TIME CALCULATOR</p>
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>
+					<button class="external-btns worktime-btn" id="worktime-btn"></button>
+				</td>
+				<td>
+					<span style="display: block;">WORK TIME</span>
+					<input type="time" id="work-time" value="" step="1">
+				</td>
+				<td>
+					<span style="display: block;">CLOCK IN</span>
+					<input type="time" id="clock-in" value="" step="1">
+				</td>
+				<td>
+					<button class="external-btns enterclockin-btn" id="enterclockin-btn"></button>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="external-btns breakmin-btn" id="breakmin-btn"></button>
+				</td>
+				<td>
+					<span style="margin-top: 1px; display: block;">BREAK MIN</span>
+					<input type="time" id="duratamin-pausa" value="" step="0">
+				</td>
+				<td class="pausa-pranzo">
+					<span style="margin-top: -2px; display: block;">BREAK DONE</span>
+					<input type="checkbox" id="pausa-pranzo">
+					<label for="pausa-pranzo"></label>
+				</td>
+				<td>
+					<button class="external-btns breakdone-btn" id="breakdone-btn"></button>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="external-btns breakstart-btn" id="breakstart-btn"></button>
+				</td>
+				<td>
+					<span style="margin-bottom: 1px; display: block;">BREAK START</span>
+					<input type="time" id="inizio-pausa" value="" step="1">
+				</td>
+				<td>
+					<span style="margin-bottom: 1px; display: block;">BREAK END</span>
+					<input type="time" id="fine-pausa" value="" step="1">
+				</td>
+				<td>
+					<button class="external-btns breakend-btn" id="breakend-btn"></button>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="external-btns clr-btn-external" id="clr-btn-external"></button>
+				</td>
+				<td>
+					<span style="display: block;">CLR</span>
+					<button class="clr-btn" id="clr-btn"></button>
+				</td>
+				<td>
+					<span style="display: block;">DATETIME</span>
+					<input type="text" id="date" name="date">
+				</td>
+				<td>
+					<button class="external-btns datetime-btn" id="datetime-btn"></button>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="external-btns stp-btn-external" id="stp-btn-external"></button>
+				</td>
+				<td>
+					<span style="margin-top: 2px; display: block;">END</span>
+					<button class="stp-btn" id="stp-btn"></button>
+				</td>
+				<td>
+					<span style="margin-top: 2px; display: block;">LOGDEL/GETLOG</span>
+					<button class="clearlogs-btn" id="clearlogs-btn"></button>
+					<span style="font-size: 22.1px; position: relative; margin-right: -17px; margin-left: -8px; top: 2.25px;"> / </span>
+					<button class="getlogs-btn" id="getlogs-btn"></button>
+				</td>
+				<td>
+					<button class="external-btns getlogs-btn-external" id="getlogs-btn-external"></button>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button class="external-btns clockout-btn" id="clockout-btn"></button>
+				</td>
+				<td style="font-size: 22.1px; font-weight: 100; margin-top: -2px;">
+					<output class="clockout-output" id="clock-out">Loading…</output>
+				</td>
+				<td style="font-size: 22.1px; font-weight: 100; margin-top: -2px;">
+					<output class="timeleft-output" id="countdown">Loading…</output>
+				</td>
+				<td>
+					<button class="external-btns timeleft-btn" id="timeleft-btn"></button>
+				</td>
+			</tr>
+		</tbody>
+		<span class="save-span" style="display: none;">SAVE <br>
+				<button class="save-btn" id="save-btn"></button>
+		</span>
+	</table>
 	<audio id="alarm-sound" src="alarm.mp3" preload="auto"></audio>
- </div>
- 
- 
- <script>
- 	const buttons = document.querySelectorAll('.external-btns');
- 	buttons.forEach(button => {
-    button.addEventListener('click', () => {
-        // Aggiungiamo la classe 'active' quando il bottone viene cliccato
-        button.classList.add('active');
-        
-        // Rimuoviamo la classe 'active' dopo 1 secondo
-        setTimeout(() => {
-            button.classList.remove('active');
-        }, 460); // 1000ms = 1 secondo
-    });
-});
-	 var alarmInterval = null;
-	 
-        //*****************************************************OTTIENI DATA E ORA ATTUALE*****************************************************
-        function updateTime() {
-        const now = new Date();
-        const day = now.getDate();
-        const month = now.getMonth() + 1; // I mesi partono da 0
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        // Formato D/M HH:MM
-        const formattedTime = `${day}/${month} ${hours}:${minutes}`;
-        document.getElementById("date").value = formattedTime;
-        // Calcola il prossimo aggiornamento esatto tra 60 secondi
-        const nextUpdate = 60000 - (now % 60000); // Calcola il tempo mancante
-        setTimeout(updateTime, nextUpdate); // Avvia il prossimo aggiornamento in modo preciso
-        }
-        window.onload = updateTime; // Inizializza al caricamento della pagina
-
-//*****************************************************COUNTDOWN*****************************************************
-        function aggiornaCountdown() {
-                var breakMinInput = document.getElementById('duratamin-pausa').value;
-                var workTimeInput = document.getElementById('work-time').value;
-                var clockin = document.getElementById('clock-in').value;
-                var inizioPausa = document.getElementById('inizio-pausa').value;
-                var finePausa = document.getElementById('fine-pausa').value;
-
-                var clockinParts = clockin.split(":");
-                var oreclockin = parseInt(clockinParts[0]);
-                var minuticlockin = parseInt(clockinParts[1]);
-                var secondiclockin = parseInt(clockinParts[2]);
-
-                var workTimeParts = workTimeInput.split(":");
-                var oreworktime = parseInt(workTimeParts[0]);
-                var minutiworktime = parseInt(workTimeParts[1]);
-                var secondiworktime = parseInt(workTimeParts[2]);
-
-                var durataminpausa = document.getElementById('duratamin-pausa').value;
-                var oradurataminpausa = durataminpausa.split(':');
-                var oredurataminpausa = parseInt(oradurataminpausa[0]);
-                var minutidurataminpausa = parseInt(oradurataminpausa[1]);
-
-                var inizioPausaParts = inizioPausa.split(':');
-                var oreinizioPausa = parseInt(inizioPausaParts[0]);
-                var minutiinizioPausa = parseInt(inizioPausaParts[1]);
-                var secondiinizioPausa = parseInt(inizioPausaParts[2]);
-
-                var finePausaParts = finePausa.split(':');
-                var orefinePausa = parseInt(finePausaParts[0]);
-                var minutifinePausa = parseInt(finePausaParts[1]);
-                var secondifinePausa = parseInt(finePausaParts[2]);
-
-        // Se WORK TIME è vuoto o manca una parte (ore, minuti o secondi), mostra --:--:-- e termina la funzione
-        if (workTimeParts.length < 3 || workTimeParts.some(part => part === "")) {
-        document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
-                document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
-
-                return;
-                }
-
-                // Se BREAK MIN è vuoto, mostra --:--:-- e termina la funzione
-        if (!breakMinInput || breakMinInput === "--:--") {
-                document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
-                document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
-
-                return;
-        }
-
-                // Se il valore di clock-in è stato rimosso o è incompleto (ore, minuti o secondi vuoti), mostra --:--:-- e termina la funzione
-                if (clockinParts.length < 3 || clockinParts.some(part => part === "")) {
-                document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
-                document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
-
-                return;
-                }
-
-                // Verifica se il checkbox break done è attivato
-                var breakDone = document.getElementById('pausa-pranzo').checked;
-                if (breakDone) {
-                // Se il valore di inizio pausa è stato rimosso o è incompleto (ore, minuti o secondi vuoti), mostra --:--:-- e termina la funzione
-                        if (inizioPausaParts.length < 3 || inizioPausaParts.some(part => part === "")) {
-                        document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
-                        document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
-
-                        return;
-                        }
-
-                        // Se il valore di fine pausa è stato rimosso o è incompleto (ore, minuti o secondi vuoti), mostra --:--:-- e termina la funzione
-                        if (finePausaParts.length < 3 || finePausaParts.some(part => part === "")) {
-                        document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
-                        document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
-
-                        return;
-                        }
-
-                // Se BREAK END è anteriore a BREAK START, mostra --:--:-- e termina la funzione
-                if (orefinePausa < oreinizioPausa ||
-                (orefinePausa === oreinizioPausa && minutifinePausa < minutiinizioPausa) ||
-                (orefinePausa === oreinizioPausa && minutifinePausa === minutiinizioPausa && secondifinePausa < secondiinizioPausa)) {
-                        document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
-                        document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
-
-                        return;
-                }
-
-                // Se BREAK START è anteriore a CLOCK IN, mostra --:--:-- e termina la funzione
-                        if (oreinizioPausa < oreclockin ||
-                        (oreinizioPausa === oreclockin && minutiinizioPausa < minuticlockin) ||
-                        (oreinizioPausa === oreclockin && minutiinizioPausa === minuticlockin && secondiinizioPausa < secondiclockin)) {
-                        document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
-                        document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
-
-                        return;
-                }
-                }
-
-                // Aggiungi il tempo di work time all'ora di clock-in per calcolare l'ora di clock-out
-                var oraUscita = new Date();
-                oraUscita.setHours(oreclockin + oreworktime + oredurataminpausa);
-                oraUscita.setMinutes(minuticlockin + minutiworktime + minutidurataminpausa);
-                oraUscita.setSeconds(secondiclockin + secondiworktime);
-
-                // Se la pausa pranzo è selezionata, aggiungi il tempo della pausa
-                if (breakDone) {
-                var duratapausa = new Date();
-                duratapausa.setHours(orefinePausa - oreinizioPausa);
-                duratapausa.setMinutes(minutifinePausa - minutiinizioPausa);
-                duratapausa.setSeconds(secondifinePausa - secondiinizioPausa);
-
-                // Aggiungi la durata della pausa all'ora di uscita
-                oraUscita.setHours(oraUscita.getHours() + duratapausa.getHours() - oredurataminpausa);
-                oraUscita.setMinutes(oraUscita.getMinutes() + duratapausa.getMinutes() - minutidurataminpausa);
-                oraUscita.setSeconds(oraUscita.getSeconds() + duratapausa.getSeconds());
-                }
-
-                // Calcola il delta tra l'ora attuale e l'ora di uscita
-                var oraAttuale = new Date().getTime(); // Ora attuale in millisecondi
-                var delta = oraUscita.getTime() - oraAttuale; // Differenza tra ora di uscita e ora attuale
-                if (delta <= 0) {
-                // Se il countdown è finito
-                var countdownElement = document.getElementById('countdown');
-                countdownElement.innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>" + "00:00:00";
-                        countdownElement.classList.add('blink'); // Aggiungi la classe blink
-                clearInterval(intervalId); // Ferma l'aggiornamento
-
-                // Mostra bottone per il salvataggio dei dati sessione
-                const saveBtn = document.getElementById('save-btn');
-                        const saveSpan = document.querySelector('.save-span');
-                        saveSpan.style.display = "block";
-                        saveBtn.style.display = "block";
-
-				// Imposta allarme
-                var alarmSound = document.getElementById('alarm-sound');
-                if (alarmInterval === null) { // Evita di creare più intervalli sovrapposti
-                    alarmInterval = setInterval(function() {
-                    alarmSound.play();
-                    }, 2500);
-                }
-
-                return;
-                }
-
-                // Calcola ore, minuti e secondi per il countdown
-                var ore = Math.floor(delta / (1000 * 60 * 60));
-                var minuti = Math.floor((delta % (1000 * 60 * 60)) / (1000 * 60));
-                var secondi = Math.floor((delta % (1000 * 60)) / 1000);
-
-                // Mostra il countdown nel formato HH:MM:SS
-                document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>" +
-        String(ore).padStart(2, '0') + "<span style='letter-spacing: 0px;'>:</span>" +
-        String(minuti).padStart(2, '0') + "<span style='letter-spacing: 0px;'>:</span>" +
-        String(secondi).padStart(2, '0');
-
-                // Mostra l'ora di uscita nel formato HH:MM:SS
-                var oreUscita = String(oraUscita.getHours()).padStart(2, '0');
-                var minutiUscita = String(oraUscita.getMinutes()).padStart(2, '0');
-                var secondiUscita = String(oraUscita.getSeconds()).padStart(2, '0');
-                document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>" +
-                oreUscita + "<span style='letter-spacing: 0px;'>:</span>" +
-                minutiUscita + "<span style='letter-spacing: 0px;'>:</span>" +
-                secondiUscita;
-        }
-
-        // Avvia l'aggiornamento ogni secondo
-        var intervalId = setInterval(aggiornaCountdown, 1000);
-
-
-
-        //*****************************************************WORK TIME BUTTON*****************************************************
-// Imposta la durata di default "08:00:00" nel campo Work Time con ritardo
-const workTimeButton = document.getElementById('worktime-btn');
-workTimeButton.addEventListener('click', function() {
-    const workTimeInputCurrent = document.getElementById('work-time');
-    if (!workTimeInputCurrent) return;
-
-    setTimeout(function() {
-        const timeString = "08:00:00";
-        workTimeInputCurrent.value = timeString;
-    }, 460);
-});
-
-
-
-        //*****************************************************BREAK MIN BUTTON*****************************************************
-// Imposta la durata di default "00:30" nel campo Break Min con ritardo
-const breakMinButton = document.getElementById('breakmin-btn');
-breakMinButton.addEventListener('click', function() {
-    const breakMinInputCurrent = document.getElementById('duratamin-pausa');
-    if (!breakMinInputCurrent) return;
-
-    setTimeout(function() {
-        const timeString = "00:30";
-        breakMinInputCurrent.value = timeString;
-    }, 460);
-});
-
-		
-
-        //*****************************************************FUNZIONE RESET*****************************************************
-  function resetInputs() {
-        // Resetta i valori degli input
-        document.getElementById('work-time').value = '';
-        document.getElementById('clock-in').value = '';
-        document.getElementById('duratamin-pausa').value = '';
-        document.getElementById('inizio-pausa').value = '';
-        document.getElementById('fine-pausa').value = '';
-        document.getElementById('pausa-pranzo').checked = false;
-        
-        // Resetta i valori degli input in caso che siano parzialmente riempiti
-    	const timeFields = ['work-time', 'clock-in', 'duratamin-pausa', 'inizio-pausa', 'fine-pausa'];
-    	timeFields.forEach(function(fieldId) {
-        	const field = document.getElementById(fieldId);
-        	if (field && field.type === 'time') {
-            	field.valueAsDate = null;  // Resetta il campo time
-        	}
-    	});
-
-        // Rimuovi la classe blink dal countdown e resetta il timer
-        var countdownElement = document.getElementById('countdown');
-        countdownElement.classList.remove('blink');
-        countdownElement.innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
-
-        var clockOutElement = document.getElementById('clock-out');
-        clockOutElement.innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
-
-		// Assicurati che il bottone di salvataggio sia nascosto
-		const saveBtn = document.getElementById('save-btn');
-        const saveSpan = document.querySelector('.save-span');
-        saveBtn.style.display = "none";
-        saveSpan.style.display = "none";
-
-	    // Ferma l'allarme
-        var alarmSound = document.getElementById('alarm-sound');
-        alarmSound.pause();
-        alarmSound.currentTime = 0; // Riporta l'audio all'inizio
-        if (alarmInterval !== null) {
-            clearInterval(alarmInterval);
-            alarmInterval = null; // Reset della variabile per evitare problemi futuri
-        }
-
-        // Riavvia l'intervallo per calcolare il nuovo output e il nuovo time left
-        clearInterval(intervalId);
-        intervalId = setInterval(aggiornaCountdown, 1000);
-  }
-
-
-
-        //*****************************************************CLR BUTTON*****************************************************
-        document.getElementById('clr-btn').addEventListener('click', function() {
-            setTimeout(() => resetInputs(), 460); // Chiamata alla funzione di reset (con 800ms di ritardo)
-        this.classList.add('active'); // Aggiungi la classe "active" per mostrare la X
-        // Imposta un timeout per rimuovere la "X" dopo 2 secondi
-        setTimeout(() => {
-        this.classList.remove('active');
-        }, 460); // 800 millisecondi = 0.8 secondi
-        });
-        
-        // Attiva clr-btn premendo clr-btn-external (il tasto sull'fmc)
-		document.getElementById('clr-btn-external').addEventListener('click', function() {
-                document.getElementById('clr-btn').click(); 
-            });
-
-
-
-        //*****************************************************SAVE BUTTON*****************************************************
-  		// Funzione per salvare i dati nel localStorage
-        function saveData() {
-           const confirmSave = confirm("Do you want to save the session data in the time log?");
-           if (confirmSave) {
-           newLogITEM(); // Aggiungi i dati della sessione appena finita al log nel LocalStorage
-            alert("Time Log data has been saved!");
-            resetInputs();  // Resetta i campi di input e il timer
-                    } else {
-                    alert("Action cancelled. Data has not been saved.");
-                    resetInputs();  // Resetta i campi di input e il timer
-                    }
-        }
-
-        // Aggiungi evento al bottone "Save"
-        document.getElementById('save-btn').addEventListener('click', function() {
-            setTimeout(() => saveData(), 480); // Chiamata alla funzione save (con ritardo)
-            this.classList.add('active'); // Aggiungi la classe "active" per mostrare la X
-            // Imposta un timeout per rimuovere la "X" dopo 2 secondi
-            setTimeout(() => {
-            this.classList.remove('active');
-            }, 460); // 800 millisecondi = 0.8 secondi
-        });
-
-
-
-//*****************************************************STP BUTTON*****************************************************
-document.getElementById('stp-btn').addEventListener('click', function() {
-    // Aggiungi la classe "active" per mostrare la X
-    this.classList.add('active');
-
-    // Imposta un timeout per rimuovere la "X" dopo 800ms
-    setTimeout(() => {
-        this.classList.remove('active');
-    }, 460); // 800 millisecondi = 0.8 secondi
-
-    // Usa setTimeout per ritardare l'esecuzione dei calcoli di 800ms
-    setTimeout(function() {
-        // Ottieni gli input necessari
-        var clockinInput = document.getElementById('clock-in').value; // ora di clock-in
-        var workTimeInput = document.getElementById('work-time').value; // ora di work-time
-        var pausaInput = document.getElementById('duratamin-pausa').value;
-
-        // Se i valori sono incompleti, esci dalla funzione
-        if (!clockinInput || !workTimeInput || !pausaInput) return;
-
-        // Converte gli orari (clock-in, work-time) in secondi
-        var clockinParts = clockinInput.split(":");
-        var clockinInSeconds = parseInt(clockinParts[0]) * 3600 + parseInt(clockinParts[1]) * 60 + parseInt(clockinParts[2]);
-
-        var workTimeParts = workTimeInput.split(":");
-        var workTimeInSeconds = parseInt(workTimeParts[0]) * 3600 + parseInt(workTimeParts[1]) * 60 + parseInt(workTimeParts[2]);
-
-        // Ottieni l'ora attuale in secondi, ma calcola i secondi dalla mezzanotte di oggi
-        var now = new Date();
-        var midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // mezzanotte di oggi
-        var currentTimeInSeconds = Math.floor((now - midnight) / 1000); // differenza in secondi
-
-        // Ottieni il delta tra ora attuale e clock in, più 5 secondi
-        var deltaClockInActualTime = (currentTimeInSeconds + 5) - clockinInSeconds;
-
-        // Se il checkbox breakDone è selezionato, utilizziamo il delta tra inizio-pausa e fine-pausa
-        var breakDone = document.getElementById('pausa-pranzo').checked;
-
-        if (breakDone) {
-            // Calcola il delta della pausa
-            var inizioPausa = document.getElementById('inizio-pausa').value;
-            var finePausa = document.getElementById('fine-pausa').value;
-
-            // Se BREAK START o BREAK END sono vuoti, esci dalla funzione
-            if (!inizioPausa || !finePausa) return;
-
-            var inizioPausaSplit = inizioPausa.split(':');
-            var finePausaSplit = finePausa.split(':');
-
-            var oreInizioPausa = parseInt(inizioPausaSplit[0]);
-            var minutiInizioPausa = parseInt(inizioPausaSplit[1]);
-            var secondiInizioPausa = parseInt(inizioPausaSplit[2]);
-
-            var oreFinePausa = parseInt(finePausaSplit[0]);
-            var minutiFinePausa = parseInt(finePausaSplit[1]);
-            var secondiFinePausa = parseInt(finePausaSplit[2]);
-
-            // Calcola la durata della pausa effettiva in secondi
-            var durataPausaInSecondi = ((oreFinePausa - oreInizioPausa) * 3600) +
-                ((minutiFinePausa - minutiInizioPausa) * 60) +
-                (secondiFinePausa - secondiInizioPausa);
-
-            // Usa la durata effettiva della pausa invece di quella preimpostata
-            pausaInSeconds = durataPausaInSecondi;
-            
-            // Calcola il nuovo valore di work-time in secondi quando la pausa è stata fatta
-            var newWorkTimeInSeconds = deltaClockInActualTime - durataPausaInSecondi;
-        } else {
-            // Reimposta la pausa minima come 00:00
-            var newPausaInput = `${String(0).padStart(2, '0')}:${String(0).padStart(2, '0')}`;
-            document.getElementById('duratamin-pausa').value = newPausaInput;
-
-            // Converte la durata pausa in secondi (pausa in minuti)
-            var pausaParts = pausaInput.split(":"); // separa le ore e i minuti
-            var pausaInMinutes = parseInt(pausaParts[0]) * 60 + parseInt(pausaParts[1]); // converte in minuti
-            var pausaInSeconds = pausaInMinutes * 60; // converte i minuti in secondi
-            // Calcola il nuovo valore di work-time in secondi quando la pausa non è stata fatta
-            var newWorkTimeInSeconds = deltaClockInActualTime;
-        }
-
-        // Converte il nuovo valore di work-time in ore, minuti, secondi
-        var hoursRemaining = Math.floor(newWorkTimeInSeconds / 3600);
-        var minutesRemaining = Math.floor((newWorkTimeInSeconds % 3600) / 60);
-        var secondsRemaining = Math.floor(newWorkTimeInSeconds % 60);
-
-        // Imposta il nuovo valore di work-time
-        var newWorkTime = `${String(hoursRemaining).padStart(2, '0')}:${String(minutesRemaining).padStart(2, '0')}:${String(secondsRemaining).padStart(2, '0')}`;
-        document.getElementById('work-time').value = newWorkTime;
-    }, 460); // 800 millisecondi = 0.8 secondi
-});
-
-// Attiva stp-btn premendo stp-btn-external (il tasto sull'fmc)
-document.getElementById('stp-btn-external').addEventListener('click', function() {
-    document.getElementById('stp-btn').click(); 
-});
-
-
-        //*****************************************************BREAK DONE BUTTON*****************************************************
-        function toggleCheckbox() {
-   			var checkbox = document.getElementById("pausa-pranzo"); // Ottieni l'elemento checkbox
-  			checkbox.checked = !checkbox.checked; // Cambia lo stato del checkbox (attivato/disattivato)
-  		}
-
-// Attiva pausa-pranzo premendo breakdone-btn (il tasto sull'fmc)
-document.addEventListener('DOMContentLoaded', function() {
-    var button = document.getElementById('breakdone-btn');
-    
-    // Aggiungi un ritardo prima di eseguire la funzione toggleCheckbox
-    button.addEventListener('click', function() {
-        setTimeout(function() {
-            toggleCheckbox(); // Funzione chiamata dopo 1 secondo (1000 ms)
-        }, 460); // Ritardo di 1 secondo
-    });
-});
-  
-
-        //*****************************************************CLOCK IN BUTTON*****************************************************
-// Imposta l'ora attuale nel campo Clock In con ritardo di 1 secondo
-const clockInButton = document.getElementById('enterclockin-btn');
-clockInButton.addEventListener('click', function() {
-    const clockInInputCurrent = document.getElementById('clock-in');
-    if (!clockInInputCurrent) return;
-
-    setTimeout(function() {
-        const currentTime = new Date();
-
-        const hours = String(currentTime.getHours()).padStart(2, '0');
-        const minutes = String(currentTime.getMinutes()).padStart(2, '0');
-        const seconds = String(currentTime.getSeconds()).padStart(2, '0');
-
-        const timeString = `${hours}:${minutes}:${seconds}`;
-        clockInInputCurrent.value = timeString;
-    }, 460);
-});
 	
+	
+	
+	<script>
+		const buttons = document.querySelectorAll('.external-btns');
+		buttons.forEach(button => {
+			button.addEventListener('click', () => {
+				// Aggiunge la classe 'active' ai bottoni esterni quando attivati
+				button.classList.add('active');
+		
+				// Rimuove la classe 'active' con ritardo
+				setTimeout(() => {
+					button.classList.remove('active');
+				}, 460); // 1000ms = 1 secondo
+			});
+		});
+		// Imposta allarme sonoro su nullo di default
+		var alarmInterval = null;
+		
+		//*****************************************************OTTIENI DATA E ORA ATTUALE*****************************************************
+		function updateTime() {
+			const now = new Date();
+			const day = now.getDate();
+			const month = now.getMonth() + 1; // I mesi partono da 0
+			const hours = String(now.getHours()).padStart(2, '0');
+			const minutes = String(now.getMinutes()).padStart(2, '0');
+			// Formato D/M HH:MM
+			const formattedTime = `${day}/${month} ${hours}:${minutes}`;
+			document.getElementById("date").value = formattedTime;
+			// Calcola il prossimo aggiornamento esatto tra 60 secondi
+			const nextUpdate = 60000 - (now % 60000); // Calcola il tempo mancante
+			setTimeout(updateTime, nextUpdate);
+		}
+		window.onload = updateTime; // Inizializza al caricamento della pagina
+		
+		//*****************************************************COUNTDOWN*****************************************************
+		function aggiornaCountdown() {
+			var breakMinInput = document.getElementById('duratamin-pausa').value;
+			var workTimeInput = document.getElementById('work-time').value;
+			var clockin = document.getElementById('clock-in').value;
+			var inizioPausa = document.getElementById('inizio-pausa').value;
+			var finePausa = document.getElementById('fine-pausa').value;
+		
+			var clockinParts = clockin.split(":");
+			var oreclockin = parseInt(clockinParts[0]);
+			var minuticlockin = parseInt(clockinParts[1]);
+			var secondiclockin = parseInt(clockinParts[2]);
+		
+			var workTimeParts = workTimeInput.split(":");
+			var oreworktime = parseInt(workTimeParts[0]);
+			var minutiworktime = parseInt(workTimeParts[1]);
+			var secondiworktime = parseInt(workTimeParts[2]);
+		
+			var durataminpausa = document.getElementById('duratamin-pausa').value;
+			var oradurataminpausa = durataminpausa.split(':');
+			var oredurataminpausa = parseInt(oradurataminpausa[0]);
+			var minutidurataminpausa = parseInt(oradurataminpausa[1]);
+		
+			var inizioPausaParts = inizioPausa.split(':');
+			var oreinizioPausa = parseInt(inizioPausaParts[0]);
+			var minutiinizioPausa = parseInt(inizioPausaParts[1]);
+			var secondiinizioPausa = parseInt(inizioPausaParts[2]);
+		
+			var finePausaParts = finePausa.split(':');
+			var orefinePausa = parseInt(finePausaParts[0]);
+			var minutifinePausa = parseInt(finePausaParts[1]);
+			var secondifinePausa = parseInt(finePausaParts[2]);
+		
+			// Se WORK TIME è vuoto o manca una parte (ore, minuti o secondi), mostra --:--:-- e termina la funzione
+			if (workTimeParts.length < 3 || workTimeParts.some(part => part === "")) {
+				document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
+				document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
+		
+				return;
+			}
+		
+			// Se BREAK MIN è vuoto, mostra --:--:-- e termina la funzione
+			if (!breakMinInput || breakMinInput === "--:--") {
+				document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
+				document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
+		
+				return;
+			}
+		
+			// Se il valore di clock-in è stato rimosso o è incompleto (ore, minuti o secondi vuoti), mostra --:--:-- e termina la funzione
+			if (clockinParts.length < 3 || clockinParts.some(part => part === "")) {
+				document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
+				document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
+		
+				return;
+			}
+		
+			// Verifica se il checkbox break done è attivato
+			var breakDone = document.getElementById('pausa-pranzo').checked;
+			if (breakDone) {
+				// Se il valore di inizio pausa è stato rimosso o è incompleto (ore, minuti o secondi vuoti), mostra --:--:-- e termina la funzione
+				if (inizioPausaParts.length < 3 || inizioPausaParts.some(part => part === "")) {
+					document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
+					document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
+		
+					return;
+				}
+		
+				// Se il valore di fine pausa è stato rimosso o è incompleto (ore, minuti o secondi vuoti), mostra --:--:-- e termina la funzione
+				if (finePausaParts.length < 3 || finePausaParts.some(part => part === "")) {
+					document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
+					document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
+		
+					return;
+				}
+		
+				// Se BREAK END è anteriore a BREAK START, mostra --:--:-- e termina la funzione
+				if (orefinePausa < oreinizioPausa ||
+					(orefinePausa === oreinizioPausa && minutifinePausa < minutiinizioPausa) ||
+					(orefinePausa === oreinizioPausa && minutifinePausa === minutiinizioPausa && secondifinePausa < secondiinizioPausa)) {
+					document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
+					document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
+		
+					return;
+				}
+		
+				// Se BREAK START è anteriore a CLOCK IN, mostra --:--:-- e termina la funzione
+				if (oreinizioPausa < oreclockin ||
+					(oreinizioPausa === oreclockin && minutiinizioPausa < minuticlockin) ||
+					(oreinizioPausa === oreclockin && minutiinizioPausa === minuticlockin && secondiinizioPausa < secondiclockin)) {
+					document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
+					document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
+		
+					return;
+				}
+			}
+		
+			// Aggiungi il tempo di work time all'ora di clock-in per calcolare l'ora di clock-out
+			var oraUscita = new Date();
+			oraUscita.setHours(oreclockin + oreworktime + oredurataminpausa);
+			oraUscita.setMinutes(minuticlockin + minutiworktime + minutidurataminpausa);
+			oraUscita.setSeconds(secondiclockin + secondiworktime);
+		
+			// Se la pausa pranzo è selezionata, aggiungi il tempo della pausa
+			if (breakDone) {
+				var duratapausa = new Date();
+				duratapausa.setHours(orefinePausa - oreinizioPausa);
+				duratapausa.setMinutes(minutifinePausa - minutiinizioPausa);
+				duratapausa.setSeconds(secondifinePausa - secondiinizioPausa);
+		
+				// Aggiungi la durata della pausa all'ora di uscita
+				oraUscita.setHours(oraUscita.getHours() + duratapausa.getHours() - oredurataminpausa);
+				oraUscita.setMinutes(oraUscita.getMinutes() + duratapausa.getMinutes() - minutidurataminpausa);
+				oraUscita.setSeconds(oraUscita.getSeconds() + duratapausa.getSeconds());
+			}
+		
+			// Calcola il delta tra l'ora attuale e l'ora di uscita
+			var oraAttuale = new Date().getTime(); // Ora attuale in millisecondi
+			var delta = oraUscita.getTime() - oraAttuale; // Differenza tra ora di uscita e ora attuale
+			if (delta <= 0) {
+				// Se il countdown è finito
+				var countdownElement = document.getElementById('countdown');
+				countdownElement.innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>" + "00:00:00";
+				countdownElement.classList.add('blink'); // Aggiungi la classe blink
+				clearInterval(intervalId); // Ferma l'aggiornamento
+		
+				// Mostra bottone per il salvataggio dei dati sessione
+				const saveBtn = document.getElementById('save-btn');
+				const saveSpan = document.querySelector('.save-span');
+				saveSpan.style.display = "block";
+				saveBtn.style.display = "block";
+		
+				// Imposta allarme
+				var alarmSound = document.getElementById('alarm-sound');
+				if (alarmInterval === null) { // Evita di creare più intervalli sovrapposti
+					alarmInterval = setInterval(function() {
+						alarmSound.play();
+					}, 2500);
+				}
+		
+				return;
+			}
+		
+			// Calcola ore, minuti e secondi per il countdown
+			var ore = Math.floor(delta / (1000 * 60 * 60));
+			var minuti = Math.floor((delta % (1000 * 60 * 60)) / (1000 * 60));
+			var secondi = Math.floor((delta % (1000 * 60)) / 1000);
+		
+			// Mostra il countdown nel formato HH:MM:SS
+			document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>" +
+				String(ore).padStart(2, '0') + "<span style='letter-spacing: 0px;'>:</span>" +
+				String(minuti).padStart(2, '0') + "<span style='letter-spacing: 0px;'>:</span>" +
+				String(secondi).padStart(2, '0');
+		
+			// Mostra l'ora di uscita nel formato HH:MM:SS
+			var oreUscita = String(oraUscita.getHours()).padStart(2, '0');
+			var minutiUscita = String(oraUscita.getMinutes()).padStart(2, '0');
+			var secondiUscita = String(oraUscita.getSeconds()).padStart(2, '0');
+			document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>" +
+				oreUscita + "<span style='letter-spacing: 0px;'>:</span>" +
+				minutiUscita + "<span style='letter-spacing: 0px;'>:</span>" +
+				secondiUscita;
+		}
+		
+		// Avvia l'aggiornamento ogni secondo
+		var intervalId = setInterval(aggiornaCountdown, 1000);
+		
+		
+		
+		//*****************************************************WORK TIME BUTTON*****************************************************
+		// Imposta la durata di default "08:00:00" nel campo Work Time con ritardo
+		const workTimeButton = document.getElementById('worktime-btn');
+		workTimeButton.addEventListener('click', function() {
+			const workTimeInputCurrent = document.getElementById('work-time');
+			if (!workTimeInputCurrent) return;
+		
+			setTimeout(function() {
+				const timeString = "08:00:00";
+				workTimeInputCurrent.value = timeString;
+			}, 460);
+		});
+		
+		
+		
+		//*****************************************************BREAK MIN BUTTON*****************************************************
+		// Imposta la durata di default "00:30" nel campo Break Min con ritardo
+		const breakMinButton = document.getElementById('breakmin-btn');
+		breakMinButton.addEventListener('click', function() {
+			const breakMinInputCurrent = document.getElementById('duratamin-pausa');
+			if (!breakMinInputCurrent) return;
+		
+			setTimeout(function() {
+				const timeString = "00:30";
+				breakMinInputCurrent.value = timeString;
+			}, 460);
+		});
+		
+		
+		
+		//*****************************************************FUNZIONE RESET*****************************************************
+		function resetInputs() {
+			// Resetta i valori degli input
+			document.getElementById('work-time').value = '';
+			document.getElementById('clock-in').value = '';
+			document.getElementById('duratamin-pausa').value = '';
+			document.getElementById('inizio-pausa').value = '';
+			document.getElementById('fine-pausa').value = '';
+			document.getElementById('pausa-pranzo').checked = false;
+		
+			// Resetta i valori degli input in caso che siano parzialmente riempiti
+			const timeFields = ['work-time', 'clock-in', 'duratamin-pausa', 'inizio-pausa', 'fine-pausa'];
+			timeFields.forEach(function(fieldId) {
+				const field = document.getElementById(fieldId);
+				if (field && field.type === 'time') {
+					field.valueAsDate = null; // Resetta il campo time
+				}
+			});
+		
+			// Rimuovi la classe blink dal countdown e resetta il timer
+			var countdownElement = document.getElementById('countdown');
+			countdownElement.classList.remove('blink');
+			countdownElement.innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
+		
+			var clockOutElement = document.getElementById('clock-out');
+			clockOutElement.innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
+		
+			// Assicurati che il bottone di salvataggio sia nascosto
+			const saveBtn = document.getElementById('save-btn');
+			const saveSpan = document.querySelector('.save-span');
+			saveBtn.style.display = "none";
+			saveSpan.style.display = "none";
+		
+			// Ferma l'allarme
+			var alarmSound = document.getElementById('alarm-sound');
+			alarmSound.pause();
+			alarmSound.currentTime = 0; // Riporta l'audio all'inizio
+			if (alarmInterval !== null) {
+				clearInterval(alarmInterval);
+				alarmInterval = null; // Reset della variabile
+			}
+		
+			// Riavvia l'intervallo per calcolare il nuovo output e il nuovo time left
+			clearInterval(intervalId);
+			intervalId = setInterval(aggiornaCountdown, 1000);
+		}
+		
+		
+		
+		//*****************************************************CLR BUTTON*****************************************************
+		document.getElementById('clr-btn').addEventListener('click', function() {
+			setTimeout(() => resetInputs(), 460); // Chiamata alla funzione di reset (con ritardo)
+			this.classList.add('active'); // Aggiungi la classe "active" per mostrare la X
+			// Imposta un timeout per rimuovere la "X" con ritardo
+			setTimeout(() => {
+				this.classList.remove('active');
+			}, 460); // 460 millisecondi = 0.46 secondi
+		});
+		
+		// Attiva clr-btn premendo clr-btn-external (il tasto esterno)
+		document.getElementById('clr-btn-external').addEventListener('click', function() {
+			document.getElementById('clr-btn').click();
+		});
+		
+		
+		
+		//*****************************************************SAVE BUTTON*****************************************************
+		// Funzione per salvare i dati nel localStorage
+		function saveData() {
+			const confirmSave = confirm("Do you want to save the session data in the time log?");
+			if (confirmSave) {
+				newLogITEM(); // Aggiungi i dati della sessione appena finita al log nel LocalStorage
+				alert("Time Log data has been saved!");
+				resetInputs(); // Resetta i campi di input e il timer
+			} else {
+				alert("Action cancelled. Data has not been saved.");
+				resetInputs();
+			}
+		}
+		
+		// Aggiungi evento al bottone "Save"
+		document.getElementById('save-btn').addEventListener('click', function() {
+			setTimeout(() => saveData(), 480); // Chiamata alla funzione save (con ritardo)
+			this.classList.add('active'); // Aggiungi la classe "active" per mostrare la X
+			// Imposta un timeout per rimuovere la "X"
+			setTimeout(() => {
+				this.classList.remove('active');
+			}, 460);
+		});
+		
+		
+		
+		//*****************************************************STP BUTTON*****************************************************
+		document.getElementById('stp-btn').addEventListener('click', function() {
+			// Aggiungi la classe "active" per mostrare la X
+			this.classList.add('active');
+		
+			// Imposta un timeout per rimuovere la "X"
+			setTimeout(() => {
+				this.classList.remove('active');
+			}, 460);
+		
+			// Usa setTimeout per ritardare l'esecuzione dei calcoli
+			setTimeout(function() {
+				// Ottieni gli input necessari
+				var clockinInput = document.getElementById('clock-in').value;
+				var workTimeInput = document.getElementById('work-time').value;
+				var pausaInput = document.getElementById('duratamin-pausa').value;
+		
+				// Se i valori sono incompleti, esci dalla funzione
+				if (!clockinInput || !workTimeInput || !pausaInput) return;
+		
+				// Converte gli orari clock-in e work-time in secondi
+				var clockinParts = clockinInput.split(":");
+				var clockinInSeconds = parseInt(clockinParts[0]) * 3600 + parseInt(clockinParts[1]) * 60 + parseInt(clockinParts[2]);
+		
+				var workTimeParts = workTimeInput.split(":");
+				var workTimeInSeconds = parseInt(workTimeParts[0]) * 3600 + parseInt(workTimeParts[1]) * 60 + parseInt(workTimeParts[2]);
+		
+				// Ottiene l'ora attuale in secondi dalla mezzanotte di oggi
+				var now = new Date();
+				var midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // mezzanotte di oggi
+				var currentTimeInSeconds = Math.floor((now - midnight) / 1000); // differenza in secondi
+		
+				// Ottieni il delta tra ora attuale e clock in, più 5 secondi
+				var deltaClockInActualTime = (currentTimeInSeconds + 5) - clockinInSeconds;
+		
+				// Se il checkbox breakDone è selezionato, utilizza il delta tra inizio-pausa e fine-pausa
+				var breakDone = document.getElementById('pausa-pranzo').checked;
+		
+				if (breakDone) {
+					// Calcola il delta della pausa
+					var inizioPausa = document.getElementById('inizio-pausa').value;
+					var finePausa = document.getElementById('fine-pausa').value;
+		
+					// Se BREAK START o BREAK END sono vuoti, esci dalla funzione
+					if (!inizioPausa || !finePausa) return;
+		
+					var inizioPausaSplit = inizioPausa.split(':');
+					var finePausaSplit = finePausa.split(':');
+		
+					var oreInizioPausa = parseInt(inizioPausaSplit[0]);
+					var minutiInizioPausa = parseInt(inizioPausaSplit[1]);
+					var secondiInizioPausa = parseInt(inizioPausaSplit[2]);
+		
+					var oreFinePausa = parseInt(finePausaSplit[0]);
+					var minutiFinePausa = parseInt(finePausaSplit[1]);
+					var secondiFinePausa = parseInt(finePausaSplit[2]);
+		
+					// Calcola la durata della pausa effettiva in secondi
+					var durataPausaInSecondi = ((oreFinePausa - oreInizioPausa) * 3600) +
+						((minutiFinePausa - minutiInizioPausa) * 60) +
+						(secondiFinePausa - secondiInizioPausa);
+		
+					// Usa la durata effettiva della pausa invece di quella preimpostata
+					pausaInSeconds = durataPausaInSecondi;
+		
+					// Calcola il nuovo valore di work-time in secondi quando la pausa è stata fatta
+					var newWorkTimeInSeconds = deltaClockInActualTime - durataPausaInSecondi;
+				} else {
+					// Reimposta la pausa minima come 00:00
+					var newPausaInput = `${String(0).padStart(2, '0')}:${String(0).padStart(2, '0')}`;
+					document.getElementById('duratamin-pausa').value = newPausaInput;
+		
+					// Converte la durata pausa in secondi (pausa in minuti)
+					var pausaParts = pausaInput.split(":"); // separa le ore e i minuti
+					var pausaInMinutes = parseInt(pausaParts[0]) * 60 + parseInt(pausaParts[1]); // converte in minuti
+					var pausaInSeconds = pausaInMinutes * 60; // converte i minuti in secondi
+					// Calcola il nuovo valore di work-time in secondi quando la pausa non è stata fatta
+					var newWorkTimeInSeconds = deltaClockInActualTime;
+				}
+		
+				// Converte il nuovo valore di work-time in ore, minuti, secondi
+				var hoursRemaining = Math.floor(newWorkTimeInSeconds / 3600);
+				var minutesRemaining = Math.floor((newWorkTimeInSeconds % 3600) / 60);
+				var secondsRemaining = Math.floor(newWorkTimeInSeconds % 60);
+		
+				// Imposta il nuovo valore di work-time
+				var newWorkTime = `${String(hoursRemaining).padStart(2, '0')}:${String(minutesRemaining).padStart(2, '0')}:${String(secondsRemaining).padStart(2, '0')}`;
+				document.getElementById('work-time').value = newWorkTime;
+			}, 460);
+		});
+		
+		// Attiva stp-btn premendo stp-btn-external (il tasto sull'fmc)
+		document.getElementById('stp-btn-external').addEventListener('click', function() {
+			document.getElementById('stp-btn').click();
+		});
+		
+		
+		//*****************************************************BREAK DONE BUTTON*****************************************************
+		function toggleCheckbox() {
+			var checkbox = document.getElementById("pausa-pranzo");
+			checkbox.checked = !checkbox.checked; // Cambia lo stato del checkbox (attivato/disattivato)
+		}
+		
+		// Attiva pausa-pranzo premendo breakdone-btn (il tasto esterno)
+		document.addEventListener('DOMContentLoaded', function() {
+			var button = document.getElementById('breakdone-btn');
+		
+			// Aggiunge un ritardo prima di eseguire la funzione toggleCheckbox
+			button.addEventListener('click', function() {
+				setTimeout(function() {
+					toggleCheckbox();
+				}, 460);
+			});
+		});
+		
+		
+		//*****************************************************CLOCK IN BUTTON*****************************************************
+		// Imposta l'ora attuale nel campo Clock In con ritardo
+		const clockInButton = document.getElementById('enterclockin-btn');
+		clockInButton.addEventListener('click', function() {
+			const clockInInputCurrent = document.getElementById('clock-in');
+			if (!clockInInputCurrent) return;
+		
+			setTimeout(function() {
+				const currentTime = new Date();
+		
+				const hours = String(currentTime.getHours()).padStart(2, '0');
+				const minutes = String(currentTime.getMinutes()).padStart(2, '0');
+				const seconds = String(currentTime.getSeconds()).padStart(2, '0');
+		
+				const timeString = `${hours}:${minutes}:${seconds}`;
+				clockInInputCurrent.value = timeString;
+			}, 460);
+		});
+		
 		
 		
 		//*****************************************************BREAK START BUTTON*****************************************************
-		// Imposta l'ora attuale nel campo Break Start
+		// Imposta l'ora attuale nel campo Break Start con ritardo
 		const breakStartButton = document.getElementById('breakstart-btn');
 		breakStartButton.addEventListener('click', function() {
-    		const breakStartInput = document.getElementById('inizio-pausa');
-    		if (!breakStartInput) return;
-
-    setTimeout(function() {
-    		const currentTime = new Date();
-
-		    const hours = String(currentTime.getHours()).padStart(2, '0');
-		    const minutes = String(currentTime.getMinutes()).padStart(2, '0');
-		    const seconds = String(currentTime.getSeconds()).padStart(2, '0');
-
-    		const timeString = `${hours}:${minutes}:${seconds}`;
-    		breakStartInput.value = timeString;
-    		}, 460); 
+			const breakStartInput = document.getElementById('inizio-pausa');
+			if (!breakStartInput) return;
+		
+			setTimeout(function() {
+				const currentTime = new Date();
+		
+				const hours = String(currentTime.getHours()).padStart(2, '0');
+				const minutes = String(currentTime.getMinutes()).padStart(2, '0');
+				const seconds = String(currentTime.getSeconds()).padStart(2, '0');
+		
+				const timeString = `${hours}:${minutes}:${seconds}`;
+				breakStartInput.value = timeString;
+			}, 460);
 		});
 		
 		
@@ -1021,214 +984,219 @@ clockInButton.addEventListener('click', function() {
 		// Imposta l'ora attuale nel campo Break End
 		const breakEndButton = document.getElementById('breakend-btn');
 		breakEndButton.addEventListener('click', function() {
-    		const breakEndButton = document.getElementById('fine-pausa');
-    		if (!breakEndButton) return;
-
-	setTimeout(function() {
-    		const currentTime = new Date();
-
-		    const hours = String(currentTime.getHours()).padStart(2, '0');
-		    const minutes = String(currentTime.getMinutes()).padStart(2, '0');
-		    const seconds = String(currentTime.getSeconds()).padStart(2, '0');
-
-    		const timeString = `${hours}:${minutes}:${seconds}`;
-    		breakEndButton.value = timeString;
-    		}, 460); 
+			const breakEndButton = document.getElementById('fine-pausa');
+			if (!breakEndButton) return;
+		
+			setTimeout(function() {
+				const currentTime = new Date();
+		
+				const hours = String(currentTime.getHours()).padStart(2, '0');
+				const minutes = String(currentTime.getMinutes()).padStart(2, '0');
+				const seconds = String(currentTime.getSeconds()).padStart(2, '0');
+		
+				const timeString = `${hours}:${minutes}:${seconds}`;
+				breakEndButton.value = timeString;
+			}, 460);
 		});
-
-
-
-        //************************************************LOG DATE/TIME FORMAT******************************************
-        // Funzione per ottenere la data in formato DD-MM-YYYY
-        function getFormattedDate() {
-        const today = new Date();
-        const day = today.getDate().toString().padStart(2, '0'); // Aggiungi uno zero se il giorno è un singolo numero
-        const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Aggiungi uno zero se il mese è un singolo numero
-        const year = today.getFullYear();
-
-        return `${day}-${month}-${year}`; // Restituisce la data nel formato DD-MM-YYYY
-        }
-
-        // Funzione per formattare i secondi in formato HH:MM:SS
-        function formatTime(seconds) {
-           const hours = Math.floor(seconds / 3600);
-           const minutes = Math.floor((seconds % 3600) / 60);
-           const remainingSeconds = seconds % 60;
-
-        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-        }
-
-        // Funzione per convertire l'orario in secondi
-        function timeToSeconds(time) {
-        const [hours, minutes, seconds] = time.split(':').map(Number);
-
-        return hours * 3600 + minutes * 60 + seconds;
-        }
-
-
-
-        //**********************************************LOG WORK/BREAK TIME IN SECONDS****************************************
-        function calculateDurations(clockIn, breakStart, breakEnd, clockOut) {
-                var breakDone = document.getElementById('pausa-pranzo').checked;
-        const clockInSeconds = timeToSeconds(clockIn);
-        const breakStartSeconds = timeToSeconds(breakStart);
-        const breakEndSeconds = timeToSeconds(breakEnd);
-        const clockOutSeconds = timeToSeconds(clockOut);
-
-        let breakDuration;
-        let totalWorkTime;
-
-        if (breakDone) {
-                breakDuration = breakEndSeconds - breakStartSeconds;
-        totalWorkTime = clockOutSeconds - clockInSeconds - breakDuration;
-        } else {
-        totalWorkTime = clockOutSeconds - clockInSeconds;
-        breakDuration = 0;
-        }
-
-        return {
-        workTime: totalWorkTime, // In secondi
-        breakDurationInSeconds: breakDuration // Restituisce sempre breakDuration in secondi
-        };
-        }
-
-
-
-        //************************************************ADD DATA TO LOG IN THE LOCAL STORAGE******************************************
-        // Funzione per caricare il log dal Local Storage (se presente)
-        function loadExistingLOG() {
-        const existingData = localStorage.getItem('timeLog');
-
-        return existingData ? JSON.parse(existingData) : {}; // Se non c'è, restituisce un oggetto vuoto
-        }
-
-        // Funzione per aggiungere nuovi dati (ottenuti da newLogITEM()) al log esistente
-        function appendToLOG(newData) {
-           const currentDate = getFormattedDate(); // Ottieni la data formattata in DD-MM-YYYY
-           const existingData = loadExistingLOG();
-
-        // Aggiungi i nuovi dati alla data odierna
-        if (!existingData[currentDate]) {
-        existingData[currentDate] = [];
-        }
-        existingData[currentDate].push(newData);
-
-        // Salva di nuovo nel localStorage
-        localStorage.setItem('timeLog', JSON.stringify(existingData));
-        }
-
-        // Funzione per generare un nuovo oggetto con i dati della sessione appena finita e aggiungerlo al log nel Local Storage tramite appendToLOG()
-        function newLogITEM() {
-        	var breakDone = document.getElementById('pausa-pranzo').checked;
-        	const clockIn = document.getElementById('clock-in').value;
-        	const clockOutRaw = document.getElementById('clock-out').value;
-        	const clockOut = clockOutRaw.split(' ')[2];
-
-        	let breakStart = '';
-       		let breakEnd = '';
-        	let breakDuration;
-
-        	if (breakDone) {
-                breakStart = document.getElementById('inizio-pausa').value;
-        		breakEnd = document.getElementById('fine-pausa').value;
-
-        		// Calcola i dati da `calculateDurations()`
-        		const { workTime, breakDurationInSeconds } = calculateDurations(clockIn, breakStart, breakEnd, clockOut);
-
-        		// Ora formatta `breakDurationInSeconds` usando `formatTime`
-        		breakDuration = formatTime(breakDurationInSeconds);
-
-        		const timeData = {
-        			clockIn: clockIn,
-        			clockOut: clockOut,
-        			workTime: formatTime(workTime),
-        			breakStart: breakStart,
-        			breakEnd: breakEnd,
-        			breakTime: breakDuration,
-        		};
-        		appendToLOG(timeData);
-        		} else {
-        			const { workTime, breakDurationInSeconds } = calculateDurations(clockIn, breakStart, breakEnd, clockOut);
-		        	const timeData = {
-		    	    	clockIn: clockIn,
-    	    			clockOut: clockOut,
-        				workTime: formatTime(workTime),
-        				breakStart: "None",
-        				breakEnd: "None",
-        				breakTime: "00:00:00",
-        			};
-        		appendToLOG(timeData);
-        		}
-        }
-
-        // Funzione per generare e scaricare un file JSON con i dati presenti nel Local Storage
-        function generateJSON() {
-        // Carica il JSON esistente
-        const allData = loadExistingLOG();
-
-        // Converti i dati in una stringa JSON
-        const jsonData = JSON.stringify(allData, null, 2);
-
-        // Crea un Blob con i dati JSON
-        const blob = new Blob([jsonData], { type: 'application/json' });
-
-        // Crea un link per scaricare il file JSON
-    	const link = document.createElement('a');
-    	link.href = URL.createObjectURL(blob);
-    	link.download = 'timeLog.json'; // Nome del file JSON
-    	// Ritarda l'esecuzione del download di 800ms
-    	setTimeout(() => {
-        	link.click(); // Avvia il download dopo il ritardo
-    	}, 480);
-        }
-
-        // Aggiungi evento al bottone "Download Time Log"
-        document.getElementById('getlogs-btn').addEventListener('click', function() {
-    	generateJSON(); // Chiamata alla funzione generateJSON
-
-	    this.classList.add('active'); // Aggiungi la classe "active" per mostrare la X
-
-    	// Imposta un timeout per rimuovere la "X" dopo 800 millisecondi
-    	setTimeout(() => {
-        	this.classList.remove('active');
-    		}, 460); // 800 millisecondi = 0.8 secondi
+		
+		
+		
+		//************************************************LOG DATE/TIME FORMAT******************************************
+		// Funzione per ottenere la data in formato DD-MM-YYYY
+		function getFormattedDate() {
+			const today = new Date();
+			const day = today.getDate().toString().padStart(2, '0'); // Aggiunge uno zero se il giorno è un singolo numero
+			const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Aggiunge uno zero se il mese è un singolo numero
+			const year = today.getFullYear();
+		
+			return `${day}-${month}-${year}`; // Restituisce la data nel formato DD-MM-YYYY
+		}
+		
+		// Funzione per formattare i secondi in formato HH:MM:SS
+		function formatTime(seconds) {
+			const hours = Math.floor(seconds / 3600);
+			const minutes = Math.floor((seconds % 3600) / 60);
+			const remainingSeconds = seconds % 60;
+		
+			return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+		}
+		
+		// Funzione per convertire l'orario in secondi
+		function timeToSeconds(time) {
+			const [hours, minutes, seconds] = time.split(':').map(Number);
+		
+			return hours * 3600 + minutes * 60 + seconds;
+		}
+		
+		
+		
+		//**********************************************LOG WORK/BREAK TIME IN SECONDS****************************************
+		function calculateDurations(clockIn, breakStart, breakEnd, clockOut) {
+			var breakDone = document.getElementById('pausa-pranzo').checked;
+			const clockInSeconds = timeToSeconds(clockIn);
+			const breakStartSeconds = timeToSeconds(breakStart);
+			const breakEndSeconds = timeToSeconds(breakEnd);
+			const clockOutSeconds = timeToSeconds(clockOut);
+		
+			let breakDuration;
+			let totalWorkTime;
+		
+			if (breakDone) {
+				breakDuration = breakEndSeconds - breakStartSeconds;
+				totalWorkTime = clockOutSeconds - clockInSeconds - breakDuration;
+			} else {
+				totalWorkTime = clockOutSeconds - clockInSeconds;
+				breakDuration = 0;
+			}
+		
+			return {
+				workTime: totalWorkTime, // In secondi
+				breakDurationInSeconds: breakDuration // Restituisce sempre breakDuration in secondi
+			};
+		}
+		
+		
+		
+		//************************************************ADD DATA TO LOG IN THE LOCAL STORAGE******************************************
+		// Funzione per caricare il log dal Local Storage (se presente)
+		function loadExistingLOG() {
+			const existingData = localStorage.getItem('timeLog');
+		
+			return existingData ? JSON.parse(existingData) : {}; // Se non c'è, restituisce un oggetto vuoto
+		}
+		
+		// Funzione per aggiungere nuovi dati (ottenuti da newLogITEM()) al log esistente
+		function appendToLOG(newData) {
+			const currentDate = getFormattedDate(); // Ottiene la data formattata in DD-MM-YYYY
+			const existingData = loadExistingLOG();
+		
+			// Aggiungi i nuovi dati alla data odierna
+			if (!existingData[currentDate]) {
+				existingData[currentDate] = [];
+			}
+			existingData[currentDate].push(newData);
+		
+			// Salva di nuovo nel localStorage
+			localStorage.setItem('timeLog', JSON.stringify(existingData));
+		}
+		
+		// Funzione per generare un nuovo oggetto con i dati della sessione appena finita e aggiungerlo al log nel Local Storage tramite appendToLOG()
+		function newLogITEM() {
+			var breakDone = document.getElementById('pausa-pranzo').checked;
+			const clockIn = document.getElementById('clock-in').value;
+			const clockOutRaw = document.getElementById('clock-out').value;
+			const clockOut = clockOutRaw.split(' ')[2];
+		
+			let breakStart = '';
+			let breakEnd = '';
+			let breakDuration;
+		
+			if (breakDone) {
+				breakStart = document.getElementById('inizio-pausa').value;
+				breakEnd = document.getElementById('fine-pausa').value;
+		
+				// Calcola i dati da `calculateDurations()`
+				const {
+					workTime,
+					breakDurationInSeconds
+				} = calculateDurations(clockIn, breakStart, breakEnd, clockOut);
+		
+				// Formatta `breakDurationInSeconds` usando `formatTime`
+				breakDuration = formatTime(breakDurationInSeconds);
+		
+				const timeData = {
+					clockIn: clockIn,
+					clockOut: clockOut,
+					workTime: formatTime(workTime),
+					breakStart: breakStart,
+					breakEnd: breakEnd,
+					breakTime: breakDuration,
+				};
+				appendToLOG(timeData);
+			} else {
+				const {
+					workTime,
+					breakDurationInSeconds
+				} = calculateDurations(clockIn, breakStart, breakEnd, clockOut);
+				const timeData = {
+					clockIn: clockIn,
+					clockOut: clockOut,
+					workTime: formatTime(workTime),
+					breakStart: "None",
+					breakEnd: "None",
+					breakTime: "00:00:00",
+				};
+				appendToLOG(timeData);
+			}
+		}
+		
+		// Funzione per generare e scaricare un file JSON con i dati presenti nel Local Storage
+		function generateJSON() {
+			// Carica il JSON esistente
+			const allData = loadExistingLOG();
+		
+			// Converte i dati in una stringa JSON
+			const jsonData = JSON.stringify(allData, null, 2);
+		
+			// Crea un Blob con i dati JSON
+			const blob = new Blob([jsonData], {
+				type: 'application/json'
+			});
+		
+			// Crea un link per scaricare il file JSON
+			const link = document.createElement('a');
+			link.href = URL.createObjectURL(blob);
+			link.download = 'timeLog.json'; // Nome del file JSON
+			// Ritarda l'esecuzione del download
+			setTimeout(() => {
+				link.click(); // Avvia il download dopo il ritardo
+			}, 480);
+		}
+		
+		// Aggiunge evento al bottone "getlogs-btn"
+		document.getElementById('getlogs-btn').addEventListener('click', function() {
+			generateJSON(); // Chiamata alla funzione generateJSON
+		
+			this.classList.add('active'); // Aggiunge la classe "active" per mostrare la X
+		
+			// Imposta un timeout per rimuovere la "X"
+			setTimeout(() => {
+				this.classList.remove('active');
+			}, 460);
 		});
 		
 		// Attiva getlogs-btn premendo getlogs-btn-external (il tasto sull'fmc)
 		document.getElementById('getlogs-btn-external').addEventListener('click', function() {
-            document.getElementById('getlogs-btn').click(); 
-        });
-
-        //************************************************EMPTY LOG IN LOCAL STORAGE******************************************
-        // Funzione per rimuovere i dati dal localStorage
-		function clearData() {
-    		// Imposta un ritardo di 800ms per il prompt di conferma
-    		setTimeout(() => {
-        		const confirmClear = confirm("Are you sure you want to clear all time log data?");
-        		if (confirmClear) {
-            		localStorage.removeItem('timeLog'); // Rimuove il dato 'timeLog' dal localStorage
-            		alert("Time Log data has been cleared!");
-        		} else {
-            		alert("Action cancelled. Data has not been cleared.");
-        		}
-    		}, 480); // Ritardo di 800ms per mostrare il prompt
-		}
-
-		// Aggiungi evento al bottone "Clear Time Log"
-		document.getElementById('clearlogs-btn').addEventListener('click', function() {
-    		this.classList.add('active'); // Aggiungi la classe "active" per mostrare la X immediatamente
-		    clearData(); // Chiamata alla funzione clearData subito dopo l'aggiunta della classe "active"
-    
-    		// Imposta un timeout per rimuovere la "X" dopo 800 millisecondi
-    		setTimeout(() => {
-        		this.classList.remove('active');
-    			}, 460); // 800 millisecondi = 0.8 secondi
+			document.getElementById('getlogs-btn').click();
 		});
+		
+		
+		
+		//************************************************EMPTY LOG IN LOCAL STORAGE******************************************
+		// Funzione per rimuovere i dati dal localStorage (con ritardo)
+		function clearData() {
+			setTimeout(() => {
+				const confirmClear = confirm("Are you sure you want to clear all time log data?");
+				if (confirmClear) {
+					localStorage.removeItem('timeLog'); // Rimuove il dato 'timeLog' dal localStorage
+					alert("Time Log data has been cleared!");
+				} else {
+					alert("Action cancelled. Data has not been cleared.");
+				}
+			}, 480);
+		}
+		
+		// Aggiunge evento al bottone "Clear Time Log"
+		document.getElementById('clearlogs-btn').addEventListener('click', function() {
+			this.classList.add('active'); // Aggiunge la classe "active" per mostrare la X immediatamente
+			clearData(); // Chiama la funzione clearData subito dopo l'aggiunta della classe "active"
+		
+			// Imposta un timeout per rimuovere la "X"
+			setTimeout(() => {
+				this.classList.remove('active');
+			}, 460);
+		});
+	</script>
 
-
-
- </script>
 </body>
-
 </html>
-
