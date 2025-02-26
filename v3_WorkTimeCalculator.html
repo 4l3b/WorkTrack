@@ -992,8 +992,9 @@
 		document.getElementById('stp-btn-external').addEventListener('click', function() {
 			document.getElementById('stp-btn').click();
 		});
-		
-		
+
+
+
 		//*****************************************************BREAK DONE BUTTON*****************************************************
 		function toggleCheckbox() {
 			var checkbox = document.getElementById("pausa-pranzo");
@@ -1012,8 +1013,9 @@
 				}, 460);
 			});
 		});
-		
-		
+
+
+
 		//*****************************************************CLOCK IN BUTTON*****************************************************
 		// Imposta l'ora attuale nel campo Clock In con ritardo
 		const clockInButton = document.getElementById('enterclockin-btn');
@@ -1034,9 +1036,9 @@
 				saveCurrentSession();
 			}, 460);
 		});
-		
-		
-		
+
+
+
 		//*****************************************************BREAK START BUTTON*****************************************************
 		// Imposta l'ora attuale nel campo Break Start con ritardo
 		const breakStartButton = document.getElementById('breakstart-btn');
@@ -1057,9 +1059,9 @@
 				saveCurrentSession();
 			}, 460);
 		});
-		
-		
-		
+
+
+
 		//*****************************************************BREAK END BUTTON*****************************************************
 		// Imposta l'ora attuale nel campo Break End
 		const breakEndButton = document.getElementById('breakend-btn');
@@ -1076,6 +1078,15 @@
 		
 				const timeString = `${hours}:${minutes}:${seconds}`;
 				breakEndButton.value = timeString;
+				
+				// Se breakDone non è attivo, attivalo automaticamente se inserisci un valore in breakEnd e breakStart ha già un valore.
+				const breakStartInput = document.getElementById('inizio-pausa');
+				if (breakStartInput && breakStartInput.value !== "") {
+				    const breakDone = document.getElementById('pausa-pranzo').checked;
+				    if (!breakDone) {
+				        toggleCheckbox();
+				    }
+				}
 				
 				saveCurrentSession();
 			}, 460);
@@ -1247,7 +1258,7 @@
 			}, 460);
 		});
 		
-		// Attiva getlogs-btn premendo getlogs-btn-external (il tasto sull'fmc)
+		// Attiva getlogs-btn premendo getlogs-btn-external (il tasto esterno)
 		document.getElementById('getlogs-btn-external').addEventListener('click', function() {
 			document.getElementById('getlogs-btn').click();
 		});
