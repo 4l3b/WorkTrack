@@ -870,6 +870,14 @@
 				saveCurrentSession(); // Svuota i campi nella memoria della sessione attuale
 			} else {
 				alert("Action cancelled. Data has not been saved.");
+				// Ferma l'allarme
+				var alarmSound = document.getElementById('alarm-sound');
+				alarmSound.pause();
+				alarmSound.currentTime = 0; // Riporta l'audio all'inizio
+				if (alarmInterval !== null) {
+					clearInterval(alarmInterval);
+					alarmInterval = null; // Reset della variabile
+				}
 			}
 			// Ridimensiona la finestra dopo l'avviso
 			const desiredWidth = 459;
