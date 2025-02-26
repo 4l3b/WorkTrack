@@ -542,23 +542,22 @@
 
 		//*****************************************************LOAD SESSION DATA*****************************************************
 		function loadCurrentSession() {
-			const savedData = JSON.parse(localStorage.getItem('currentSession'));
-			if (savedData) {
-				document.getElementById('clock-in').value = savedData.clockIn || '';
-				document.getElementById('work-time').value = savedData.workTime || '';
-				document.getElementById('duratamin-pausa').value = savedData.breakMinimum || '';
-				document.getElementById('inizio-pausa').value = savedData.breakStart || '';
-				document.getElementById('fine-pausa').value = savedData.breakEnd || '';
-				document.getElementById('pausa-pranzo').checked = savedData.breakDone || false;
-			}
+		    const savedData = localStorage.getItem('currentSession');
+		    if (savedData) {
+		        const sessionData = JSON.parse(savedData);
+		        document.getElementById('clock-in').value = sessionData.clockIn || '';
+				document.getElementById('work-time').value = sessionData.workTime || '';
+				document.getElementById('duratamin-pausa').value = sessionData.breakMinimum || '';
+				document.getElementById('inizio-pausa').value = sessionData.breakStart || '';
+				document.getElementById('fine-pausa').value = sessionData.breakEnd || '';
+				document.getElementById('pausa-pranzo').checked = sessionData.breakDone || false;
+		    }
 		}
-		
-		window.addEventListener('load', loadCurrentSession);
-
+		document.addEventListener('DOMContentLoaded', loadCurrentSession);
 
 
 		//*****************************************************STORE SESSION DATA*****************************************************
-		// Tieni in memoria i dati della sessione attuale
+		// Salva in memoria i dati della sessione attuale
 		function saveCurrentSession() {
 		    const sessionData = {
 		        clockIn: document.getElementById('clock-in').value,
@@ -574,9 +573,6 @@
 		document.querySelectorAll('input').forEach(input => {
 		    input.addEventListener('input', saveCurrentSession);
 		});
-		
-		saveCurrentSession();
-
 
 
 		//*****************************************************COUNTDOWN*****************************************************
