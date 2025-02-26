@@ -7,8 +7,7 @@
 	<style>
 		body {
 			font-family: 'Courier New', Courier, monospace;
-			background: #4E525A;
-			/* #77858C */
+			background: #4E525A;	/* #77858C */
 			margin: 0;
 			padding: 0;
 			display: flex;
@@ -205,7 +204,11 @@
 			border-radius: 3px;
 			text-align: center;
 			position: relative;
-			top: 0px;
+			top: 0;
+		}
+		
+		.save-btn {
+			left: 0.05rem;
 		}
 
 		.clr-btn,
@@ -233,9 +236,9 @@
 			font-size: 19.3px;
 			position: relative;
 			letter-spacing: 0px;
-			top: 0px;
-			left: 1px;
 			font-weight: 100;
+			top: 0;
+			left: 1px;
 		}
 
 		.clr-btn.active::before,
@@ -248,10 +251,10 @@
 
 		/* Personalizza span Save Button */
 		.save-span {
-			margin-top: 12.95rem;
+			margin-top: 0.42rem;
 			margin-bottom: 0;
 			margin-right: 0;
-			margin-left: 0.15rem;
+			margin-left: 8.4rem;
 			font-size: 14.3px;
 			font-weight: 100;
 			color: #00FF00;
@@ -471,6 +474,9 @@
 				<td>
 					<span style="margin-top: 2px; display: block;">END</span>
 					<button class="stp-btn" id="stp-btn"></button>
+					<span class="save-span">SAVE <br>
+						<button class="save-btn" id="save-btn"></button>
+					</span>
 				</td>
 				<td>
 					<span style="margin-top: 2px; display: block;">LOGDEL/GETLOG</span>
@@ -497,9 +503,6 @@
 				</td>
 			</tr>
 		</tbody>
-		<span class="save-span" style="display: none;">SAVE <br>
-				<button class="save-btn" id="save-btn"></button>
-		</span>
 	</table>
 	<audio id="alarm-sound" src="alarm.mp3" preload="auto"></audio>
 	
