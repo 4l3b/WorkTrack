@@ -578,6 +578,63 @@
 		});
 
 
+		// ********************************INCREMENT WORKTIME/CLOCKOUT WHEN TIMELEFT IS OVER *********************
+		function incrementWorkTime() {
+    		const inputWorkTime = document.getElementById("work-time");
+
+    		if (!inputWorkTime) return; // Controlla se l'input esiste
+
+    		let intervalWorkTime = setInterval(() => {
+        		if (!inputWorkTime.value) return; // Se il valore è vuoto, esce
+
+        			// Converte l'orario dell'input in un oggetto Date
+        			let [hours, minutes, seconds] = inputWorkTime.value.split(":").map(Number);
+        			let date = new Date();
+        			date.setHours(hours, minutes, seconds + 1); // Incrementa di un secondo
+
+        			// Formatta l'orario aggiornato
+        			let newTime = date.toTimeString().split(" ")[0].slice(0, 8); // hh:mm:ss
+        			inputWorkTime.value = newTime;
+    			}, 1000);
+		}
+
+		
+		function incrementClockOut() {
+			const clockOutElement = document.getElementById("clock-out");
+
+			if (!clockOutElement) return;
+
+			// Imposta un flag per dire ad aggiornaCountdown() di non sovrascrivere più clock-out
+			clockOutElement.dataset.manualUpdate = "true";
+
+			// Evita di avviare più intervalli
+			clearInterval(window.clockOutInterval);
+
+			window.clockOutInterval = setInterval(() => {
+				let clockOutText = clockOutElement.innerText.replace("CLOCK OUT", "").trim();
+
+				if (!clockOutText || clockOutText === "--:--:--") return;
+
+				let [hours, minutes, seconds] = clockOutText.split(":").map(Number);
+				if (isNaN(hours) || isNaN(minutes) || isNaN(seconds)) return;
+
+				seconds++;
+				if (seconds >= 60) {
+					seconds = 0;
+					minutes++;
+					if (minutes >= 60) {
+						minutes = 0;
+						hours = (hours + 1) % 24;
+					}
+				}
+
+				let newTime = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+				clockOutElement.innerHTML = `<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>${newTime}`;
+			}, 1000);
+		}
+
+
+		
 		//*****************************************************COUNTDOWN*****************************************************
 		function aggiornaCountdown() {
 			var breakMinInput = document.getElementById('duratamin-pausa').value;
@@ -737,10 +794,12 @@
 			var oreUscita = String(oraUscita.getHours()).padStart(2, '0');
 			var minutiUscita = String(oraUscita.getMinutes()).padStart(2, '0');
 			var secondiUscita = String(oraUscita.getSeconds()).padStart(2, '0');
-			document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>" +
-				oreUscita + "<span style='letter-spacing: 0px;'>:</span>" +
-				minutiUscita + "<span style='letter-spacing: 0px;'>:</span>" +
-				secondiUscita;
+			const clockOutElement = document.getElementById('clock-out');
+			if (!clockOutElement.dataset.manualUpdate) {
+				clockOutElement.innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>" +
+					oreUscita + "<span style='letter-spacing: 0px;'>:</span>" +
+					minutiUscita + "<span style='letter-spacing: 0px;'>:</span>" +
+					secondiUscita;
 		}
 		
 		// Avvia l'aggiornamento ogni secondo
