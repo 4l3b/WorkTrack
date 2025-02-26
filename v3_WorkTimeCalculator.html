@@ -578,6 +578,7 @@
 		});
 
 
+
 		// ********************************INCREMENT WORKTIME/CLOCKOUT WHEN TIMELEFT IS OVER *********************
 		function incrementWorkTime() {
     		const inputWorkTime = document.getElementById("work-time");
@@ -629,11 +630,12 @@
 				}
 
 				let newTime = `${String(hours).padStart(2, "0")}<span style="letter-spacing: 0px;">:</span>${String(minutes).padStart(2, "0")}<span style="letter-spacing: 0px;">:</span>${String(seconds).padStart(2, "0")}`;
+				clockOutElement.innerHTML = `<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>${newTime}`;
 			}, 1000);
 		}
 
 
-		
+
 		//*****************************************************COUNTDOWN*****************************************************
 		function aggiornaCountdown() {
 			var breakMinInput = document.getElementById('duratamin-pausa').value;
@@ -758,7 +760,6 @@
 				var countdownElement = document.getElementById('countdown');
 				countdownElement.innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>" + "00:00:00";
 				countdownElement.classList.add('blink'); // Aggiungi la classe blink
-				clearInterval(intervalId); // Ferma l'aggiornamento
 		
 				// Mostra bottone per il salvataggio dei dati sessione
 				const saveBtn = document.getElementById('save-btn');
@@ -774,7 +775,11 @@
 						alarmSound.play();
 					}, 2500);
 				}
-		
+				
+				incrementWorkTime();
+				incrementClockOut();
+				clearInterval(intervalId); // Ferma l'aggiornamento
+
 				return;
 			}
 		
@@ -803,6 +808,7 @@
 			//	oreUscita + "<span style='letter-spacing: 0px;'>:</span>" +
 			//	minutiUscita + "<span style='letter-spacing: 0px;'>:</span>" +
 			//	secondiUscita;
+			}
 		}
 		
 		// Avvia l'aggiornamento ogni secondo
