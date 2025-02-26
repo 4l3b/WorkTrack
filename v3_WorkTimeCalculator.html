@@ -834,6 +834,15 @@
 			setTimeout(() => {
 				resetInputs();
 				saveCurrentSession();
+				// Ridimensiona la finestra
+				const desiredWidth = 459;
+				const desiredHeight = 354;
+				let isChrome = /Chrome/.test(navigator.userAgent);
+				if (isChrome) {
+					desiredWidth -= 11;
+					desiredHeight -= 40.5;
+				}
+				window.resizeTo(desiredWidth, desiredHeight);
 			}, 460); 
 			
 			this.classList.add('active'); // Aggiungi la classe "active" per mostrare la X
