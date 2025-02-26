@@ -405,11 +405,11 @@
 				</td>
 				<td>
 					<span style="display: block;">WORK TIME</span>
-					<input type="time" id="work-time" value="" step="1">
+					<input type="time" id="work-time" step="1">
 				</td>
 				<td>
 					<span style="display: block;">CLOCK IN</span>
-					<input type="time" id="clock-in" value="" step="1">
+					<input type="time" id="clock-in" step="1">
 				</td>
 				<td>
 					<button class="external-btns enterclockin-btn" id="enterclockin-btn"></button>
@@ -421,7 +421,7 @@
 				</td>
 				<td>
 					<span style="margin-top: 1px; display: block;">BREAK MIN</span>
-					<input type="time" id="duratamin-pausa" value="" step="0">
+					<input type="time" id="duratamin-pausa" step="0">
 				</td>
 				<td class="pausa-pranzo">
 					<span style="margin-top: -2px; display: block;">BREAK DONE</span>
@@ -438,11 +438,11 @@
 				</td>
 				<td>
 					<span style="margin-bottom: 1px; display: block;">BREAK START</span>
-					<input type="time" id="inizio-pausa" value="" step="1">
+					<input type="time" id="inizio-pausa" step="1">
 				</td>
 				<td>
 					<span style="margin-bottom: 1px; display: block;">BREAK END</span>
-					<input type="time" id="fine-pausa" value="" step="1">
+					<input type="time" id="fine-pausa" step="1">
 				</td>
 				<td>
 					<button class="external-btns breakend-btn" id="breakend-btn"></button>
@@ -506,21 +506,22 @@
 	
 	
 	<script>
+		// Aggiunge la classe 'active' ai bottoni esterni quando attivati e la toglie con ritardo
 		const buttons = document.querySelectorAll('.external-btns');
 		buttons.forEach(button => {
 			button.addEventListener('click', () => {
-				// Aggiunge la classe 'active' ai bottoni esterni quando attivati
 				button.classList.add('active');
-		
-				// Rimuove la classe 'active' con ritardo
 				setTimeout(() => {
 					button.classList.remove('active');
-				}, 460); // 1000ms = 1 secondo
+				}, 460);
 			});
 		});
+		
 		// Imposta allarme sonoro su nullo di default
 		var alarmInterval = null;
-		
+
+
+
 		//*****************************************************OTTIENI DATA E ORA ATTUALE*****************************************************
 		function updateTime() {
 			const now = new Date();
@@ -536,7 +537,48 @@
 			setTimeout(updateTime, nextUpdate);
 		}
 		window.onload = updateTime; // Inizializza al caricamento della pagina
+
+
+
+		//*****************************************************LOAD SESSION DATA*****************************************************
+		function loadCurrentSession() {
+			const savedData = JSON.parse(localStorage.getItem('currentSession'));
+			if (savedData) {
+				document.getElementById('clock-in').value = savedData.clockIn || '';
+				document.getElementById('work-time').value = savedData.workTime || '';
+				document.getElementById('duratamin-pausa').value = savedData.breakMinimum || '';
+				document.getElementById('inizio-pausa').value = savedData.breakStart || '';
+				document.getElementById('fine-pausa').value = savedData.breakEnd || '';
+				document.getElementById('pausa-pranzo').checked = savedData.breakDone || false;
+			}
+		}
 		
+		window.addEventListener('load', loadCurrentSession);
+
+
+
+		//*****************************************************STORE SESSION DATA*****************************************************
+		// Tieni in memoria i dati della sessione attuale
+		function saveCurrentSession() {
+		    const sessionData = {
+		        clockIn: document.getElementById('clock-in').value,
+		        workTime: document.getElementById('work-time').value,
+		        breakMinimum: document.getElementById('duratamin-pausa').value,
+		        breakStart: document.getElementById('inizio-pausa').value,
+				breakEnd: document.getElementById('fine-pausa').value,
+				breakDone: document.getElementById('pausa-pranzo').checked
+		    };
+		    localStorage.setItem('currentSession', JSON.stringify(sessionData));
+		}
+		// Ascolta i cambiamenti nei campi e aggiorna i dati
+		document.querySelectorAll('input').forEach(input => {
+		    input.addEventListener('input', saveCurrentSession);
+		});
+		
+		saveCurrentSession();
+
+
+
 		//*****************************************************COUNTDOWN*****************************************************
 		function aggiornaCountdown() {
 			var breakMinInput = document.getElementById('duratamin-pausa').value;
@@ -704,9 +746,9 @@
 		
 		// Avvia l'aggiornamento ogni secondo
 		var intervalId = setInterval(aggiornaCountdown, 1000);
-		
-		
-		
+
+
+
 		//*****************************************************WORK TIME BUTTON*****************************************************
 		// Imposta la durata di default "08:00:00" nel campo Work Time con ritardo
 		const workTimeButton = document.getElementById('worktime-btn');
@@ -717,6 +759,7 @@
 			setTimeout(function() {
 				const timeString = "08:00:00";
 				workTimeInputCurrent.value = timeString;
+				saveCurrentSession();
 			}, 460);
 		});
 		
@@ -732,6 +775,7 @@
 			setTimeout(function() {
 				const timeString = "00:30";
 				breakMinInputCurrent.value = timeString;
+				saveCurrentSession();
 			}, 460);
 		});
 		
@@ -788,12 +832,16 @@
 		
 		//*****************************************************CLR BUTTON*****************************************************
 		document.getElementById('clr-btn').addEventListener('click', function() {
-			setTimeout(() => resetInputs(), 460); // Chiamata alla funzione di reset (con ritardo)
+			setTimeout(() => {
+				resetInputs();
+				saveCurrentSession();
+			}, 460); 
+			
 			this.classList.add('active'); // Aggiungi la classe "active" per mostrare la X
 			// Imposta un timeout per rimuovere la "X" con ritardo
 			setTimeout(() => {
 				this.classList.remove('active');
-			}, 460); // 460 millisecondi = 0.46 secondi
+			}, 460);
 		});
 		
 		// Attiva clr-btn premendo clr-btn-external (il tasto esterno)
@@ -811,9 +859,9 @@
 				newLogITEM(); // Aggiungi i dati della sessione appena finita al log nel LocalStorage
 				alert("Time Log data has been saved!");
 				resetInputs(); // Resetta i campi di input e il timer
+				saveCurrentSession(); // Svuota i campi nella memoria della sessione attuale
 			} else {
 				alert("Action cancelled. Data has not been saved.");
-				resetInputs();
 			}
 			// Ridimensiona la finestra dopo l'avviso
 			const desiredWidth = 459;
@@ -927,6 +975,9 @@
 				var newWorkTime = `${String(hoursRemaining).padStart(2, '0')}:${String(minutesRemaining).padStart(2, '0')}:${String(secondsRemaining).padStart(2, '0')}`;
 				document.getElementById('work-time').value = newWorkTime;
 			}, 460);
+			setTimeout(() => {	// Aggiorna i dati nello store della sessione attuale
+				saveCurrentSession();
+			}, 1500); 
 		});
 		
 		// Attiva stp-btn premendo stp-btn-external (il tasto sull'fmc)
@@ -949,6 +1000,7 @@
 			button.addEventListener('click', function() {
 				setTimeout(function() {
 					toggleCheckbox();
+					saveCurrentSession();
 				}, 460);
 			});
 		});
@@ -970,6 +1022,8 @@
 		
 				const timeString = `${hours}:${minutes}:${seconds}`;
 				clockInInputCurrent.value = timeString;
+				
+				saveCurrentSession();
 			}, 460);
 		});
 		
@@ -991,6 +1045,8 @@
 		
 				const timeString = `${hours}:${minutes}:${seconds}`;
 				breakStartInput.value = timeString;
+				
+				saveCurrentSession();
 			}, 460);
 		});
 		
@@ -1012,6 +1068,8 @@
 		
 				const timeString = `${hours}:${minutes}:${seconds}`;
 				breakEndButton.value = timeString;
+				
+				saveCurrentSession();
 			}, 460);
 		});
 		
@@ -1165,7 +1223,7 @@
 			link.download = 'timeLog.json'; // Nome del file JSON
 			// Ritarda l'esecuzione del download
 			setTimeout(() => {
-				link.click(); // Avvia il download dopo il ritardo
+				link.click();
 			}, 480);
 		}
 		
