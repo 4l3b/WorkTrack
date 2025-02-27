@@ -1381,6 +1381,11 @@
 				breakDuration = 0;
 			}
 		
+			// Controllo se totalWorkTime è negativo
+			if (totalWorkTime < 0) {
+			    totalWorkTime = "Invalid";
+			}
+			
 			return {
 				workTime: totalWorkTime, // In secondi
 				breakDurationInSeconds: breakDuration // Restituisce sempre breakDuration in secondi
@@ -1414,53 +1419,61 @@
 		
 		// Funzione per generare un nuovo oggetto con i dati della sessione appena finita e aggiungerlo al log nel Local Storage tramite appendToLOG()
 		function newLogITEM() {
-			var breakDone = document.getElementById('pausa-pranzo').checked;
-			const clockIn = document.getElementById('clock-in').value;
-			const clockOutRaw = document.getElementById('clock-out').value;
-			const clockOut = clockOutRaw.split(' ')[2];
+		    var breakDone = document.getElementById('pausa-pranzo').checked;
+		    const clockIn = document.getElementById('clock-in').value;
+		    const clockOutRaw = document.getElementById('clock-out').value;
+		    const clockOut = clockOutRaw.split(' ')[2];
 		
-			let breakStart = '';
-			let breakEnd = '';
-			let breakDuration;
+		    let breakStart = '';
+		    let breakEnd = '';
+		    let breakDuration;
 		
-			if (breakDone) {
-				breakStart = document.getElementById('inizio-pausa').value;
-				breakEnd = document.getElementById('fine-pausa').value;
+		    if (breakDone) {
+		        breakStart = document.getElementById('inizio-pausa').value;
+		        breakEnd = document.getElementById('fine-pausa').value;
 		
-				// Calcola i dati da `calculateDurations()`
-				const {
-					workTime,
-					breakDurationInSeconds
-				} = calculateDurations(clockIn, breakStart, breakEnd, clockOut);
+		        // Calcola i dati da `calculateDurations()`
+		        const {
+		            workTime,
+		            breakDurationInSeconds
+		        } = calculateDurations(clockIn, breakStart, breakEnd, clockOut);
 		
-				// Formatta `breakDurationInSeconds` usando `formatTime`
-				breakDuration = formatTime(breakDurationInSeconds);
+		        // Se workTime è "None", non formattiamo il tempo
+		        const workTimeFormatted = (workTime === "Invalid") ? "Invalid" : formatTime(workTime);
 		
-				const timeData = {
-					clockIn: clockIn,
-					clockOut: clockOut,
-					workTime: formatTime(workTime),
-					breakStart: breakStart,
-					breakEnd: breakEnd,
-					breakTime: breakDuration,
-				};
-				appendToLOG(timeData);
-			} else {
-				const {
-					workTime,
-					breakDurationInSeconds
-				} = calculateDurations(clockIn, breakStart, breakEnd, clockOut);
-				const timeData = {
-					clockIn: clockIn,
-					clockOut: clockOut,
-					workTime: formatTime(workTime),
-					breakStart: "None",
-					breakEnd: "None",
-					breakTime: "00:00:00",
-				};
-				appendToLOG(timeData);
-			}
+		        // Formatta `breakDurationInSeconds` usando `formatTime`
+		        breakDuration = formatTime(breakDurationInSeconds);
+		
+		        const timeData = {
+		            clockIn: clockIn,
+		            clockOut: clockOut,
+		            workTime: workTimeFormatted,
+		            breakStart: breakStart,
+		            breakEnd: breakEnd,
+		            breakTime: breakDuration,
+		        };
+		        appendToLOG(timeData);
+		    } else {
+		        const {
+		            workTime,
+		            breakDurationInSeconds
+		        } = calculateDurations(clockIn, breakStart, breakEnd, clockOut);
+		
+		        // Se workTime è "None", non formattiamo il tempo
+		        const workTimeFormatted = (workTime === "Invalid") ? "Invalid" : formatTime(workTime);
+		
+		        const timeData = {
+		            clockIn: clockIn,
+		            clockOut: clockOut,
+		            workTime: workTimeFormatted,
+		            breakStart: "None",
+		            breakEnd: "None",
+		            breakTime: "00:00:00", // Per il caso senza pausa
+		        };
+		        appendToLOG(timeData);
+		    }
 		}
+
 		
 		// Funzione per generare e scaricare un file JSON con i dati presenti nel Local Storage
 		function generateJSON() {
