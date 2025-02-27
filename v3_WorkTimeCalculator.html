@@ -493,10 +493,10 @@
 					<button class="external-btns clockout-btn" id="clockout-btn"></button>
 				</td>
 				<td style="font-size: 22.1px; font-weight: 100; margin-top: -2px;">
-					<output class="clockout-output" id="clock-out">Loading…</output>
+					<output class="clockout-output" id="clock-out"><span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--</output>
 				</td>
 				<td style="font-size: 22.1px; font-weight: 100; margin-top: -2px;">
-					<output class="timeleft-output" id="countdown">Loading…</output>
+					<output class="timeleft-output" id="countdown"><span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--</output>
 				</td>
 				<td>
 					<button class="external-btns timeleft-btn" id="timeleft-btn"></button>
@@ -580,60 +580,69 @@
 
 
 		// ********************************INCREMENT WORKTIME/CLOCKOUT WHEN TIMELEFT IS OVER *********************
-		function incrementWorkTime() {
-    		const inputWorkTime = document.getElementById("work-time");
-
-    		if (!inputWorkTime) return; // Controlla se l'input esiste
-
-    		let intervalWorkTime = setInterval(() => {
-        		if (!inputWorkTime.value) return; // Se il valore è vuoto, esce
-
-        			// Converte l'orario dell'input in un oggetto Date
-        			let [hours, minutes, seconds] = inputWorkTime.value.split(":").map(Number);
-        			let date = new Date();
-        			date.setHours(hours, minutes, seconds + 1); // Incrementa di un secondo
-
-        			// Formatta l'orario aggiornato
-        			let newTime = date.toTimeString().split(" ")[0].slice(0, 8); // hh:mm:ss
-        			inputWorkTime.value = newTime;
-    			}, 1000);
+		function updateWorkTime() {
+		    // Prendere il valore di clock-in
+		    var clockInInput = document.getElementById('clock-in').value;
+		
+		    // Split del valore di clock-in in ore, minuti, secondi
+		    var clockInParts = clockInInput.split(":");
+		
+		    // Converto clock-in in secondi
+		    var clockInSeconds = parseInt(clockInParts[0]) * 3600 + parseInt(clockInParts[1]) * 60 + (clockInParts[2] ? parseInt(clockInParts[2]) : 0);
+		
+		    window.workTimeInterval = setInterval(() => {
+		        var now = new Date();
+		        var currentTimeSeconds = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();	// Ottengo l'ora attuale in secondi
+		        
+		        // Calcolo la differenza in secondi tra l'ora attuale e clock-in
+		        var workTimeSeconds = currentTimeSeconds - clockInSeconds;
+		        
+		        // Converto workTimeSeconds in ore, minuti e secondi
+		        var hours = Math.floor(workTimeSeconds / 3600);
+		        var minutes = Math.floor((workTimeSeconds % 3600) / 60);
+		        var seconds = workTimeSeconds % 60;
+		        
+		        // Formattiamo il tempo come HH:MM:SS
+		        var formattedWorkTime = formatTimeWorkTime(hours) + ":" + formatTimeWorkTime(minutes) + ":" + formatTimeWorkTime(seconds);
+		        
+		        // Aggiorno il valore dell'input 'work-time'
+		        var workTimeInput = document.getElementById('work-time');
+		        workTimeInput.value = formattedWorkTime; // Aggiorniamo il valore dell'input
+		    }, 1000);
+		}
+		
+		function formatTimeWorkTime(time) {
+		    return time < 10 ? "0" + time : time;
 		}
 
 		
-		function incrementClockOut() {
-			const clockOutElement = document.getElementById("clock-out");
-
-			if (!clockOutElement) return;
-
-			// Imposta un flag per dire ad aggiornaCountdown() di non sovrascrivere più clock-out
-			clockOutElement.dataset.manualUpdate = "true";
-
-			// Evita di avviare più intervalli
-			clearInterval(window.clockOutInterval);
-
-			window.clockOutInterval = setInterval(() => {
-				let clockOutText = clockOutElement.innerText.replace("CLOCK OUT", "").trim();
-
-				if (!clockOutText || clockOutText === "--:--:--") return;
-
-				let [hours, minutes, seconds] = clockOutText.split(":").map(Number);
-				if (isNaN(hours) || isNaN(minutes) || isNaN(seconds)) return;
-
-				seconds++;
-				if (seconds >= 60) {
-					seconds = 0;
-					minutes++;
-					if (minutes >= 60) {
-						minutes = 0;
-						hours = (hours + 1) % 24;
-					}
-				}
-
-				let newTime = `${String(hours).padStart(2, "0")}<span style="letter-spacing: 0px;">:</span>${String(minutes).padStart(2, "0")}<span style="letter-spacing: 0px;">:</span>${String(seconds).padStart(2, "0")}`;
-				clockOutElement.innerHTML = `<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>${newTime}`;
-			}, 1000);
+		function updateClockOut() {
+		    const clockOutElement = document.getElementById("clock-out");
+		
+		    if (!clockOutElement) return;
+		
+		    // Imposta un flag per dire ad aggiornaCountdown() di non sovrascrivere più clock-out
+		    clockOutElement.dataset.manualUpdate = "true";
+		
+		    // Evita di avviare più intervalli
+		    clearInterval(window.clockOutInterval);
+		
+		    window.clockOutInterval = setInterval(() => {
+		        // Ottieni l'ora corrente
+		        const now = new Date();
+		
+		        // Estrai ore, minuti e secondi
+		        let hours = now.getHours();
+		        let minutes = now.getMinutes();
+		        let seconds = now.getSeconds();
+		
+		        // Crea la stringa di orario formattata
+		        let currentTime = `${String(hours).padStart(2, "0")}<span style="letter-spacing: 0px;">:</span>${String(minutes).padStart(2, "0")}<span style="letter-spacing: 0px;">:</span>${String(seconds).padStart(2, "0")}`;
+		
+		        // Mostra l'ora corrente nell'elemento clock-out
+		        clockOutElement.innerHTML = `<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>${currentTime}`;
+		    }, 1000);
 		}
-
 
 
 		//*****************************************************COUNTDOWN*****************************************************
@@ -761,12 +770,6 @@
 				countdownElement.innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>" + "00:00:00";
 				countdownElement.classList.add('blink'); // Aggiungi la classe blink
 		
-				// Mostra bottone per il salvataggio dei dati sessione
-				const saveBtn = document.getElementById('save-btn');
-				const saveSpan = document.querySelector('.save-span');
-				saveSpan.style.display = "block";
-				saveBtn.style.display = "block";
-		
 				// Imposta allarme
 				var alarmSound = document.getElementById('alarm-sound');
 				if (alarmInterval === null) { // Evita di creare più intervalli sovrapposti
@@ -776,10 +779,9 @@
 					}, 2500);
 				}
 				
-				incrementWorkTime();
-				incrementClockOut();
+				updateWorkTime();
+				updateClockOut();
 				clearInterval(intervalId); // Ferma l'aggiornamento
-
 				return;
 			}
 		
@@ -804,10 +806,6 @@
 					oreUscita + "<span style='letter-spacing: 0px;'>:</span>" +
 					minutiUscita + "<span style='letter-spacing: 0px;'>:</span>" +
 					secondiUscita;
-			//document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>" +
-			//	oreUscita + "<span style='letter-spacing: 0px;'>:</span>" +
-			//	minutiUscita + "<span style='letter-spacing: 0px;'>:</span>" +
-			//	secondiUscita;
 			}
 		}
 		
@@ -891,6 +889,7 @@
 			}
 		
 			// Riavvia l'intervallo per calcolare il nuovo output e il nuovo time left
+			location.reload();
 			clearInterval(intervalId);
 			intervalId = setInterval(aggiornaCountdown, 1000);
 		}
@@ -926,7 +925,58 @@
 		});
 		
 		
+
+		//*****************************************************TIME LEFT BUTTON*****************************************************		
+		// Aggiungi evento al bottone Time Left
+		document.getElementById('timeleft-btn').addEventListener('click', function() {
+			setTimeout(() => {
+				// Ferma l'allarme
+				var alarmSound = document.getElementById('alarm-sound');
+				alarmSound.pause();
+				alarmSound.currentTime = 0; // Riporta l'audio all'inizio
+				if (alarmInterval !== null) {
+					clearInterval(alarmInterval);
+					alarmInterval = null; // Reset della variabile
+				}
+				// Rimuovi lampeggio
+				var countdownElement = document.getElementById('countdown');
+				countdownElement.classList.remove('blink');
+			}, 460); 
+		});
 		
+		
+		
+		//*****************************************************CLOCK OUT BUTTON*****************************************************		
+		// Aggiungi evento al bottone Time Left
+		document.getElementById('clockout-btn').addEventListener('click', function() {
+			setTimeout(() => {
+				// Ferma l'aggiornamento di Clock Out e Work Time
+				clearInterval(window.clockOutInterval);
+				clearInterval(window.workTimeInterval);
+				
+				// Mostra bottone per il salvataggio dei dati sessione
+				const saveBtn = document.getElementById('save-btn');
+				const saveSpan = document.querySelector('.save-span');
+				saveSpan.style.display = "block";
+				saveBtn.style.display = "block";
+				
+				// Ferma l'allarme
+				var alarmSound = document.getElementById('alarm-sound');
+				alarmSound.pause();
+				alarmSound.currentTime = 0; // Riporta l'audio all'inizio
+				if (alarmInterval !== null) {
+					clearInterval(alarmInterval);
+					alarmInterval = null; // Reset della variabile
+				}
+				
+				// Rimuove lampeggio da Time Left
+				var countdownElement = document.getElementById('countdown');
+				countdownElement.classList.remove('blink');
+			}, 460); 
+		});
+
+
+
 		//*****************************************************SAVE BUTTON*****************************************************
 		// Funzione per salvare i dati nel localStorage
 		function saveData() {
@@ -938,14 +988,6 @@
 				saveCurrentSession(); // Svuota i campi nella memoria della sessione attuale
 			} else {
 				alert("Action cancelled. Data has not been saved.");
-				// Ferma l'allarme
-				var alarmSound = document.getElementById('alarm-sound');
-				alarmSound.pause();
-				alarmSound.currentTime = 0; // Riporta l'audio all'inizio
-				if (alarmInterval !== null) {
-					clearInterval(alarmInterval);
-					alarmInterval = null; // Reset della variabile
-				}
 			}
 			// Ridimensiona la finestra dopo l'avviso
 			const desiredWidth = 459;
@@ -961,11 +1003,6 @@
 		// Aggiungi evento al bottone "Save"
 		document.getElementById('save-btn').addEventListener('click', function() {
 			setTimeout(() => saveData(), 480); // Chiamata alla funzione save (con ritardo)
-			this.classList.add('active'); // Aggiungi la classe "active" per mostrare la X
-			// Imposta un timeout per rimuovere la "X"
-			setTimeout(() => {
-				this.classList.remove('active');
-			}, 460);
 		});
 		
 		
