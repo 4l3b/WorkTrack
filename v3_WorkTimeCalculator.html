@@ -493,10 +493,10 @@
 					<button class="external-btns clockout-btn" id="clockout-btn"></button>
 				</td>
 				<td style="font-size: 22.1px; font-weight: 100; margin-top: -2px;">
-					<output class="clockout-output" id="clock-out"><span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--</output>
+					<output class="clockout-output" id="clock-out" contenteditable="false"><span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--<span style='letter-spacing: 0px;'>:</span>--<span style='letter-spacing: 0px;'>:</span>--</output>
 				</td>
 				<td style="font-size: 22.1px; font-weight: 100; margin-top: -2px;">
-					<output class="timeleft-output" id="countdown"><span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--</output>
+					<output class="timeleft-output" id="countdown"><span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--<span style='letter-spacing: 0px;'>:</span>--<span style='letter-spacing: 0px;'>:</span>--</output>
 				</td>
 				<td>
 					<button class="external-btns timeleft-btn" id="timeleft-btn"></button>
@@ -581,22 +581,42 @@
 
 		// ********************************INCREMENT WORKTIME/CLOCKOUT WHEN TIMELEFT IS OVER *********************
 		function updateWorkTime() {
-		    // Prendere il valore di clock-in
-		    var clockInInput = document.getElementById('clock-in').value;
-		
-		    // Split del valore di clock-in in ore, minuti, secondi
+		    // Prendere il valore di clock-in breakMin, breakStart, breakEnd, breakDone
+		    var clockInInput = document.getElementById('clock-in').value;		
+			var breakMinInput = document.getElementById('duratamin-pausa').value;
+			var inizioPausaInput = document.getElementById('inizio-pausa').value;
+			var finePausaInput = document.getElementById('fine-pausa').value;
+			var breakDone = document.getElementById('pausa-pranzo').checked;
+			
+		    // Split dei valori temporali in (ore,) minuti, secondi
 		    var clockInParts = clockInInput.split(":");
+		    var breakMinParts = breakMinInput.split(":");
+		    var inizioPausaParts = inizioPausaInput.split(":");
+		    var finePausaParts = finePausaInput.split(":");
 		
-		    // Converto clock-in in secondi
+		    // Conversione dei valori temporali in secondi
 		    var clockInSeconds = parseInt(clockInParts[0]) * 3600 + parseInt(clockInParts[1]) * 60 + (clockInParts[2] ? parseInt(clockInParts[2]) : 0);
-		
+		    var breakMinSeconds = parseInt(breakMinParts[0]) * 60 + (breakMinParts[1] ? parseInt(breakMinParts[1]) : 0);
+		    var inizioPausaSeconds = parseInt(inizioPausaParts[0]) * 3600 + parseInt(inizioPausaParts[1]) * 60 + (inizioPausaParts[2] ? parseInt(inizioPausaParts[2]) : 0);
+		    var finePausaSeconds = parseInt(finePausaParts[0]) * 3600 + parseInt(finePausaParts[1]) * 60 + (finePausaParts[2] ? parseInt(finePausaParts[2]) : 0);
+		    
+
 		    window.workTimeInterval = setInterval(() => {
+		    	// Calcolo dell'ora attuale in secondi
 		        var now = new Date();
-		        var currentTimeSeconds = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();	// Ottengo l'ora attuale in secondi
+		        var currentTimeSeconds = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();	
 		        
-		        // Calcolo la differenza in secondi tra l'ora attuale e clock-in
-		        var workTimeSeconds = currentTimeSeconds - clockInSeconds;
+		        if (!breakDone) {
+		        	// Calcola la differenza in secondi tra l'ora attuale e clock-in
+		        	var workTimeSeconds = currentTimeSeconds - clockInSeconds;
+		        }
 		        
+		        if (breakDone) {
+		        	// Calcola la differenza in secondi tra l'ora attuale e clock-in, sottraendo il tempo di pausa
+		        	var breakDoneDuration = finePausaSeconds - inizioPausaSeconds;
+		        	var workTimeSeconds = currentTimeSeconds - clockInSeconds - breakDoneDuration;
+		        } 
+
 		        // Converto workTimeSeconds in ore, minuti e secondi
 		        var hours = Math.floor(workTimeSeconds / 3600);
 		        var minutes = Math.floor((workTimeSeconds % 3600) / 60);
@@ -647,32 +667,30 @@
 
 		//*****************************************************COUNTDOWN*****************************************************
 		function aggiornaCountdown() {
-			var breakMinInput = document.getElementById('duratamin-pausa').value;
-			var workTimeInput = document.getElementById('work-time').value;
-			var clockin = document.getElementById('clock-in').value;
-			var inizioPausa = document.getElementById('inizio-pausa').value;
-			var finePausa = document.getElementById('fine-pausa').value;
-		
+			var clockin = document.getElementById('clock-in').value;		
 			var clockinParts = clockin.split(":");
 			var oreclockin = parseInt(clockinParts[0]);
 			var minuticlockin = parseInt(clockinParts[1]);
 			var secondiclockin = parseInt(clockinParts[2]);
-		
+			
+			var workTimeInput = document.getElementById('work-time').value;	
 			var workTimeParts = workTimeInput.split(":");
 			var oreworktime = parseInt(workTimeParts[0]);
 			var minutiworktime = parseInt(workTimeParts[1]);
 			var secondiworktime = parseInt(workTimeParts[2]);
 		
-			var durataminpausa = document.getElementById('duratamin-pausa').value;
-			var oradurataminpausa = durataminpausa.split(':');
+			var breakMinInput = document.getElementById('duratamin-pausa').value;
+			var oradurataminpausa = breakMinInput.split(':');
 			var oredurataminpausa = parseInt(oradurataminpausa[0]);
 			var minutidurataminpausa = parseInt(oradurataminpausa[1]);
-		
+			
+			var inizioPausa = document.getElementById('inizio-pausa').value;		
 			var inizioPausaParts = inizioPausa.split(':');
 			var oreinizioPausa = parseInt(inizioPausaParts[0]);
 			var minutiinizioPausa = parseInt(inizioPausaParts[1]);
 			var secondiinizioPausa = parseInt(inizioPausaParts[2]);
-		
+			
+			var finePausa = document.getElementById('fine-pausa').value;		
 			var finePausaParts = finePausa.split(':');
 			var orefinePausa = parseInt(finePausaParts[0]);
 			var minutifinePausa = parseInt(finePausaParts[1]);
@@ -680,24 +698,24 @@
 		
 			// Se WORK TIME è vuoto o manca una parte (ore, minuti o secondi), mostra --:--:-- e termina la funzione
 			if (workTimeParts.length < 3 || workTimeParts.some(part => part === "")) {
-				document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
-				document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
+				document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--<span style='letter-spacing: 0px;'>:</span>--<span style='letter-spacing: 0px;'>:</span>--";
+				document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--<span style='letter-spacing: 0px;'>:</span>--<span style='letter-spacing: 0px;'>:</span>--";
 		
 				return;
 			}
 		
 			// Se BREAK MIN è vuoto, mostra --:--:-- e termina la funzione
 			if (!breakMinInput || breakMinInput === "--:--") {
-				document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
-				document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
+				document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--<span style='letter-spacing: 0px;'>:</span>--<span style='letter-spacing: 0px;'>:</span>--";
+				document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--<span style='letter-spacing: 0px;'>:</span>--<span style='letter-spacing: 0px;'>:</span>--";
 		
 				return;
 			}
 		
 			// Se il valore di clock-in è stato rimosso o è incompleto (ore, minuti o secondi vuoti), mostra --:--:-- e termina la funzione
 			if (clockinParts.length < 3 || clockinParts.some(part => part === "")) {
-				document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
-				document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
+				document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--<span style='letter-spacing: 0px;'>:</span>--<span style='letter-spacing: 0px;'>:</span>--";
+				document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--<span style='letter-spacing: 0px;'>:</span>--<span style='letter-spacing: 0px;'>:</span>--";
 		
 				return;
 			}
@@ -707,16 +725,16 @@
 			if (breakDone) {
 				// Se il valore di inizio pausa è stato rimosso o è incompleto (ore, minuti o secondi vuoti), mostra --:--:-- e termina la funzione
 				if (inizioPausaParts.length < 3 || inizioPausaParts.some(part => part === "")) {
-					document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
-					document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
+					document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--<span style='letter-spacing: 0px;'>:</span>--<span style='letter-spacing: 0px;'>:</span>--";
+					document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--<span style='letter-spacing: 0px;'>:</span>--<span style='letter-spacing: 0px;'>:</span>--";
 		
 					return;
 				}
 		
 				// Se il valore di fine pausa è stato rimosso o è incompleto (ore, minuti o secondi vuoti), mostra --:--:-- e termina la funzione
 				if (finePausaParts.length < 3 || finePausaParts.some(part => part === "")) {
-					document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
-					document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
+					document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--<span style='letter-spacing: 0px;'>:</span>--<span style='letter-spacing: 0px;'>:</span>--";
+					document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--<span style='letter-spacing: 0px;'>:</span>--<span style='letter-spacing: 0px;'>:</span>--";
 		
 					return;
 				}
@@ -725,8 +743,8 @@
 				if (orefinePausa < oreinizioPausa ||
 					(orefinePausa === oreinizioPausa && minutifinePausa < minutiinizioPausa) ||
 					(orefinePausa === oreinizioPausa && minutifinePausa === minutiinizioPausa && secondifinePausa < secondiinizioPausa)) {
-					document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
-					document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
+					document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--<span style='letter-spacing: 0px;'>:</span>--<span style='letter-spacing: 0px;'>:</span>--";
+					document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--<span style='letter-spacing: 0px;'>:</span>--<span style='letter-spacing: 0px;'>:</span>--";
 		
 					return;
 				}
@@ -735,8 +753,8 @@
 				if (oreinizioPausa < oreclockin ||
 					(oreinizioPausa === oreclockin && minutiinizioPausa < minuticlockin) ||
 					(oreinizioPausa === oreclockin && minutiinizioPausa === minuticlockin && secondiinizioPausa < secondiclockin)) {
-					document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
-					document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
+					document.getElementById('clock-out').innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--<span style='letter-spacing: 0px;'>:</span>--<span style='letter-spacing: 0px;'>:</span>--";
+					document.getElementById('countdown').innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--<span style='letter-spacing: 0px;'>:</span>--<span style='letter-spacing: 0px;'>:</span>--";
 		
 					return;
 				}
@@ -767,9 +785,14 @@
 			if (delta <= 0) {
 				// Se il countdown è finito
 				var countdownElement = document.getElementById('countdown');
-				countdownElement.innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>" + "00:00:00";
+				countdownElement.innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>" + "00<span style='letter-spacing: 0px;'>:</span>00<span style='letter-spacing: 0px;'>:</span>00";
 				countdownElement.classList.add('blink'); // Aggiungi la classe blink
 		
+				// Attiva tasto Clock Out
+				document.getElementById('clockout-btn').addEventListener('click', function() {
+					setTimeout(() => activateClockOut(), 460);
+				});
+				
 				// Imposta allarme
 				var alarmSound = document.getElementById('alarm-sound');
 				if (alarmInterval === null) { // Evita di creare più intervalli sovrapposti
@@ -868,10 +891,10 @@
 			// Rimuovi la classe blink dal countdown e resetta il timer
 			var countdownElement = document.getElementById('countdown');
 			countdownElement.classList.remove('blink');
-			countdownElement.innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--:--:--";
+			countdownElement.innerHTML = "<span style='font-size: 14.3px; position: relative; left: -1.4px;'>TIME LEFT</span> <br>--<span style='letter-spacing: 0px;'>:</span>--<span style='letter-spacing: 0px;'>:</span>--";
 		
 			var clockOutElement = document.getElementById('clock-out');
-			clockOutElement.innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--:--:--";
+			clockOutElement.innerHTML = "<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>--<span style='letter-spacing: 0px;'>:</span>--<span style='letter-spacing: 0px;'>:</span>--";
 		
 			// Assicurati che il bottone di salvataggio sia nascosto
 			const saveBtn = document.getElementById('save-btn');
@@ -948,31 +971,35 @@
 		
 		//*****************************************************CLOCK OUT BUTTON*****************************************************		
 		// Aggiungi evento al bottone Time Left
+		function activateClockOut() {
+			// Ferma l'aggiornamento di Clock Out e Work Time
+			clearInterval(window.clockOutInterval);
+			clearInterval(window.workTimeInterval);
+			
+			// Rende editabile il campo Clock Out
+			document.getElementById('clock-out').setAttribute('contenteditable', 'true');
+			
+			// Mostra bottone per il salvataggio dei dati sessione
+			const saveBtn = document.getElementById('save-btn');
+			const saveSpan = document.querySelector('.save-span');
+			saveSpan.style.display = "block";
+			saveBtn.style.display = "block";
+			
+			// Ferma l'allarme
+			var alarmSound = document.getElementById('alarm-sound');
+			alarmSound.pause();
+			alarmSound.currentTime = 0; // Riporta l'audio all'inizio
+			if (alarmInterval !== null) {
+				clearInterval(alarmInterval);
+				alarmInterval = null; // Reset della variabile
+			// Rimuove lampeggio da Time Left
+			var countdownElement = document.getElementById('countdown');
+			countdownElement.classList.remove('blink');
+			}
+		}
+		
 		document.getElementById('clockout-btn').addEventListener('click', function() {
-			setTimeout(() => {
-				// Ferma l'aggiornamento di Clock Out e Work Time
-				clearInterval(window.clockOutInterval);
-				clearInterval(window.workTimeInterval);
-				
-				// Mostra bottone per il salvataggio dei dati sessione
-				const saveBtn = document.getElementById('save-btn');
-				const saveSpan = document.querySelector('.save-span');
-				saveSpan.style.display = "block";
-				saveBtn.style.display = "block";
-				
-				// Ferma l'allarme
-				var alarmSound = document.getElementById('alarm-sound');
-				alarmSound.pause();
-				alarmSound.currentTime = 0; // Riporta l'audio all'inizio
-				if (alarmInterval !== null) {
-					clearInterval(alarmInterval);
-					alarmInterval = null; // Reset della variabile
-				}
-				
-				// Rimuove lampeggio da Time Left
-				var countdownElement = document.getElementById('countdown');
-				countdownElement.classList.remove('blink');
-			}, 460); 
+			return;
 		});
 
 
@@ -986,6 +1013,7 @@
 				alert("Time Log data has been saved!");
 				resetInputs(); // Resetta i campi di input e il timer
 				saveCurrentSession(); // Svuota i campi nella memoria della sessione attuale
+    			document.getElementById('clock-out').setAttribute('contenteditable', 'false'); // Rende non editabile il campo Clock Out
 			} else {
 				alert("Action cancelled. Data has not been saved.");
 			}
@@ -1002,7 +1030,16 @@
 		
 		// Aggiungi evento al bottone "Save"
 		document.getElementById('save-btn').addEventListener('click', function() {
-			setTimeout(() => saveData(), 480); // Chiamata alla funzione save (con ritardo)
+			// Aggiungi la classe "active" per mostrare la X
+			this.classList.add('active');
+		
+			// Imposta un timeout per rimuovere la "X"
+			setTimeout(() => {
+				this.classList.remove('active');
+			}, 460);
+			
+			// Chiamata alla funzione save (con ritardo)
+			setTimeout(() => saveData(), 480);
 		});
 		
 		
