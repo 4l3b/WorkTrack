@@ -1011,24 +1011,27 @@
 				});
 			}
 
-			// Funzione per aggiungere uno 0 iniziale se necessario
-			function addLeadingZero(element) {
+			// Funzione per aggiungere uno 0 iniziale e riempire con "00" se vuoto
+			function formatOnBlur(element) {
 				element.addEventListener('blur', function() {
 					let currentText = this.innerText.replace(/[^0-9]/g, '');
-					if (currentText.length === 1) {
-						this.innerText = '0' + currentText;
+
+					if (currentText.length === 0) {
+						this.innerText = '00'; // Se il campo è vuoto, imposta "00"
+					} else if (currentText.length === 1) {
+						this.innerText = '0' + currentText; // Se è un solo numero, aggiunge lo zero davanti
 					}
 				});
 			}
 
 			// Applica le funzioni ai tre campi
-			limitInput(document.getElementById('editabletimehours'), 23);
-			limitInput(document.getElementById('editabletimeminutes'), 59);
-			limitInput(document.getElementById('editabletimeseconds'), 59);
+			['editabletimehours', 'editabletimeminutes', 'editabletimeseconds'].forEach((id, index) => {
+				let max = index === 0 ? 23 : 59; // 23 per le ore, 59 per minuti e secondi
+				let element = document.getElementById(id);
 
-			addLeadingZero(document.getElementById('editabletimehours'));
-			addLeadingZero(document.getElementById('editabletimeminutes'));
-			addLeadingZero(document.getElementById('editabletimeseconds'));
+				limitInput(element, max);
+				formatOnBlur(element);
+			});
 
 			// Mostra bottone per il salvataggio dei dati sessione
 			const saveBtn = document.getElementById('save-btn');
