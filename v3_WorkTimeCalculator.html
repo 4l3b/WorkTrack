@@ -278,6 +278,15 @@
 			box-shadow: none;
 		}
 
+		/* Rimuovi contorni dal riquadro di testo editabile Clock Out quando Time Left è finito */
+		#editabletimehours:focus,
+		#editabletimeminutes:focus,
+		#editabletimeseconds:focus {
+		  outline: none;
+		  border: none; 
+		  box-shadow: none;
+		}
+		
 		.pausa-pranzo-input {
 			display: none;
 		}
@@ -657,7 +666,7 @@
 		        let seconds = now.getSeconds();
 		
 		        // Crea la stringa di orario formattata
-		        let currentTime = `${String(hours).padStart(2, "0")}<span style="letter-spacing: 0px;">:</span>${String(minutes).padStart(2, "0")}<span style="letter-spacing: 0px;">:</span>${String(seconds).padStart(2, "0")}`;
+		        let currentTime = `<span id="editabletimehours" contenteditable="false">${String(hours).padStart(2, "0")}</span><span style="letter-spacing: 0px;">:</span><span id="editabletimeminutes" contenteditable="false">${String(minutes).padStart(2, "0")}</span><span style="letter-spacing: 0px;">:</span><span id="editabletimeseconds" contenteditable="false">${String(seconds).padStart(2, "0")}</span>`;
 		
 		        // Mostra l'ora corrente nell'elemento clock-out
 		        clockOutElement.innerHTML = `<span style='font-size: 14.3px;'>CLOCK OUT</span> <br>${currentTime}`;
@@ -977,8 +986,86 @@
 			clearInterval(window.workTimeInterval);
 			
 			// Rende editabile il campo Clock Out
-			document.getElementById('clock-out').setAttribute('contenteditable', 'true');
+			document.getElementById('editabletimehours').setAttribute('contenteditable', 'true');
+			document.getElementById('editabletimeminutes').setAttribute('contenteditable', 'true');
+			document.getElementById('editabletimeseconds').setAttribute('contenteditable', 'true');
 			
+			// Limita l'inserimento di caratteri nel campo delle ore a caratteri numerici, massimo 2, coppie da 00 a 23
+			document.getElementById('editabletimehours').addEventListener('keypress', function(e) {
+			    let currentText = this.innerText.replace(/[^0-9]/g, '');
+			    
+			    if (currentText.length >= 2) {		// Se ci sono già due caratteri, impedisci l'input
+			        e.preventDefault();
+			    }
+			    
+			    // Verifica che il numero inserito sia nel range da 00 a 23
+			    let newText = currentText + e.key; // Aggiungi il tasto premuto al testo attuale
+			    if (newText.length === 2) {
+			        let num = parseInt(newText, 10); // Converte il testo in numero
+			        if (num < 0 || num > 23) {
+			            e.preventDefault(); // Impedisce l'inserimento se il numero non è valido
+			        }
+			    }
+			});
+			
+			// Limita l'inserimento di caratteri nel campo dei minuti a caratteri numerici, massimo 2, coppie da 00 a 59
+			document.getElementById('editabletimeminutes').addEventListener('keypress', function(e) {
+			    let currentText = this.innerText.replace(/[^0-9]/g, '');
+
+			    if (currentText.length >= 2) {
+			        e.preventDefault();
+			    }
+			    
+			    let newText = currentText + e.key;
+			    if (newText.length === 2) {
+			        let num = parseInt(newText, 10);
+			        if (num < 0 || num > 59) {
+			            e.preventDefault();
+			        }
+			    }
+			});
+			
+			// Limita l'inserimento di caratteri nel campo dei minuti a caratteri numerici, massimo 2, coppie da 00 a 59
+			document.getElementById('editabletimeseconds').addEventListener('keypress', function(e) {
+			    let currentText = this.innerText.replace(/[^0-9]/g, '');
+			    
+			    if (currentText.length >= 2) {
+			        e.preventDefault();
+			    }
+			    
+			    let newText = currentText + e.key;
+			    if (newText.length === 2) {
+			        let num = parseInt(newText, 10);
+			        if (num < 0 || num > 59) {
+			            e.preventDefault();
+			        }
+			    }
+			});
+			
+			// Inserisce uno 0 all'inizio nel campo ore se non sono stati inseriti esattamente due caratteri
+			document.getElementById('editabletimehours').addEventListener('blur', function() {
+			    let currentText = this.innerText.replace(/[^0-9]/g, '');
+			    if (currentText.length === 1) {
+			        this.innerText = '0' + currentText;
+			    }
+			});
+			
+			// Inserisce uno 0 all'inizio nel campo minuti se non sono stati inseriti esattamente due caratteri
+			document.getElementById('editabletimeminutes').addEventListener('blur', function() {
+			    let currentText = this.innerText.replace(/[^0-9]/g, '');
+			    if (currentText.length === 1) {
+			        this.innerText = '0' + currentText;
+			    }
+			});
+			
+			// Inserisce uno 0 all'inizio nel campo secondi se non sono stati inseriti esattamente due caratteri
+			document.getElementById('editabletimeseconds').addEventListener('blur', function() {
+			    let currentText = this.innerText.replace(/[^0-9]/g, '');
+			    if (currentText.length === 1) {
+			        this.innerText = '0' + currentText;
+			    }
+			});
+
 			// Mostra bottone per il salvataggio dei dati sessione
 			const saveBtn = document.getElementById('save-btn');
 			const saveSpan = document.querySelector('.save-span');
@@ -1013,7 +1100,9 @@
 				alert("Time Log data has been saved!");
 				resetInputs(); // Resetta i campi di input e il timer
 				saveCurrentSession(); // Svuota i campi nella memoria della sessione attuale
-    			document.getElementById('clock-out').setAttribute('contenteditable', 'false'); // Rende non editabile il campo Clock Out
+    			document.getElementById('editabletimehours').setAttribute('contenteditable', 'false'); // Rende non editabile il campo
+    			document.getElementById('editabletimeminutes').setAttribute('contenteditable', 'false');
+    			document.getElementById('editabletimeseconds').setAttribute('contenteditable', 'false');
 			} else {
 				alert("Action cancelled. Data has not been saved.");
 			}
