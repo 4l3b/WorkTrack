@@ -171,17 +171,29 @@
 			margin-top: 1px;
 			margin-bottom: -2px;
 			margin-left: 0px;
-			margin-right: 0px;
+			margin-right: -1px;
 			letter-spacing: 0.7px;
-			width: 138px;
+			width: 4.4rem;
 			height: 18px;
 		}
+		
+		.datetime-container {
+		    display: flex;
+		    margin-right: -2px;
+		    margin-left: -0.55rem;
+		    padding: 0;
+		    gap: 0.5rem;  /* Imposta la distanza tra gli input data e ora */
+		}
 
-		/* Nascondi la possibilità di cliccare sul campo data */
-		#date {
-			pointer-events: none;
+		#date, #timenow {
+			pointer-events: none;	/* Nascondi la possibilità di cliccare sul campo data e ora*/
 			background-color: #010101;
 			color: #00FF00;
+		}
+		
+		#date {
+			letter-spacing: 0.4px;
+			text-align: right;
 		}
 
 		/* Personalizza bottoni schermo*/
@@ -334,16 +346,15 @@
 			margin-top: -0.1rem;
 			margin-bottom: 0;
 			padding: 0;
+			border: 0px solid #00FF00;
 			font-size: 22.1px;
 			font-weight: 100;
 			line-height: 16.9px;
 			display: block;
-			border: 0px solid #00FF00;
 		}
 
 		.clockout-output {
 			margin-right: 19px;
-			width: 8.5rem;
 		}
 
 		.timeleft-output {
@@ -472,7 +483,10 @@
 				</td>
 				<td>
 					<span style="display: block;">DATETIME</span>
-					<input type="text" id="date" name="date">
+					<div class="datetime-container">
+						<input type="text" id="date" name="date">
+						<input type="text" id="timenow" name="timenow">
+					</div>
 				</td>
 				<td>
 					<button class="external-btns datetime-btn" id="datetime-btn"></button>
@@ -544,8 +558,10 @@
 			const hours = String(now.getHours()).padStart(2, '0');
 			const minutes = String(now.getMinutes()).padStart(2, '0');
 			// Formato D/M HH:MM
-			const formattedTime = `${day}/${month} ${hours}:${minutes}`;
-			document.getElementById("date").value = formattedTime;
+			const formattedTimeDate = `${day}/${month}`;
+			const formattedTimeTime = `${hours}:${minutes}`;
+			document.getElementById("date").value = formattedTimeDate;
+			document.getElementById("timenow").value = formattedTimeTime;
 			// Calcola il prossimo aggiornamento esatto tra 60 secondi
 			const nextUpdate = 60000 - (now % 60000); // Calcola il tempo mancante
 			setTimeout(updateTime, nextUpdate);
@@ -987,52 +1003,85 @@
 			clearInterval(window.clockOutInterval);
 			clearInterval(window.workTimeInterval);
 			
-			// Rende editabili i campi Clock Out
-			['editabletimehours', 'editabletimeminutes', 'editabletimeseconds'].forEach(id => {
-				document.getElementById(id).setAttribute('contenteditable', 'true');
+			// Rende editabile il campo Clock Out
+			document.getElementById('editabletimehours').setAttribute('contenteditable', 'true');
+			document.getElementById('editabletimeminutes').setAttribute('contenteditable', 'true');
+			document.getElementById('editabletimeseconds').setAttribute('contenteditable', 'true');
+			
+			// Limita l'inserimento di caratteri nel campo delle ore a caratteri numerici, massimo 2, coppie da 00 a 23
+			document.getElementById('editabletimehours').addEventListener('keypress', function(e) {
+			    let currentText = this.innerText.replace(/[^0-9]/g, '');
+			    
+			    if (currentText.length >= 2) {		// Se ci sono già due caratteri, impedisci l'input
+			        e.preventDefault();
+			    }
+			    
+			    // Verifica che il numero inserito sia nel range da 00 a 23
+			    let newText = currentText + e.key; // Aggiungi il tasto premuto al testo attuale
+			    if (newText.length === 2) {
+			        let num = parseInt(newText, 10); // Converte il testo in numero
+			        if (num < 0 || num > 23) {
+			            e.preventDefault(); // Impedisce l'inserimento se il numero non è valido
+			        }
+			    }
 			});
+			
+			// Limita l'inserimento di caratteri nel campo dei minuti a caratteri numerici, massimo 2, coppie da 00 a 59
+			document.getElementById('editabletimeminutes').addEventListener('keypress', function(e) {
+			    let currentText = this.innerText.replace(/[^0-9]/g, '');
 
-			// Funzione per limitare l'input a numeri e range validi
-			function limitInput(element, max) {
-				element.addEventListener('keypress', function(e) {
-					if (!/[0-9]/.test(e.key)) { // Permette solo numeri
-						e.preventDefault();
-						return;
-					}
-
-					let currentText = this.innerText.replace(/[^0-9]/g, '');
-					if (currentText.length >= 2) { // Limita a 2 caratteri
-						e.preventDefault();
-						return;
-					}
-
-					let newText = currentText + e.key;
-					if (newText.length === 2 && (parseInt(newText, 10) > max)) {
-						e.preventDefault(); // Blocca numeri fuori dal range
-					}
-				});
-			}
-
-			// Funzione per aggiungere uno 0 iniziale e riempire con "00" se vuoto
-			function formatOnBlur(element) {
-				element.addEventListener('blur', function() {
-					let currentText = this.innerText.replace(/[^0-9]/g, '');
-
-					if (currentText.length === 0) {
-						this.innerText = '00'; // Se il campo è vuoto, imposta "00"
-					} else if (currentText.length === 1) {
-						this.innerText = '0' + currentText; // Se è un solo numero, aggiunge lo zero davanti
-					}
-				});
-			}
-
-			// Applica le funzioni ai tre campi
-			['editabletimehours', 'editabletimeminutes', 'editabletimeseconds'].forEach((id, index) => {
-				let max = index === 0 ? 23 : 59; // 23 per le ore, 59 per minuti e secondi
-				let element = document.getElementById(id);
-
-				limitInput(element, max);
-				formatOnBlur(element);
+			    if (currentText.length >= 2) {
+			        e.preventDefault();
+			    }
+			    
+			    let newText = currentText + e.key;
+			    if (newText.length === 2) {
+			        let num = parseInt(newText, 10);
+			        if (num < 0 || num > 59) {
+			            e.preventDefault();
+			        }
+			    }
+			});
+			
+			// Limita l'inserimento di caratteri nel campo dei minuti a caratteri numerici, massimo 2, coppie da 00 a 59
+			document.getElementById('editabletimeseconds').addEventListener('keypress', function(e) {
+			    let currentText = this.innerText.replace(/[^0-9]/g, '');
+			    
+			    if (currentText.length >= 2) {
+			        e.preventDefault();
+			    }
+			    
+			    let newText = currentText + e.key;
+			    if (newText.length === 2) {
+			        let num = parseInt(newText, 10);
+			        if (num < 0 || num > 59) {
+			            e.preventDefault();
+			        }
+			    }
+			});
+			
+			// Inserisce uno 0 all'inizio nel campo ore se non sono stati inseriti esattamente due caratteri
+			document.getElementById('editabletimehours').addEventListener('blur', function() {
+			    let currentText = this.innerText.replace(/[^0-9]/g, '');
+			    if (currentText.length === 1) {
+			        this.innerText = '0' + currentText;
+			    }
+			});
+			
+			// Inserisce uno 0 all'inizio nel campo minuti se non sono stati inseriti esattamente due caratteri
+			document.getElementById('editabletimeminutes').addEventListener('blur', function() {
+			    let currentText = this.innerText.replace(/[^0-9]/g, '');
+			    if (currentText.length === 1) {
+			        this.innerText = '0' + currentText;
+			    }
+			});
+			
+			// Inserisce uno 0 all'inizio nel campo secondi se non sono stati inseriti esattamente due caratteri
+			document.getElementById('editabletimeseconds').addEventListener('blur', function() {
+			    let currentText = this.innerText.replace(/[^0-9]/g, '');
+			    if (currentText.length === 1) {
+			        this.innerText = '0' + currentText;
+			    }
 			});
 
 			// Mostra bottone per il salvataggio dei dati sessione
