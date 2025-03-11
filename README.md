@@ -30,10 +30,10 @@ END:
 End the work session early. Work Time will be updated to reflect the actual time worked.
 
 LOGDEL:  
-Delete the app’s memory of previous sessions.
+Clear the app’s history of previous sessions.
 
 GETLOG:  
-Download a log file containing the history of work sessions. Press and hold for 3 seconds to upload a log file into the memory.
+Download a log file containing the history of work sessions. To upload a log file into the memory, press and hold for 3 seconds.
 
 TIME LEFT:  
 When it reaches zero, its value blinks, and a sound alarm plays. Click the button to stop the blinking and alarm and continue working overtime.
