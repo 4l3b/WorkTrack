@@ -3,7 +3,7 @@ Keep track of your work sessions. Here's how it works.
 
 
 WORK TIME:  
-Enter the length of the work session. Click the button to insert a default value of 8 hours.  
+Enter the length of your work session. Click the button to insert a default value of 8 hours.  
 
 CLOCK IN:  
 Enter the clock in time. Click the button to insert the current time.  
@@ -40,6 +40,8 @@ When it reaches zero, its value blinks, and a sound alarm plays. Click the butto
 
 CLOCK OUT:  
 When Time Left reaches zero, Clock Out and Work Time will update every second to track overtime work. Click the Clock Out button to stop the calculation and end the session. You will be prompted to save the session data. You can either save the data immediately or decline the prompt to modify the Clock Out value before saving. If the Clock Out value is modified, the Work Time value in the log file will be adjusted accordingly. Press the Clock Out button again to save the data after modifying the Clock Out value.
+
+Happy work sessions!
 
 
 WorkTrack © 2025 by Alessandro Bigolin - [CC BY-NC-SA 4.0].  
