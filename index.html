@@ -157,7 +157,7 @@
         
 
 		function openReadMe() {
-			fetch('README.md') 
+			fetch('/WorkTrack/README.md') 
 				.then(response => response.text())
 				.then(data => {
 					const newWindow = window.open();
