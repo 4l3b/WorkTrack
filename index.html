@@ -163,26 +163,32 @@
             .then(data => {
                 const htmlContent = marked.parse(data);  // Use marked.parse instead of marked(data)
 
-                // Open a new window and write the converted HTML content
-                const newWindow = window.open();
-                newWindow.document.write(`
-                    <html>
-                    <head>
-                        <title>README</title>
-                        <style>
-                            body {
-                                font-family: Arial, sans-serif;
-                                line-height: 1.6;
-                                margin: 20px;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        ${htmlContent}  <!-- Inject the HTML content -->
-                    </body>
-                    </html>
-                `);
-                newWindow.document.close();  // Close the document stream
+                // Open a new window and check if it was successfully created
+                const newWindow = window.open('', 'readme', 'width=600,height=400'); // Set size to prevent issues
+                if (newWindow) {
+                    // If the window opened, write the content
+                    newWindow.document.write(`
+                        <html>
+                        <head>
+                            <title>README</title>
+                            <style>
+                                body {
+                                    font-family: Arial, sans-serif;
+                                    line-height: 1.6;
+                                    margin: 20px;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            ${htmlContent}  <!-- Inject the HTML content -->
+                        </body>
+                        </html>
+                    `);
+                    newWindow.document.close();  // Close the document stream
+                } else {
+                    // Handle case when the window couldn't be opened (popup blocked)
+                    alert('Could not open a new window. Please check your browser settings to allow popups.');
+                }
             })
             .catch(error => {
                 console.error('Error fetching README.md:', error);
