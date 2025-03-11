@@ -157,17 +157,10 @@
         
 
 		function openReadMe() {
-			fetch('/WorkTrack/README.md') 
-				.then(response => response.text())
-				.then(data => {
-					const newWindow = window.open();
-					newWindow.document.write('<pre>' + data + '</pre>');
-					newWindow.document.close();
-				})
-				.catch(error => {
-					console.error('Error fetching README.md:', error);
-					alert('Could not open README.md');
-				});
+            window.open(
+                'README.md',
+                'readme',
+            );
 		}
 	
 		document.getElementById('info-btn').addEventListener('click', function() {
