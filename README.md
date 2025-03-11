@@ -1,5 +1,3 @@
-**USER GUIDE**
-
 Welcome to WorkTrack!  
 This is a simple app that allows you to keep track of your work sessions. Here's how it works.
 
@@ -42,3 +40,8 @@ When Time Left reaches zero, its value blinks, and a sound alarm plays. Press th
 
 CLOCK OUT:  
 When Time Left reaches zero, Clock Out and Work Time will update every second to track overtime work. Press the Clock Out button to stop the calculation and end the session. The alarm and blinking of Time Left will stop if still active, and you will be prompted to save the session data. Save the data immediately or decline the prompt to modify the Clock Out value before saving. If you change the Clock Out, the Work Time value in the log file will be updated accordingly. Press the Clock Out button again to save the data after modifying the Clock Out value.
+
+
+WorkTrack © 2025 by Alessandro Bigolin - [CC BY-NC-SA 4.0].  
+Original icon by Bruno Heridet - [CC BY 3.0].  
+See LICENSE file for details.
