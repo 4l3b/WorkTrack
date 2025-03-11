@@ -161,7 +161,7 @@
         fetch('README.md')  // Fetch the markdown file
             .then(response => response.text())  // Get text content
             .then(data => {
-                const htmlContent = marked(data);  // Convert markdown to HTML using marked.js
+                const htmlContent = marked.parse(data);  // Use marked.parse instead of marked(data)
 
                 // Open a new window and write the converted HTML content
                 const newWindow = window.open();
