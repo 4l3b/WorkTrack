@@ -1,9 +1,9 @@
 **USER GUIDE**
-#
+
 
 Welcome to WorkTrack!  
 This is a simple app that allows you to keep track of your work sessions. Here's how it works.
-#
+
 
 WORK TIME:  
 Enter the length of the work session. Click the button to insert a default value of 8 hours.  
