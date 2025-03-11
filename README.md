@@ -35,10 +35,10 @@ LOGDEL:
 Press to delete the app’s memory of previous sessions.
 
 GETLOG:  
-Press to download a log file containing the history of work sessions. Press and hold the button for 3 seconds to upload a log file into the app's memory.
+Press to download a log file containing the history of work sessions. Press and hold for 3 seconds to upload a log file into the memory.
 
 TIME LEFT:  
-When TIME LEFT reaches zero, the value will blink, and a sound alarm will play. Press the TIME LEFT button to stop the blinking and alarm and continue working overtime.
+When TIME LEFT reaches zero, its value blinks, and a sound alarm plays. Press the button to stop the blinking and alarm and continue working overtime.
 
 CLOCK OUT:  
-When TIME LEFT reaches zero, CLOCK OUT and WORK TIME will update every second to track overtime work. Press the CLOCK OUT button to stop the calculation and end the work session. The alarm and blinking of TIME LEFT will stop if still active, and you will be prompted to save the session data. You can either save the data immediately or decline the prompt to modify the CLOCK OUT value before saving. If you change the CLOCK OUT value, the WORK TIME value in the log file will be updated accordingly. Press the CLOCK OUT button again to save the data to the app’s memory after modifying the CLOCK OUT value.
+When TIME LEFT reaches zero, CLOCK OUT and WORK TIME will update every second to track overtime work. Press the CLOCK OUT button to stop the calculation and end the work session. The alarm and blinking of TIME LEFT will stop if still active, and you will be prompted to save the session data. Save the data immediately or decline the prompt to modify the CLOCK OUT value before saving. If you change the CLOCK OUT value, the WORK TIME value in the log file will be updated accordingly. Press the CLOCK OUT button again to save the data after modifying the CLOCK OUT value.
