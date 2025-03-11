@@ -1,6 +1,6 @@
 # Welcome to WorkTrack!  
 This is a simple app that allows you to keep track of your work sessions. Here's how it works.
-#
+
 
 **USER GUIDE:**
 
