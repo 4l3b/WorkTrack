@@ -3,7 +3,6 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="https://cdn.jsdelivr.net/npm/marked@4.0.12/marked.min.js"></script>
 	<title>WorkTrack Launcher</title>
 	
 	<link rel="icon" href="icons/favicon-16x16.png" sizes="16x16" type="image/png">
@@ -161,34 +160,7 @@
         fetch('README.md')  // Fetch the markdown file
             .then(response => response.text())  // Get text content
             .then(data => {
-                const htmlContent = marked.parse(data);  // Use marked.parse instead of marked(data)
-
-                // Open a new window and check if it was successfully created
-                const newWindow = window.open('', 'readme', 'width=600,height=400'); // Set size to prevent issues
-                if (newWindow) {
-                    // If the window opened, write the content
-                    newWindow.document.write(`
-                        <html>
-                        <head>
-                            <title>README</title>
-                            <style>
-                                body {
-                                    font-family: Arial, sans-serif;
-                                    line-height: 1.6;
-                                    margin: 20px;
-                                }
-                            </style>
-                        </head>
-                        <body>
-                            ${htmlContent}  <!-- Inject the HTML content -->
-                        </body>
-                        </html>
-                    `);
-                    newWindow.document.close();  // Close the document stream
-                } else {
-                    // Handle case when the window couldn't be opened (popup blocked)
-                    alert(data);
-                }
+                alert(data); 
             })
             .catch(error => {
                 console.error('Error fetching README.md:', error);
