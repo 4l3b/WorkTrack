@@ -187,7 +187,7 @@
                     newWindow.document.close();  // Close the document stream
                 } else {
                     // Handle case when the window couldn't be opened (popup blocked)
-                    alert('Could not open a new window. Please check your browser settings to allow popups.');
+                    alert(data);
                 }
             })
             .catch(error => {
