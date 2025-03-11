@@ -5,10 +5,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>WorkTrack Launcher</title>
 	
-    <link rel="icon" href="icons/favicon-16x16.png" sizes="16x16" type="image/png">
-    <link rel="icon" href="icons/favicon-32x32.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="icons/favicon-48x48.png" sizes="48x48" type="image/png">
-    <link rel="apple-touch-icon" href="icons/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" href="icons/favicon-16x16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="icons/favicon-32x32.png" sizes="32x32" type="image/png">
+	<link rel="icon" href="icons/favicon-48x48.png" sizes="48x48" type="image/png">
+	<link rel="apple-touch-icon" href="icons/favicon-32x32.png" sizes="32x32">
 	<link rel="apple-touch-icon" href="icons/favicon-180x180.png" sizes="180x180">
 
 	<style>
@@ -54,7 +54,8 @@
 			color: #00FF00;
 			border: 0px solid #00FF00;
 		}
-		.launch-btn {
+		.launch-btn,
+		.info-btn {
 			background-color: #010101;
 			color: #00FF00;
 			width: 35px;
@@ -71,7 +72,8 @@
 			position: relative;
 			top: 4px;
 		}
-		.launch-btn::before {
+		.launch-btn::before,
+		.info-btn::before {
 			content: "[ ]";
 			font-size: 19.3px;
 			position: relative;
@@ -80,7 +82,8 @@
 			left: 0;
 			font-weight: 100;
 		}
-		.launch-btn.active::before {
+		.launch-btn.active::before,
+		.info-btn.active::before {
 			content: "[x]";
 		}
 		button:focus {		/* Rimuovi bordi e illuminazione di input e bottoni su Chrome */
@@ -103,6 +106,12 @@
                 <td>
                     <span style="display: block; font-size: 16.1px;">LAUNCH</span>
                     <button class="launch-btn" id="launch-btn"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span style="display: block; margin-top: 1.5rem; font-size: 12px;">INFO</span>
+                    <button class="info-btn" id="info-btn"></button>
                 </td>
             </tr>
         </tbody>
@@ -144,6 +153,32 @@
                 this.classList.remove('active');
             }, 460);
         });
+        
+        
+
+		function openReadMe() {
+			fetch('README.md') 
+				.then(response => response.text())
+				.then(data => {
+					const newWindow = window.open();
+					newWindow.document.write('<pre>' + data + '</pre>');
+					newWindow.document.close();
+				})
+				.catch(error => {
+					console.error('Error fetching README.md:', error);
+					alert('Could not open README.md');
+				});
+		}
+	
+		document.getElementById('info-btn').addEventListener('click', function() {
+		    setTimeout(openReadMe, 480);
+		    this.classList.add('active'); // Aggiungi la classe "active" per mostrare la X
+		    // Imposta un timeout per rimuovere la "X"
+		    setTimeout(() => {
+		        this.classList.remove('active');
+		    }, 460);
+		});
+        
     </script>
 </body>
 </html>
