@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 	<title>WorkTrack Launcher</title>
 	
 	<link rel="icon" href="icons/favicon-16x16.png" sizes="16x16" type="image/png">
@@ -156,12 +157,38 @@
         
         
 
-		function openReadMe() {
-            window.open(
-                'README.md',
-                'readme',
-            );
-		}
+    function openReadMe() {
+        fetch('README.md')  // Fetch the markdown file
+            .then(response => response.text())  // Get text content
+            .then(data => {
+                const htmlContent = marked(data);  // Convert markdown to HTML using marked.js
+
+                // Open a new window and write the converted HTML content
+                const newWindow = window.open();
+                newWindow.document.write(`
+                    <html>
+                    <head>
+                        <title>README</title>
+                        <style>
+                            body {
+                                font-family: Arial, sans-serif;
+                                line-height: 1.6;
+                                margin: 20px;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        ${htmlContent}  <!-- Inject the HTML content -->
+                    </body>
+                    </html>
+                `);
+                newWindow.document.close();  // Close the document stream
+            })
+            .catch(error => {
+                console.error('Error fetching README.md:', error);
+                alert('Could not open README.md: ' + error.message);
+            });
+    }
 	
 		document.getElementById('info-btn').addEventListener('click', function() {
 		    setTimeout(openReadMe, 480);
