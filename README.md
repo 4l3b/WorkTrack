@@ -9,7 +9,7 @@ CLOCK IN:
 Enter the clock in time. Click the button to insert the current time.  
 
 BREAK MIN:  
-Enter the expected length of the break. Click the button to insert a default value of 30 minutes.
+Enter the expected length of your break. Click the button to insert a default value of 30 minutes.
 
 BREAK DONE:  
 Check this box when the break is complete. The break duration will be used instead of the Break Min value for the calculation of Clock Out and Time Left.
