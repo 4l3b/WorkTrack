@@ -1135,18 +1135,18 @@
 		    }
 		
 		    // Ridimensiona la finestra dopo l'alert
-		    const desiredWidth = 459;
-		    const desiredHeight = 354;
-		    let isChrome = /Chrome/.test(navigator.userAgent);
-		    if (isChrome) {
-		        desiredWidth -= 11;
-		        desiredHeight -= 40.5;
-		    }
-		
-		    // Usa un setTimeout per garantire che la finestra venga ridimensionata **dopo** che l'alert è stato chiuso
 		    setTimeout(() => {
+		        const desiredWidth = 459;
+		        const desiredHeight = 354;
+		        let isChrome = /Chrome/.test(navigator.userAgent);
+		        if (isChrome) {
+		            desiredWidth -= 11;
+		            desiredHeight -= 40.5;
+		        }
+		
+		        // Ridimensiona la finestra
 		        window.resizeTo(desiredWidth, desiredHeight);
-		    }, 10); // Un ritardo minimo per assicurarsi che il ridimensionamento venga eseguito dopo l'alert
+		    }, 0); // Esigenza di eseguire immediatamente dopo l'alert
 		}
 		
 		// Aggiungi evento al bottone "Save"
@@ -1164,7 +1164,7 @@
 		        saveData();
 		    }, 480); // 480 ms di ritardo
 		});
-				
+
 		
 		
 		//*****************************************************STP BUTTON*****************************************************
