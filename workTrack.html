@@ -1130,18 +1130,27 @@
     			document.getElementById('editabletimehours').setAttribute('contenteditable', 'false'); // Rende non editabile il campo
     			document.getElementById('editabletimeminutes').setAttribute('contenteditable', 'false');
     			document.getElementById('editabletimeseconds').setAttribute('contenteditable', 'false');
+				// Ridimensiona la finestra dopo l'avviso
+				const desiredWidth = 459;
+				const desiredHeight = 354;
+				let isChrome = /Chrome/.test(navigator.userAgent);
+				if (isChrome) {
+					desiredWidth -= 11;
+					desiredHeight -= 40.5;
+				}
+				window.resizeTo(desiredWidth, desiredHeight);
 			} else {
 				alert("Action cancelled. Data has not been saved.");
+				// Ridimensiona la finestra dopo l'avviso
+				const desiredWidth = 459;
+				const desiredHeight = 354;
+				let isChrome = /Chrome/.test(navigator.userAgent);
+				if (isChrome) {
+					desiredWidth -= 11;
+					desiredHeight -= 40.5;
+				}
+				window.resizeTo(desiredWidth, desiredHeight);
 			}
-			// Ridimensiona la finestra dopo l'avviso
-			const desiredWidth = 459;
-    		const desiredHeight = 354;
-			let isChrome = /Chrome/.test(navigator.userAgent);
-            if (isChrome) {
-                desiredWidth -= 11;
-                desiredHeight -= 40.5;
-            }
-    		window.resizeTo(desiredWidth, desiredHeight);
 		}
 		
 		// Aggiungi evento al bottone "Save"
@@ -1570,6 +1579,16 @@
 		    if (!isHolding) {
 		        // If the button was clicked (not held), trigger the download (generateJSON)
 		        generateJSON();
+
+				// Ridimensiona la finestra dopo l'avviso
+				const desiredWidth = 459;
+				const desiredHeight = 354;
+				let isChrome = /Chrome/.test(navigator.userAgent);
+				if (isChrome) {
+					desiredWidth -= 11;
+					desiredHeight -= 40.5;
+				}
+				window.resizeTo(desiredWidth, desiredHeight);
 		        
 		        // Add the "active" class to getlogs-btn (not getlogs-btn-external)
 		        const getlogsBtn = document.getElementById('getlogs-btn');
