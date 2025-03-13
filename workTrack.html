@@ -1134,7 +1134,7 @@
 		        alert("Action cancelled. Data has not been saved.");
 		    }
 		
-		    // Ridimensiona la finestra dopo l'alert
+		    // Ridimensiona la finestra dopo l'alert con un ritardo più lungo
 		    setTimeout(() => {
 		        const desiredWidth = 459;
 		        const desiredHeight = 354;
@@ -1144,9 +1144,9 @@
 		            desiredHeight -= 40.5;
 		        }
 		
-		        // Ridimensiona la finestra
+		        // Ridimensiona la finestra solo dopo che l'alert è stato chiuso
 		        window.resizeTo(desiredWidth, desiredHeight);
-		    }, 0); // Esigenza di eseguire immediatamente dopo l'alert
+		    }, 100); // Ritardo di 100 millisecondi per garantire che l'alert sia chiuso
 		}
 		
 		// Aggiungi evento al bottone "Save"
@@ -1577,16 +1577,6 @@
 		    if (!isHolding) {
 		        // If the button was clicked (not held), trigger the download (generateJSON)
 		        generateJSON();
-
-				// Ridimensiona la finestra dopo l'avviso
-				const desiredWidth = 459;
-				const desiredHeight = 354;
-				let isChrome = /Chrome/.test(navigator.userAgent);
-				if (isChrome) {
-					desiredWidth -= 11;
-					desiredHeight -= 40.5;
-				}
-				window.resizeTo(desiredWidth, desiredHeight);
 		        
 		        // Add the "active" class to getlogs-btn (not getlogs-btn-external)
 		        const getlogsBtn = document.getElementById('getlogs-btn');
@@ -1595,6 +1585,17 @@
 		        // Remove the "active" class after 460ms
 		        setTimeout(() => {
 		            getlogsBtn.classList.remove('active');
+
+					// Ridimensiona la finestra dopo l'avviso
+					const desiredWidth = 459;
+					const desiredHeight = 354;
+					let isChrome = /Chrome/.test(navigator.userAgent);
+					if (isChrome) {
+						desiredWidth -= 11;
+						desiredHeight -= 40.5;
+					}
+					window.resizeTo(desiredWidth, desiredHeight);
+					
 		        }, 460);
 		    } else {
 		        // Trigger file input for uploading logs if held for more than 3 seconds
