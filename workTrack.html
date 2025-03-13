@@ -1130,26 +1130,8 @@
     			document.getElementById('editabletimehours').setAttribute('contenteditable', 'false'); // Rende non editabile il campo
     			document.getElementById('editabletimeminutes').setAttribute('contenteditable', 'false');
     			document.getElementById('editabletimeseconds').setAttribute('contenteditable', 'false');
-				// Ridimensiona la finestra dopo l'avviso
-				const desiredWidth = 459;
-				const desiredHeight = 354;
-				let isChrome = /Chrome/.test(navigator.userAgent);
-				if (isChrome) {
-					desiredWidth -= 11;
-					desiredHeight -= 40.5;
-				}
-				window.resizeTo(desiredWidth, desiredHeight);
 			} else {
 				alert("Action cancelled. Data has not been saved.");
-				// Ridimensiona la finestra dopo l'avviso
-				const desiredWidth = 459;
-				const desiredHeight = 354;
-				let isChrome = /Chrome/.test(navigator.userAgent);
-				if (isChrome) {
-					desiredWidth -= 11;
-					desiredHeight -= 40.5;
-				}
-				window.resizeTo(desiredWidth, desiredHeight);
 			}
 		}
 		
@@ -1164,7 +1146,20 @@
 			}, 460);
 			
 			// Chiamata alla funzione save (con ritardo)
-			setTimeout(() => saveData(), 480);
+			setTimeout(() => {
+			    saveData();
+			    
+			    // Ridimensiona la finestra dopo l'avviso
+			    const desiredWidth = 459;
+			    const desiredHeight = 354;
+			    let isChrome = /Chrome/.test(navigator.userAgent);
+			    if (isChrome) {
+			        desiredWidth -= 11;
+			        desiredHeight -= 40.5;
+			    }
+			    window.resizeTo(desiredWidth, desiredHeight);
+			}, 480); // 480 ms di ritardo
+		
 		});
 		
 		
