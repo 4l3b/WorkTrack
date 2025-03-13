@@ -1596,6 +1596,16 @@
 		    } else {
 		        // Trigger file input for uploading logs if held for more than 3 seconds
 		        fileInput.click();
+
+				// Ridimensiona la finestra dopo l'avviso
+				const desiredWidth = 459;
+				const desiredHeight = 354;
+				let isChrome = /Chrome/.test(navigator.userAgent);
+				if (isChrome) {
+					desiredWidth -= 11;
+					desiredHeight -= 40.5;
+				}
+				window.resizeTo(desiredWidth, desiredHeight);
 		    }
 		});
 		
