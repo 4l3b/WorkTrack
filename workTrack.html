@@ -1519,6 +1519,17 @@
 		                // Salva nel Local Storage
 		                localStorage.setItem('timeLog', JSON.stringify(jsonData));
 		                alert("Log caricato con successo!");
+
+						// Ridimensiona la finestra dopo l'avviso
+						const desiredWidth = 459;
+						const desiredHeight = 354;
+						let isChrome = /Chrome/.test(navigator.userAgent);
+						if (isChrome) {
+							desiredWidth -= 11;
+							desiredHeight -= 40.5;
+						}
+						window.resizeTo(desiredWidth, desiredHeight);
+						
 		            } catch (error) {
 		                alert("Errore nel parsing del file JSON.");
 		            }
@@ -1528,16 +1539,6 @@
 		    } else {
 		        alert("Per favore, carica un file JSON valido.");
 		    }
-
-			// Ridimensiona la finestra dopo l'avviso
-			const desiredWidth = 459;
-			const desiredHeight = 354;
-			let isChrome = /Chrome/.test(navigator.userAgent);
-			if (isChrome) {
-				desiredWidth -= 11;
-				desiredHeight -= 40.5;
-			}
-			window.resizeTo(desiredWidth, desiredHeight);
 		}
 		
 		
