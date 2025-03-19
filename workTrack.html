@@ -1393,7 +1393,14 @@
 			});
 
 			// Svuota l'item 'currentSession' nel localStorage
-    		localStorage.removeItem('currentSession');
+			localStorage.setItem('currentSession', JSON.stringify({
+    			clockIn: '',
+    			workTime: '',
+    			breakMinimum: '',
+    			breakStart: '',
+    			breakEnd: '',
+    			breakDone: false
+			}));
 		
 			// Rimuovi la classe blink dal countdown e resetta il timer
 			var countdownElement = document.getElementById('countdown');
