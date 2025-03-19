@@ -1383,20 +1383,11 @@
 			document.getElementById('pausa-pranzo').checked = false;
 		
 			// Resetta i valori degli input di tipo time in caso che siano parzialmente riempiti
-				// const timeFields = ['work-time', 'clock-in', 'duratamin-pausa', 'inizio-pausa', 'fine-pausa'];
-				// timeFields.forEach(function(fieldId) {
-					// const field = document.getElementById(fieldId);
-					// if (field && field.type === 'time') {
-						// field.valueAsDate = null; // Resetta il campo time
-					// }
-				// });
-
-			// Resetta i valori per input di tipo text
 			const timeFields = ['work-time', 'clock-in', 'duratamin-pausa', 'inizio-pausa', 'fine-pausa'];
 			timeFields.forEach(function(fieldId) {
 				const field = document.getElementById(fieldId);
-				if (field) {
-					field.value = ''; // Resetta il campo indipendentemente dal tipo
+				if (field && field.type === 'time') {
+					field.valueAsDate = null; // Resetta il campo time
 				}
 			});
 		
