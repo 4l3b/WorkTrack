@@ -1059,7 +1059,10 @@
 				document.getElementById('pausa-pranzo').checked = sessionData.breakDone || false;
 		    }
 		}
-		document.addEventListener('DOMContentLoaded', loadCurrentSession);
+		// document.addEventListener('DOMContentLoaded', loadCurrentSession);
+		document.addEventListener('DOMContentLoaded', () => {
+    		setTimeout(loadCurrentSession, 500);
+		});
 
 
 		//*****************************************************STORE SESSION DATA*****************************************************
