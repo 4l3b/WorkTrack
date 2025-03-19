@@ -1386,8 +1386,8 @@
 			const timeFields = ['work-time', 'clock-in', 'duratamin-pausa', 'inizio-pausa', 'fine-pausa'];
 			timeFields.forEach(function(fieldId) {
 				const field = document.getElementById(fieldId);
-				if (field && field.type === 'time') {
-					field.valueAsDate = null; // Resetta il campo time
+				if (field && field.type === 'text') {
+					field.value = ''; // Resetta il campo time
 				}
 			});
 		
