@@ -707,6 +707,10 @@
 		    secondsWorktimeInput.value = "";
 			
 		    popup.style.display = 'block';
+
+			// Impedisce che il campo dei secondi sia attivato riaprendo il popup
+			secondsWorktimeInput.focus();
+		    secondsWorktimeInput.blur();
 		});
 		
 		// Popup Clock In
@@ -719,7 +723,8 @@
 		    secondsClockinInput.value = "";
 		
 		    popupClockin.style.display = 'block';
-			
+
+			// Impedisce che il campo dei secondi sia attivato riaprendo il popup
 			secondsClockinInput.focus();
 		    secondsClockinInput.blur();
 		});
@@ -734,6 +739,10 @@
 		    secondsBreakstartInput.value = "";
 			
 		    popup.style.display = 'block';
+
+			// Impedisce che il campo dei secondi sia attivato riaprendo il popup
+			secondsBreakstartInput.focus();
+		    secondsBreakstartInput.blur();
 		});
 		
 		// Popup Break End
@@ -746,6 +755,10 @@
 		    secondsBreakendInput.value = "";
 			
 		    popup.style.display = 'block';
+
+			// Impedisce che il campo dei secondi sia attivato riaprendo il popup
+			secondsBreakendInput.focus();
+		    secondsBreakendInput.blur();
 		});
 		
 		// Popup Break Min
@@ -757,6 +770,10 @@
 		    minutesBreakminInput.value = "";
 			
 		    popup.style.display = 'block';
+
+			// Impedisce che il campo dei minuti sia attivato riaprendo il popup
+			minutesBreakminInput.focus();
+		    minutesBreakminInput.blur();
 		});
 		
 		
