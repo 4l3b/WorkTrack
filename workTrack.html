@@ -717,9 +717,12 @@
 		    hoursClockinInput.value = "";
 		    minutesClockinInput.value = "";
 		    secondsClockinInput.value = "";
+
+			hoursClockinInput.blur();
+    		minutesClockinInput.blur();
+    		secondsClockinInput.blur();
 		
 		    popup.style.display = 'block';
-			hoursClockinInput.focus();
 		});
 		
 		// Popup Break Start
@@ -795,8 +798,9 @@
 		    hoursWorktimeInput.value = "";
 		    minutesWorktimeInput.value = "";
 		    secondsWorktimeInput.value = "";
-		    
-		    popupWorktime.style.display = "block"; // Mostra il popup
+
+			// Mostra il popup
+		    popupWorktime.style.display = "block";
 		        
 			setTimeout(() => {
 				popupWorktime.classList.remove("show");
@@ -810,9 +814,13 @@
 		    hoursClockinInput.value = "";
 		    minutesClockinInput.value = "";
 		    secondsClockinInput.value = "";
-		    
+
+			hoursClockinInput.blur();
+    		minutesClockinInput.blur();
+    		secondsClockinInput.blur();
+			
 		    // Mostra il popup
-		    popupClockin.style.display = "block"; // Cambia display a block
+		    popupClockin.style.display = "block";
 		
 		    // Focus sull'input per clock-in
 		    hoursClockinInput.focus();
