@@ -717,12 +717,9 @@
 		    hoursClockinInput.value = "";
 		    minutesClockinInput.value = "";
 		    secondsClockinInput.value = "";
-
-    		if (document.activeElement && document.activeElement !== document.body) {
-        		document.activeElement.blur();
-    		}
 		
 		    popup.style.display = 'block';
+			secondsClockinInput.blur();
 		});
 		
 		// Popup Break Start
