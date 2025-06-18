@@ -718,16 +718,10 @@
 		    minutesClockinInput.value = "";
 		    secondsClockinInput.value = "";
 		
-		    // Disable seconds input to prevent auto-selection
+		    hoursClockinInput.focus();
 		    secondsClockinInput.blur();
 		
-		    // Show popup
 		    popupClockin.style.display = 'block';
-		
-		    // Re-enable the seconds input
-		    setTimeout(() => {
-		        secondsClockinInput.blur() = false;
-		    }, 20);
 		});
 		
 		// Popup Break Start
