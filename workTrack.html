@@ -706,6 +706,12 @@
 		// Popup Clock In
 		document.getElementById('clockin-btn-popup').addEventListener('click', function() {
 		    var popup = document.getElementById('popup-clockin');
+		    
+		    // Reset dei valori
+		    hoursClockinInput.value = "";
+		    minutesClockinInput.value = "";
+		    secondsClockinInput.value = "";
+		
 		    popup.style.display = 'block';
 		});
 		
