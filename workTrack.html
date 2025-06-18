@@ -718,8 +718,16 @@
 		    minutesClockinInput.value = "";
 		    secondsClockinInput.value = "";
 		
-		    popup.style.display = 'block';
-			secondsClockinInput.blur();
+		    // Step 2: Temporarily disable seconds input to prevent auto-selection
+		    secondsClockinInput.disabled = true;
+		
+		    // Step 3: Show popup
+		    popupClockin.style.display = 'block';
+		
+		    // Step 4: After a brief delay, re-enable the seconds input
+		    setTimeout(() => {
+		        secondsClockinInput.disabled = false;
+		    }, 20); // 20ms is usually enough
 		});
 		
 		// Popup Break Start
