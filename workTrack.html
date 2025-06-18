@@ -717,9 +717,12 @@
 		    hoursClockinInput.value = "";
 		    minutesClockinInput.value = "";
 		    secondsClockinInput.value = "";
+
+    		if (document.activeElement && document.activeElement !== document.body) {
+        		document.activeElement.blur();
+    		}
 		
 		    popup.style.display = 'block';
-			hoursClockinInput.focus();
 		});
 		
 		// Popup Break Start
@@ -835,7 +838,7 @@
 		    // Mostra il popup
 		    popupBreakstart.style.display = "block"; // Cambia display a block
 		
-		    // Focus sull'input per clock-in
+		    // Focus sull'input
 		    hoursBreakstartInput.focus();
 		    
 		    // Timeout per chiudere il popup dopo 5 secondi
@@ -874,7 +877,7 @@
 		    // Mostra il popup
 		    popupBreakmin.style.display = "block"; // Cambia display a block
 		
-		    // Focus sull'input per clock-in
+		    // Focus sull'input
 		    hoursBreakminInput.focus();
 		    
 		    // Timeout per chiudere il popup dopo 5 secondi
