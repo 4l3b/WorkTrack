@@ -700,6 +700,12 @@
 		// Popup Work Time
 		document.getElementById('worktime-btn-popup').addEventListener('click', function() {
 		    var popup = document.getElementById('popup-worktime');
+
+			// Reset dei valori
+		    hoursClockinInput.value = "";
+		    minutesClockinInput.value = "";
+		    secondsClockinInput.value = "";
+			
 		    popup.style.display = 'block';
 		});
 		
@@ -711,6 +717,10 @@
 		    hoursClockinInput.value = "";
 		    minutesClockinInput.value = "";
 		    secondsClockinInput.value = "";
+
+		    hoursClockinInput.blur();
+        	minutesClockinInput.blur();
+        	secondsClockinInput.blur();
 		
 		    popup.style.display = 'block';
 		});
@@ -718,18 +728,36 @@
 		// Popup Break Start
 		document.getElementById('breakstart-btn-popup').addEventListener('click', function() {
 		    var popup = document.getElementById('popup-breakstart');
+
+			// Reset dei valori
+		    hoursClockinInput.value = "";
+		    minutesClockinInput.value = "";
+		    secondsClockinInput.value = "";
+			
 		    popup.style.display = 'block';
 		});
 		
 		// Popup Break End
 		document.getElementById('breakend-btn-popup').addEventListener('click', function() {
 		    var popup = document.getElementById('popup-breakend');
+
+			// Reset dei valori
+		    hoursClockinInput.value = "";
+		    minutesClockinInput.value = "";
+		    secondsClockinInput.value = "";
+			
 		    popup.style.display = 'block';
 		});
 		
 		// Popup Break Min
 		document.getElementById('breakmin-btn-popup').addEventListener('click', function() {
 		    var popup = document.getElementById('popup-breakmin');
+
+			// Reset dei valori
+		    hoursClockinInput.value = "";
+		    minutesClockinInput.value = "";
+		    secondsClockinInput.value = "";
+			
 		    popup.style.display = 'block';
 		});
 		
