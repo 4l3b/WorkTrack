@@ -1659,6 +1659,16 @@
 		        document.getElementById('editabletimeseconds').setAttribute('contenteditable', 'false');
 		    } else {
 		        alert("Action cancelled. Data has not been saved.");
+
+				// Ridimensiona la finestra
+				const desiredWidth = 462;
+				const desiredHeight = 353;
+				let isChrome = /Chrome/.test(navigator.userAgent);
+				if (isChrome) {
+					desiredWidth -= 11;
+					desiredHeight -= 40.5;
+				}
+				window.resizeTo(desiredWidth, desiredHeight);
 		    }
 		}
 		
