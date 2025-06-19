@@ -24,7 +24,7 @@ CLR:
 Clear the current session data.
 
 DATETIME:  
-Displays the current date (day-month) and time.
+Displays the current date (dd/mm) and time (24h).
 
 END:  
 End the work session early. Work Time will be updated to reflect the actual time worked.
@@ -39,8 +39,8 @@ TIME LEFT:
 When it reaches zero, the value will blink, and a sound alarm will play. Click the button to stop the blinking and alarm and continue working overtime.
 
 CLOCK OUT:  
-When Time Left reaches zero, Clock Out and Work Time will update every second to track overtime work. Click the Clock Out button to stop the calculation and end the session. A button will appear allowing you to save the session data. You can save the data immediately or modify the Clock Out value before saving. If you modify the Clock Out value, the Work Time value in the log file will be adjusted accordingly.
-
+When Time Left reaches zero, Clock Out and Work Time will update every second to track overtime work. Click the Clock Out button to stop the calculation and end the session. A Save button will appear, allowing you to save the session data. You can save the data immediately or modify the Clock Out value before saving. If you modify the Clock Out value, the Work Time value in the log file will be adjusted accordingly.
+		
 Happy work sessions!
 
 WorkTrack © 2025 by Alessandro Bigolin - [CC BY-NC-SA 4.0].  
