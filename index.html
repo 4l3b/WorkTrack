@@ -11,7 +11,7 @@
 	<link rel="apple-touch-icon" href="icons/favicon-32x32.png" sizes="32x32">
 	<link rel="apple-touch-icon" href="icons/favicon-180x180.png" sizes="180x180">
 
-	<!-- Link alla licenza -->
+	<!-- Link to license -->
 	<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
 	
 	<style>
@@ -95,12 +95,11 @@
 			content: "[x]";
 		}
 		
-		button:focus {		/* Rimuovi bordi e illuminazione di input e bottoni su Chrome */
+		button:focus {
 			outline: none;
 			box-shadow: none;
 		}
 		
-		/* Stili per il modal */
 		.modal {
 		  display: none;
 		  position: fixed;
@@ -123,7 +122,7 @@
 		  width: 80%;
 		  max-width: 600px;
 		  height: 400px;
-		  overflow: hidden; /* Nasconde lo scroll sulla finestra modale */
+		  overflow: hidden; /* Hide scroll on modal window */
 		  max-height: 80vh;
 		  border: 3.5px solid #77858C;
 		  border-collapse: collapse;
@@ -169,24 +168,21 @@
 		}
 		
 		.modal-body {
-		  overflow-y: auto; /* Abilita lo scroll solo sul contenuto */
+		  overflow-y: auto; /* Enable scroll on content */
 		  margin-top: 3px;
 		  padding-right: 1rem;
 		  flex-grow: 1;
 		}
 		
-		/* Stile per la barra di scorrimento */
 		.modal-body::-webkit-scrollbar {
-		  width: 12px; /* Larghezza della barra verticale */
+		  width: 12px;
 		}
 		
-		/* Traccia della barra (sfondo) */
 		.modal-body::-webkit-scrollbar-track {
 		  background: #333; 
 		  border-radius: 10px;
 		}
 		
-		/* Pollice della barra (parte che si sposta) */
 		.modal-body::-webkit-scrollbar-thumb {
 		  background-color: #00FF00; 
 		  border-radius: 10px;
@@ -194,7 +190,6 @@
 		  transition: background-color 0.3s ease;
 		}
 		
-		/* Fine del pollice */
 		.modal-body::-webkit-scrollbar-corner {
 		  background: #333;
 		}
@@ -291,7 +286,6 @@
             let popupWidth = 462;	// 459 with input="time"
             let popupHeight = 353;
 
-            // Se il browser è Chrome, adatta le dimensioni per compensare la mancanza della barra degli indirizzi
             let isChrome = /Chrome/.test(navigator.userAgent);
             if (isChrome) {
                 popupWidth -= 11;
@@ -325,7 +319,6 @@
 		    var btn = this;
 		    var span = document.getElementsByClassName("close")[0];
 		    
-		    // Aggiungi la classe "active" per mostrare la X
 		    btn.classList.add('active');
 		    
 		    // Rimuovi la classe "active" dopo 460 ms
