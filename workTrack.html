@@ -806,8 +806,24 @@
 		const popupBreakmin = document.getElementById("popup-breakmin");
 		const hoursBreakminInput = document.getElementById("hours-breakmin");
 		const minutesBreakminInput = document.getElementById("minutes-breakmin");
+
 		
+		// Impedisce l'inserimento di caratteri non numerici nei campi dei popup
+		const allTimeInputs = [
+		    hoursWorktimeInput, minutesWorktimeInput, secondsWorktimeInput,
+		    hoursClockinInput, minutesClockinInput, secondsClockinInput,
+		    hoursBreakstartInput, minutesBreakstartInput, secondsBreakstartInput,
+		    hoursBreakendInput, minutesBreakendInput, secondsBreakendInput,
+		    hoursBreakminInput, minutesBreakminInput
+		];
 		
+		allTimeInputs.forEach(input => {
+		    input.addEventListener('input', () => {
+		        input.value = input.value.replace(/[^0-9]/g, '');
+		    });
+		});
+		
+
 		// Mostra il popup e resetta i valori a vuoto per work-time
 		timeInputWorktime.addEventListener("click", () => {
 		    // Reset dei valori
@@ -1546,6 +1562,11 @@
 			
 			// Limita l'inserimento di caratteri nel campo delle ore a caratteri numerici, massimo 2, coppie da 00 a 23
 			document.getElementById('editabletimehours').addEventListener('keypress', function(e) {
+				if (!/[0-9]/.test(e.key)) {
+					e.preventDefault();
+					return;
+				}
+				
 			    let currentText = this.innerText.replace(/[^0-9]/g, '');
 			    
 			    if (currentText.length >= 2) {		// Se ci sono già due caratteri, impedisci l'input
@@ -1564,7 +1585,12 @@
 			
 			// Limita l'inserimento di caratteri nel campo dei minuti a caratteri numerici, massimo 2, coppie da 00 a 59
 			document.getElementById('editabletimeminutes').addEventListener('keypress', function(e) {
-			    let currentText = this.innerText.replace(/[^0-9]/g, '');
+				if (!/[0-9]/.test(e.key)) {
+					e.preventDefault();
+					return;
+				}
+				
+				let currentText = this.innerText.replace(/[^0-9]/g, '');
 
 			    if (currentText.length >= 2) {
 			        e.preventDefault();
@@ -1581,7 +1607,12 @@
 			
 			// Limita l'inserimento di caratteri nel campo dei minuti a caratteri numerici, massimo 2, coppie da 00 a 59
 			document.getElementById('editabletimeseconds').addEventListener('keypress', function(e) {
-			    let currentText = this.innerText.replace(/[^0-9]/g, '');
+				if (!/[0-9]/.test(e.key)) {
+					e.preventDefault();
+					return;
+				}
+				
+				let currentText = this.innerText.replace(/[^0-9]/g, '');
 			    
 			    if (currentText.length >= 2) {
 			        e.preventDefault();
