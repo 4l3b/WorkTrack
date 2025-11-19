@@ -2,13 +2,13 @@
 
 **WorkTrack** is a browser-based tool for recording daily work sessions.
 
-<img src="worktrack.png" alt="WorkTrack interface" width="30%">
+<img src="worktrack.png" alt="WorkTrack interface" width="35%">
 
 ---
 
 ## Features
 
-- Log clock-in time, expected work duration, and expected break duration
+- Log expected work duration, expected break duration, and clock-in time
 - Calculates:
   - Expected clock-out time
   - Remaining time in the workday
