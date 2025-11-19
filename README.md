@@ -22,6 +22,8 @@
   - Clear stored data
 - Cockpit-style UI modeled after the Flight Management Computer of the iconic McDonnell Douglas MD-11 aircraft
 
+Example JSON log output:
+<pre> ```json { "07-01-2025": [ { "clockIn": "08:51:31", "clockOut": "17:21:11", "breakStart": "13:27:26", "breakEnd": "13:57:04" } ], "08-01-2025": [ { "clockIn": "08:11:18", "clockOut": "16:40:45", "breakStart": "13:18:38", "breakEnd": "13:48:03" } ] } ``` </pre>
 ---
 
 ## Tech Stack
