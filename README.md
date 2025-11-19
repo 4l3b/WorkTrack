@@ -13,6 +13,7 @@
   - Expected clock-out time
   - Remaining time in the workday
 - Adjusts calculations if:
+  - Actual break duration differs from the planned break
   - A session ends early
   - Work continues into overtime
 - Stores session data locally, so it persists across page reloads
@@ -21,8 +22,6 @@
   - Upload a previous log
   - Clear stored data
 - Cockpit-style UI modeled after the Flight Management Computer of the iconic McDonnell Douglas MD-11 aircraft
-
-###
 
 Example JSON log output (DD-MM-YYYY, 24h):
 ```json
