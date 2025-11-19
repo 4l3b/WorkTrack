@@ -22,7 +22,9 @@
   - Clear stored data
 - Cockpit-style UI modeled after the Flight Management Computer of the iconic McDonnell Douglas MD-11 aircraft
 
-Example JSON log output (dates in DD-MM-YYYY format, times in 24-hour format):
+###
+
+Example JSON log output (DD-MM-YYYY, 24h):
 ```json
 {
   "16-01-2025": [
