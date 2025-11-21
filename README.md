@@ -1,6 +1,6 @@
 # WorkTrack
 
-**WorkTrack** is a browser-based tool for recording daily work sessions.
+**WorkTrack** is a browser-based tool for recording daily work sessions, featuring a cockpit-style UI modeled after the Flight Management Computer of the iconic McDonnell Douglas MD-11 aircraft.
 
 <img src="worktrack.png" alt="WorkTrack interface" width="35%">
 
@@ -21,7 +21,6 @@
   - Download a log of your work history
   - Upload a previous log
   - Clear stored data
-- Cockpit-style UI modeled after the Flight Management Computer of the iconic McDonnell Douglas MD-11 aircraft
 
 **Example JSON log output (DD-MM-YYYY, 24h):**
 ```json
