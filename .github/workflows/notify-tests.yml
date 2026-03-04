@@ -1,0 +1,18 @@
+name: Notify Test Repo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger repository_dispatch in tests repo
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: 4l3b/WorkTrack-tests
+          event-type: worktrack-updated
+          
