@@ -36,13 +36,17 @@
 			border-collapse: separate;
 			box-shadow: 0px 0px 1px #77858C;
 			box-sizing: border-box;
-			border-radius: 0px 0px 15px 15px;   /* 0px 0px 8.5px 8.5px; su macOS Sequoia e precedenti */
+			border-radius: 0px 0px 8.5px 8.5px;
 			border-spacing: 0px;
 			background: #010101;
 			overflow: hidden;
 			user-select: none;	/* Impedisce la selezione del testo sullo schermo */
 			-webkit-user-select: none;	/* Impedisce la selezione del testo sullo schermo su Safari*/
 			cursor: default;
+		}
+
+		.fmc-screen.tahoe-style {
+		    border-radius: 0px 0px 15px 15px;  /* Bigger radius in Safari pages on macOS Tahoe compared to previous versions */
 		}
 		
 		table.fmc-screen {
@@ -2233,8 +2237,24 @@
 	}
 	
 	window.addEventListener('resize', adaptScreen);
-	
 	window.addEventListener('DOMContentLoaded', adaptScreen);
+
+
+	// Adapt border radius based on Safari version (in macOS Tahoe, border radius is bigger)
+	window.addEventListener('DOMContentLoaded', () => {
+	    const ua = navigator.userAgent;
+	    const screenElement = document.querySelector('.fmc-screen');
+	
+	    const match = ua.match(/Version\/(\d+)/);
+	    
+	    if (match) {
+	        const safariVersion = parseInt(match[1]);
+	        
+	        if (safariVersion >= 26) {
+	            screenElement.classList.add('tahoe-style');
+	        }
+	    }
+	});
 
 	</script>
 
