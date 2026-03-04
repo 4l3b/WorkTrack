@@ -12,7 +12,6 @@ jobs:
       - name: Trigger repository_dispatch in tests repo
         uses: peter-evans/repository-dispatch@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_FOR_DISPATCH }}
           repository: 4l3b/WorkTrack-tests
           event-type: worktrack-updated
-          
