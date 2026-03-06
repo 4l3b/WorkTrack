@@ -2233,8 +2233,11 @@
 	}
 	
 	window.addEventListener('resize', adaptScreen);
-	window.addEventListener('DOMContentLoaded', adaptScreen);
-
+	window.addEventListener('load', () => {
+	    adaptScreen(); 
+	    setTimeout(adaptScreen, 100);
+	});
+		
 	</script>
 
 </body>
