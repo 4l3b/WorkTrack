@@ -2,7 +2,7 @@
 
 **WorkTrack** is a browser-based tool for recording daily work sessions, featuring a cockpit-style UI modeled after the Flight Management Computer of the iconic McDonnell Douglas MD-11 aircraft.
 
-<img src="worktrack.png" alt="WorkTrack interface" width="30%">
+<img src="worktrack.png" alt="WorkTrack interface" width="35%">
 
 ---
 
