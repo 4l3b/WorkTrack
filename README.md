@@ -54,6 +54,6 @@ Open the app on the [GitHub Pages site](https://4l3b.github.io/WorkTrack/) to la
 
 ---
 
-WorkTrack © 2025 by Alessandro Bigolin - [CC BY-NC-SA 4.0].
+WorkTrack © 2025 - 2026 by Alessandro Bigolin - [CC BY-NC-SA 4.0].
 
 See LICENSE file: [https://github.com/4l3b/WorkTrack/blob/main/LICENSE].
